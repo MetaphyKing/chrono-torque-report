@@ -325,9 +325,12 @@ INDEX_PAGE = f"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>CHRONO-TORQUE (/gto v2.0) — BAMA Compound Gear-Train Optimizer &amp; 3D WebGL Showcase</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrono-torque-report.vercel.app/">
+<meta name="twitter:site" content="@MetaphyKing">
 <meta property="og:title" content="CHRONO-TORQUE (/gto v2.0) — Breaking the Newtonian Gear-Train Paradox">
-<meta property="og:description" content="10,870.5 tok/s Warm Pre-Spin • 12.303x 6-System Fleet Speedup • 38.00 B/cell Z[phi] Memory • 6.452e-17 |T> Infidelity • Metaphy LLC">
-<meta property="og:image" content="https://chrono-torque-report.vercel.app/assets/og.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="CHRONO-TORQUE (/gto v2.0) — Breaking the Newtonian Gear-Train Paradox"><meta name="twitter:description" content="10,870.5 tok/s Warm Pre-Spin • 12.303x 6-System Fleet Speedup • 38.00 B/cell Z[phi] Memory • 6.452e-17 |T> Infidelity • Metaphy LLC"><meta name="twitter:image" content="https://chrono-torque-report.vercel.app/assets/og.png">
+<meta property="og:description" content="10,870.5 tok/s Warm Pre-Spin • 132.44x Native C++20 ZDC-QEGG • 12.303x 6-System Fleet Speedup • 38.00 B/cell Z[phi] Memory • 6.452e-17 |T> Infidelity • Metaphy LLC">
+<meta property="og:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="CHRONO-TORQUE (/gto v2.0) — Breaking the Newtonian Gear-Train Paradox"><meta name="twitter:description" content="10,870.5 tok/s Warm Pre-Spin • 132.44x Native C++20 ZDC-QEGG • 12.303x 6-System Fleet Speedup • 38.00 B/cell Z[phi] Memory • 6.452e-17 |T> Infidelity • Metaphy LLC"><meta name="twitter:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
 <style>{SHARED_CSS}</style>
 </head>
 <body>
@@ -468,6 +471,16 @@ PAPERS_PAGE = f"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>Scientific Papers &amp; Patent Hub — CHRONO-TORQUE (/gto v2.0)</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrono-torque-report.vercel.app/papers">
+<meta property="og:title" content="Scientific Papers &amp; Patent Hub — CHRONO-TORQUE (/gto v2.0)">
+<meta property="og:description" content="Side-by-Side PDF Reader, arXiv LaTeX Suite, Zenodo DOI 10.5281/zenodo.23855828 &amp; USPTO Patent 64/180,009 • Metaphy LLC">
+<meta property="og:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MetaphyKing">
+<meta name="twitter:title" content="Scientific Papers &amp; Patent Hub — CHRONO-TORQUE (/gto v2.0)">
+<meta name="twitter:description" content="Side-by-Side PDF Reader, arXiv LaTeX Suite, Zenodo DOI 10.5281/zenodo.23855828 &amp; USPTO Patent 64/180,009 • Metaphy LLC">
+<meta name="twitter:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
 <style>{SHARED_CSS}</style>
 </head>
 <body>
@@ -544,6 +557,16 @@ BENCHMARKS_PAGE = f"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>Interactive Throughput &amp; Reflected Impedance Calculator — CHRONO-TORQUE (/gto v2.0)</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrono-torque-report.vercel.app/benchmarks">
+<meta property="og:title" content="Interactive Throughput &amp; Reflected Impedance Calculator — CHRONO-TORQUE (/gto v2.0)">
+<meta property="og:description" content="5,262.1 tok/s Cold -> 10,870.5 tok/s Warm -> 47,228.5 tok/s Cluster • Z_ref = 0.0 vs 9,765,625x • Metaphy LLC">
+<meta property="og:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MetaphyKing">
+<meta name="twitter:title" content="Interactive Throughput &amp; Reflected Impedance Calculator — CHRONO-TORQUE (/gto v2.0)">
+<meta name="twitter:description" content="5,262.1 tok/s Cold -> 10,870.5 tok/s Warm -> 47,228.5 tok/s Cluster • Z_ref = 0.0 vs 9,765,625x • Metaphy LLC">
+<meta name="twitter:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
 <style>{SHARED_CSS}</style>
 </head>
 <body>
@@ -695,6 +718,16 @@ ECOSYSTEM_PAGE = f"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>6-System Metaphy Fleet Explorer — CHRONO-TORQUE (/gto v2.0)</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrono-torque-report.vercel.app/ecosystem">
+<meta property="og:title" content="6-System Metaphy Fleet Explorer — CHRONO-TORQUE (/gto v2.0)">
+<meta property="og:description" content="3,259.80 ms -> 264.97 ms (12.303x Speedup) • QEG5Envelope256 Wire Protocol • AuraSync 2051 Terminal Pinion • Metaphy LLC">
+<meta property="og:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MetaphyKing">
+<meta name="twitter:title" content="6-System Metaphy Fleet Explorer — CHRONO-TORQUE (/gto v2.0)">
+<meta name="twitter:description" content="3,259.80 ms -> 264.97 ms (12.303x Speedup) • QEG5Envelope256 Wire Protocol • AuraSync 2051 Terminal Pinion • Metaphy LLC">
+<meta name="twitter:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
 <style>{SHARED_CSS}</style>
 </head>
 <body>
@@ -847,6 +880,16 @@ VERIFY_PAGE = f"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>WebCrypto SHA-256 Lineage Seal &amp; Public Verifier — CHRONO-TORQUE (/gto v2.0)</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrono-torque-report.vercel.app/verify">
+<meta property="og:title" content="WebCrypto SHA-256 Lineage Seal &amp; Public Verifier — CHRONO-TORQUE (/gto v2.0)">
+<meta property="og:description" content="In-Browser WebCrypto SHA-256 Verification • 20,480B QEG5 Arena • Sovereign Lineage Seal f94a82e1c307d519380806afdc06c4b7 • Metaphy LLC">
+<meta property="og:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MetaphyKing">
+<meta name="twitter:title" content="WebCrypto SHA-256 Lineage Seal &amp; Public Verifier — CHRONO-TORQUE (/gto v2.0)">
+<meta name="twitter:description" content="In-Browser WebCrypto SHA-256 Verification • 20,480B QEG5 Arena • Sovereign Lineage Seal f94a82e1c307d519380806afdc06c4b7 • Metaphy LLC">
+<meta name="twitter:image" content="https://chrono-torque-report.vercel.app/assets/chrono-torque-title-banner.jpg">
 <style>{SHARED_CSS}</style>
 </head>
 <body>
