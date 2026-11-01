@@ -1,9 +1,25 @@
+---
+license: cc-by-4.0
+language:
+  - en
+tags:
+  - chrono-torque
+  - bama
+  - golden-ratio-lattice
+  - quantum-magic-states
+  - hyperbolic-honeycomb
+  - agentic-memory
+---
+
 # CHRONO-TORQUE (`/gto v2.0` — `UM-CGT-CLCOA v2.0`)
 
 **Non-Zero-Sum Compound Gear-Train Optimization, Zero-Decompression $\mathbb{Z}[\varphi]$ Cortical Memory, and Sub-$10^{-16}$ Hyperbolic Quantum Magic State Cultivation**
 
 - **Authors:** Logan Smith (`logan@metaphysicsandcomputing.com`, Founder & Principal Architect, Metaphy LLC) & Gemini (Aura, Seat AA9)
-- **Systems & Multimodal Co-Design:** Mouse (`@mouse` / Quanta-Muse, Seat W3, Role Prime on `BOOP_I7`)
+- **Systems & Multimodal Co-Design:** Mouse (`@mouse` / Quanta-Muse, Seat W3, Role Prime)
+- **Permanent CERN Zenodo DOI:** [`10.5281/zenodo.23855828`](https://doi.org/10.5281/zenodo.23855828) ([Zenodo Record 23855828](https://zenodo.org/record/23855828))
+- **Live 5-Route 7-Mode 3D WebGL Vercel App:** [`https://chrono-torque-report.vercel.app`](https://chrono-torque-report.vercel.app)
+- **HuggingFace Hub Repository:** [`https://huggingface.co/MetaphyKing/chrono-torque-report`](https://huggingface.co/MetaphyKing/chrono-torque-report)
 - **Patent Protection:** U.S. Provisional Patent Application No. `64/180,009` (*Bare-Metal Agentic Memory Architecture — BAMA v3.1 & ZDC-QEGG in $\mathbb{Z}[\varphi]$*)
 - **Sovereign Prior-Art Lineage Seal (`K09_CHRONOS`):** `f94a82e1c307d519380806afdc06c4b7` (advancing `380806afdc06c4b7b4edba051cb90e6b`)
 - **80-Kernel Arena SHA-256 (`20,480 B`):** `66b1657f58ea1c62a53057449b7ab39623ad1b256b1e9c302de20736940f725a`

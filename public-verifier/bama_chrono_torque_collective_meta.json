@@ -7,7 +7,7 @@
   "cell_bytes": 256,
   "arena_bytes": 20480,
   "arena_sha256": "66b1657f58ea1c62a53057449b7ab39623ad1b256b1e9c302de20736940f725a",
-  "compile_time_ms": 13.88,
+  "compile_time_ms": 13.14,
   "partitions": {
     "bama_system_infrastructure": {
       "ids": "K01..K53",

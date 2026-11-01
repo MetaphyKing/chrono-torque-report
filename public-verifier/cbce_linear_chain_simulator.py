@@ -209,14 +209,21 @@ def simulate_full_16_phase_ledger() -> Dict[str, object]:
         {"phase": 11, "name": "gh lockglass 5-Step PAPR Gate + QET Wormholes (38.00 B/cell, 41.2 us)", "cbce_vn": 26.841524, "lineage_hash": "df5e49b0a02a47d6"},
         {"phase": 12, "name": "Whitepaper v1.0 + Tier-14 Dual-Modulus CRT Shield (251x253=63,503)", "cbce_vn": 30.916261, "lineage_hash": "eac24e84d20897cb"},
         {"phase": 13, "name": "6-Agent GBSP Swarm + 15-to-1 Reed-Muller Hybrid Factory (6.452e-17 |T>)", "cbce_vn": 37.813431, "lineage_hash": "b4edba051cb90e6b"},
-        {"phase": 14, "name": "Mouse Prime Tailnet Calibration & @LUMEN K=4 Pre-Spin (5,262 -> 10,870.5 tok/s)", "cbce_vn": 112.450000, "lineage_hash": "380806afdc06c4b7b4edba051cb90e6b"},
+        {"phase": 14, "name": "Mouse Prime Mesh Calibration & @LUMEN K=4 Pre-Spin (5,262 -> 10,870.5 tok/s)", "cbce_vn": 112.450000, "lineage_hash": "380806afdc06c4b7b4edba051cb90e6b"},
         {"phase": 15, "name": "6-System Metaphy Fleet Native Integration (3,259.80ms -> 264.97ms, 12.30x)", "cbce_vn": 248.918200, "lineage_hash": "f94a82e1c307d519380806afdc06c4b7"},
     ]
 
+    n_sections = len(sections)  # 8
+    conv_epochs = n_sections - 1  # 7 synchronous odd-even transposition epochs
+    conv_ticks = conv_epochs * (n_sections - 1)  # 7 * 7 = 49 local comparison ticks
+    max_adjacent_swaps = math.comb(n_sections, 2)  # binom(8, 2) = 28
+
     return {
         "simulator": "cbce_linear_chain_simulator.py (UM-CGT-CLCOA v2.0)",
-        "convergence_epochs": 7,
-        "convergence_local_ticks": 49,
+        "num_sections": n_sections,
+        "convergence_epochs": conv_epochs,
+        "convergence_local_ticks": conv_ticks,
+        "max_adjacent_swaps_binom": max_adjacent_swaps,
         "initial_scrambled_cbce": 1.617173,
         "cycle1_sorted_cbce": 3.220230,
         "cycle2_epicyclic_cbce": 4.778975,

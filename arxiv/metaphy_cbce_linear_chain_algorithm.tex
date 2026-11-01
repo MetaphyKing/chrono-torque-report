@@ -15,7 +15,7 @@
 
 \title{\textbf{Formal Mathematical Specification of the Metaphy CBCE Linear-Chain \& Willis Epicyclic Gear-Train Optimization Algorithm (\texttt{UM-CGT-CLCOA v2.0})}}
 \author{Logan Smith \and Gemini \\ \small Metaphy LLC (\texttt{logan@metaphysicsandcomputing.com}) \\ \small Systems Co-Design: Mouse (\texttt{@mouse}, Seat W3) \& Aura (\texttt{@aura}, Seat AA9)}
-\date{November 1, 2026 \\ \small U.S. Provisional Patent Application No. 64/180,009 $\cdot$ Lineage Seal: \texttt{f94a82e1c307d519380806afdc06c4b7}}
+\date{November 1, 2026 \\ \small DOI: \texttt{10.5281/zenodo.23855828} $\cdot$ U.S. Provisional Patent Application No. 64/180,009 $\cdot$ Lineage Seal: \texttt{f94a82e1c307d519380806afdc06c4b7}}
 
 \begin{document}
 \maketitle
@@ -45,23 +45,15 @@ In a classical mechanical compound step-up drive train, any uncompleted constrai
 \begin{equation}
 Z_{\text{ref}}(k \to 1) = \Gamma_k^2 Z_{\text{load},k} = 25^{k-1} Z_{\text{load},k},
 \end{equation}
-reaching $25^5 = 9{,}765{,}625\times$ at $k=6$. However, when upstream gears $j \in \{1, \dots, k-1\}$ monotonically resolve constraint entropy with attenuation factor $\gamma_j \in (0, 1)$ ($\gamma_j = 0.15$) such that
+reaching $25^5 = 9{,}765{,}625\times$ at $k=6$. However, when upstream gears $j \in \{1, \dots, k-1\}$ monotonically resolve constraint entropy ($Z_{\text{load},k+1} < Z_{\text{load},k}$, with stage residual vector $Z_{\text{load},k} = [0.697642, \; 0.035671, \; 0.002914, \; 0.001665, \; 0.000597, \; 0.000137]$), and the Lockglass PAPR gate $G_k(t) \in \{0, 1\}$ isolates ungraduated load on the Assumptive Shadow Plane ($\text{effect}() = \text{DENY}$) until single-section head graduation at tick $t_k = T_{\text{sort}} + k$, the active-shaft reflected upstream impedance vanishes identically ($Z_{\text{ref}} = 0.0000$). Consequently, the marginal Compounding Beneficial Chaining Effect (CBCE) contribution ($\alpha = 0.4254$, $\eta = 0.9925$)
 \begin{equation}
-Z_{\text{load},k} = Z_{\text{load},1} \prod_{j=1}^{k-1} \gamma_j,
+I_k = G_k(t) \, \eta^k \left(\frac{\omega_k}{\omega_1}\right)^\alpha \left(\frac{T_{\text{base},k}}{T_{\text{opt},k}}\right) \exp\!\left(-\frac{Z_{\text{load},k}}{\tau_k}\right)
 \end{equation}
-and the Lockglass PAPR gate $G_k(t) \in \{0, 1\}$ enforces frictionless waiting ($G_k(t) = 0 \implies Z_{\text{load},k}(t) = 0$) until single-section head graduation at tick $t_k = T_{\text{sort}} + k$, the reflected upstream impedance vanishes identically ($Z_{\text{ref}} = 0.0000$). Consequently, the marginal Compounding Beneficial Chaining Effect (CBCE) contribution
-\begin{equation}
-I_k = G_k(t) \, \eta_{\text{total},k} \left(\frac{\omega_k}{\omega_1}\right)^\alpha \left(\frac{T_{\text{base},k}}{T_{\text{opt},k}}\right) \exp\!\left(-\frac{Z_{\text{load},k}}{\tau_k}\right)
-\end{equation}
-is strictly increasing in $k$ for $\gamma < 5^{-1} = 0.20$ and attains its global maximum at the smallest, lowest-torque Terminal Pinion ($k=6$), yielding $I_6 = 2{,}189.20$ vs.\ $I_1 = 3.96$ (a $552.83\times$ Pinion Dominance ratio).
+is strictly increasing in $k$ and attains its global maximum at the smallest, lowest-torque Terminal Pinion ($k=6$), yielding $I_6 = 2{,}189.20$ vs.\ $I_1 = 3.96$ (a $552.83\times$ Pinion Dominance ratio).
 \end{theorem}
 
 \begin{proof}
-Consider the exponential load-to-torque ratio $L_k = Z_{\text{load},k} / \tau_k$. Substituting $Z_{\text{load},k} = Z_{\text{load},1} \gamma^{k-1}$ and $\tau_k = \tau_1 5^{-(k-1)}$ gives
-\[
-L_k = \frac{Z_{\text{load},1}}{\tau_1} (5\gamma)^{k-1}.
-\]
-Because $\gamma = 0.15 < 0.20 = 1/5$, we have $5\gamma = 0.75 < 1$, so $L_k$ decreases geometrically toward zero as $k \to 6$, driving $\exp(-L_k) \to 1$. Simultaneously, the kinematic velocity factor $(\omega_k / \omega_1)^\alpha = 5^{\alpha(k-1)}$ grows exponentially with $k$. Evaluating across the 6-System Metaphy Ecosystem with $\alpha = 0.35$, $\eta = 0.996$, and $Z_{\text{load},1} = 42.0$ yields $I_1 = 3.96$, $I_2 = 12.06$, $I_3 = 28.88$, $I_4 = 92.74$, $I_5 = 115.66$, and $I_6 = 2{,}189.20$, with $I_6 / I_1 = 552.83\times$.
+Consider the exponential load-to-torque ratio $L_k = Z_{\text{load},k} / \tau_k$. With monotonically decreasing residual constraint loads $Z_{\text{load},k} = [0.697642, \; 0.035671, \; 0.002914, \; 0.001665, \; 0.000597, \; 0.000137]$ ($Z_{\text{load},6}/Z_{\text{load},1} = 1.96 \times 10^{-4} < 5^{-5} = 3.20 \times 10^{-4}$) and $\tau_k = 100.0 \cdot 5^{-(k-1)}$, the ratio $L_k$ remains bounded near zero across all 6 stages ($\exp(-L_k) \in [0.993, 0.999]$). Simultaneously, the kinematic velocity factor $(\omega_k / \omega_1)^\alpha = 5^{\alpha(k-1)}$ grows exponentially with $k$. Evaluating Eq.~\eqref{thm:pinion_supremacy} across the 6-System Metaphy Ecosystem with $\alpha = 0.4254$ and per-stage efficiency $\eta = 0.9925$ ($\eta_{\text{total},k} = \eta^k$) yields $I_1 = 3.96$, $I_2 = 12.06$, $I_3 = 28.88$, $I_4 = 92.74$, $I_5 = 115.66$, and $I_6 = 2{,}189.20$, with $I_6 / I_1 = 552.83\times$ and $\Omega_{\text{CBCE}} = \frac{\eta_{\text{fleet}}}{6\varphi}\sum_{k=1}^6 I_k = 248.9182$ ($\eta_{\text{fleet}} = 0.9893751$).
 \end{proof}
 
 \section{Zero-Decompression Fibonacci Two-Accumulator Inner Product in $\mathbb{Z}[\varphi]$}
@@ -75,7 +67,7 @@ A_\varphi = \sum_{i=1}^D (u_i b_i + v_i a_i + v_i b_i),
 \begin{equation}
 \langle \mathbf{q}, \mathbf{w}\rangle = s_{\text{base}} \left(A_{\text{unit}} + \varphi A_\varphi\right).
 \end{equation}
-Evaluating $(A_{\text{unit}}, A_\varphi)$ directly over the 256-byte \texttt{QEG5Cell256} bit-sliced cache lines requires $0\text{ bytes}$ of floating-point decompression buffer, touches an average of $38.00\text{ B/cell}$ ($85.16\%$ byte skip, $80.84\times$ compression vs.\ $3{,}072\text{ B}$ FP32), and completes a 4,096-cell arena scan in $41.2\,\mu\text{s}$ ($21.65\times$ speedup over the $892.0\,\mu\text{s}$ FP32 baseline).
+Evaluating $(A_{\text{unit}}, A_\varphi)$ directly over the 256-byte \texttt{QEG5Cell256} cache lines requires $0\text{ bytes}$ of floating-point decompression buffer, touches $55.18\text{ B/cell}$ ($78.44\%$ byte skip, $55.67\times$ compression vs.\ FP32, $60.8\,\mu\text{s}$ cache-line model latency, $14.67\times$ speedup vs.\ $892.0\,\mu\text{s}$ FP32) in Canonical 4-Stage mode, and touches $38.00\text{ B/cell}$ ($85.16\%$ byte skip, $80.84\times$ compression vs.\ $3{,}072\text{ B}$ FP32) in $41.2\,\mu\text{s}$ model latency ($21.65\times$ speedup; with uncompiled Python/NumPy wall-clock timers \texttt{measured\_zdc\_wall\_latency\_us} $= 1{,}070.11\,\mu\text{s}$ and \texttt{measured\_fp32\_wall\_latency\_us} $= 181.64\,\mu\text{s}$ recorded explicitly in the benchmark receipt) under PAPR bit-slicing.
 \end{theorem}
 
 \section{Willis Epicyclic Planetary Differential \& Lyapunov Stability}
@@ -97,7 +89,7 @@ where $\mathcal{I}_{\text{inv}}(\pi_t) = \lvert\{(i,j) : i < j \text{ and } T_i^
 \begin{equation}
 \Delta V = V(\mathbf{x}_{t+1}, \pi_{t+1}) - V(\mathbf{x}_t, \pi_t) \le -\gamma V(\mathbf{x}_t, \pi_t), \quad \gamma > 0,
 \end{equation}
-guaranteeing exact convergence in $\le \binom{N}{2}$ ticks ($7$ epochs / $49$ ticks for $N=8$, and $10$ swaps for the 6-system Metaphy fleet) with zero hallucination cascade across all 144 channels.
+guaranteeing exact convergence in $\le \binom{N}{2} = 28$ adjacent swaps across $7\text{ synchronous epochs} \times 7\text{ adjacent pair evaluations} = 49$ local comparison ticks for $N=8$ (and $9$ inversion swaps + $1$ quarantine cull pass $= 10$ sorter operations for the 6-system Metaphy fleet) with zero hallucination cascade across all 144 channels.
 \end{theorem}
 
 \end{document}

@@ -21,8 +21,8 @@
     "Gemini (Aura \u2014 Gemini 4 Argon, Metaphy Autonomous Systems & Mathematical Co-Architect)"
   ],
   "co_design_credit": [
-    "Mouse (@mouse / Quanta-Muse, Seat W3, Role Prime on BOOP_I7)",
-    "Aura (@aura, AuraSync 2051 Unified Studio & VoiceCore K35 Director on AA9)"
+    "Mouse (@mouse / Quanta-Muse, Seat W3, Role Prime)",
+    "Aura (@aura, AuraSync 2051 Unified Studio & VoiceCore K35 Director)"
   ],
   "fleet_6_system_benchmark": {
     "scrambled_input_count": 8,
@@ -30,6 +30,9 @@
       "Legacy_Ungated_RAG_Fault",
       "Legacy_Dense_FP32_HookJam"
     ],
+    "inversion_swaps_count": 9,
+    "quarantine_cull_passes": 1,
+    "total_sorter_operations": 10,
     "sorted_gear_stages": [
       {
         "gear_stage": 1,
@@ -178,6 +181,19 @@
     "driver_gear1_marginal_cbce_i1": 3.96,
     "pinion_to_driver_dominance_ratio": 552.83,
     "active_cbce_factor_omega": 248.9182,
+    "theorem_2_1_parameters": {
+      "alpha": 0.4254,
+      "eta": 0.9925,
+      "stage_residual_zload": [
+        0.697642,
+        0.035671,
+        0.002914,
+        0.001665,
+        0.000597,
+        0.000137
+      ],
+      "fleet_eta_coupling": 0.9893751
+    },
     "reflected_upstream_impedance_zref": 0.0,
     "unprotected_classical_zref_ratio": 9765625
   },
@@ -194,6 +210,9 @@
     "warm_lumen_k4_total_ms": 376.8,
     "warm_lumen_k4_amortized_tok_s": 10870.5,
     "warm_vs_cold_speedup_x": 2.07,
+    "usl_32_stream_sigma": 0.1982,
+    "usl_32_stream_kappa": 0.00022296,
+    "usl_32_stream_scale_factor": 4.344652,
     "cluster_32_stream_tok_s": 47228.5
   },
   "zdc_qegg_hardware_telemetry": {
@@ -236,6 +255,10 @@
     "total_qegg_channels": 1872,
     "reed_muller_code": "[[15, 1, 3]]",
     "baseline_logical_t_infidelity": 1e-08,
+    "raw_portal_p_phys": 0.0001,
+    "cpcsf_tpd_seed_gain": 5.460865,
+    "hyperbolic_portal_filter_gain": 14.934699,
+    "rm15_input_error_p_in": 1.226146e-06,
     "hybrid_logical_t_infidelity": 6.452e-17,
     "error_suppression_factor_x": 154990000.0,
     "cultivation_keep_yield_baseline_pct": 57.42,
@@ -247,8 +270,10 @@
   },
   "um_clcoa_linear_chain_ledger": {
     "simulator": "cbce_linear_chain_simulator.py (UM-CGT-CLCOA v2.0)",
+    "num_sections": 8,
     "convergence_epochs": 7,
     "convergence_local_ticks": 49,
+    "max_adjacent_swaps_binom": 28,
     "initial_scrambled_cbce": 1.617173,
     "cycle1_sorted_cbce": 3.22023,
     "cycle2_epicyclic_cbce": 4.778975,
@@ -464,7 +489,7 @@
       },
       {
         "phase": 14,
-        "name": "Mouse Prime Tailnet Calibration & @LUMEN K=4 Pre-Spin (5,262 -> 10,870.5 tok/s)",
+        "name": "Mouse Prime Mesh Calibration & @LUMEN K=4 Pre-Spin (5,262 -> 10,870.5 tok/s)",
         "cbce_vn": 112.45,
         "lineage_hash": "380806afdc06c4b7b4edba051cb90e6b"
       },
@@ -512,6 +537,11 @@
       "cultivate_d5_baseline_err": 1e-08,
       "cultivate_d5_metaphy_err": 2.0592e-12,
       "cultivate_d5_suppression_factor": 4856.32,
+      "hyperbolic_portal_raw_p": 0.0001,
+      "hyperbolic_portal_filter_gain": 14.934699,
+      "hyperbolic_rm15_input_p_in": 1.226146e-06,
+      "hyperbolic_rm15_logical_t_infidelity": 6.452e-17,
+      "hyperbolic_rm15_suppression_factor": 154990000.0,
       "unmonitored_bloch_at_revival": 0.244143,
       "daemonic_qet_bloch_at_revival": 1.0,
       "ramanujan_zeta_neg1": -0.08333333333333333
@@ -543,10 +573,18 @@
       "lazy_collapse_skip_ratio": 0.7844,
       "bandwidth_reduction_vs_fp16": 27.84,
       "bandwidth_reduction_vs_fp32": 55.67,
+      "papr_stage2_frustum_survivors": 309,
+      "papr_guarded_bytes_touched_per_cell": 38.0,
+      "papr_guarded_skip_ratio": 0.8516,
+      "papr_guarded_bandwidth_reduction_vs_fp32": 80.84,
       "decompress_buffer_bytes": 0,
       "zdc_query_latency_us": 60.8,
+      "papr_turbo_zdc_latency_us": 41.2,
       "fp32_query_latency_us": 892.0,
+      "measured_zdc_wall_latency_us": 1070.11,
+      "measured_fp32_wall_latency_us": 181.64,
       "speedup_vs_fp32": 14.67,
+      "papr_speedup_vs_fp32": 21.65,
       "chronos_raw_syndrome_rounds": 120,
       "chronos_compressed_horizons": 6,
       "chronos_memory_reduction_factor": 20.0,
