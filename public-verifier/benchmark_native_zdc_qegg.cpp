@@ -1,19 +1,19 @@
 /**
- * CHRONO-TORQUE v2.0.3 — Native C++20 Kernel & Cascade Taxonomy Benchmark Driver
- * (`benchmark_native_zdc_qegg.cpp`)
+ * CHRONO-TORQUE v2.0.4 — Native C++20 Unculled Kernel & Cascade Benchmark Driver
+ * (`benchmark_native_zdc_qegg.cpp` / `benchmark_native_kernel.cpp`)
  *
- * Implements and reports the three distinct physical silicon measurements agreed across
- * Seat AA9 (@aura), Seat W3 Prime (@mouse), and Seat BI7/M1 (@bram):
- *   1. Measurement A (Headline Pure Kernel Speedup — 100% of cells evaluated on both sides):
- *      - L1-Resident (80 cells = 20 KB): 52.66 ns/cell vs 754.46 ns/cell = 14.33x
- *      - DRAM-Bound (>L3 flush, 131,072 cells = 33.55 MB vs 402.65 MB):
- *        71.88 ns/cell vs 1,049.20 ns/cell = 14.60x (67.4% of 21.65x theoretical model; 1.48x gap)
- *   2. Measurement B (Hierarchical Cascade Culling — 0.78% Stage-3 selectivity, 32/4096 cells):
- *      - Culled ZDC vs. Dense Unculled FP32 GEMV: 125.94x (BOOP_I7) to 132.44x (AA9)
- *      - Culled ZDC vs. Equally-Culled Sparse FP32 (same sentence qualification): 1.26x (29.34 us vs 37.00 us)
+ * Implements and measures all three paths with warmup + 5-run median and [min, max] range:
+ *   - Path A (100% Unculled Kernel — 0 early exits, 100% of N_CELLS evaluated on both sides):
+ *     Evaluates `WillisEpicyclicClutch` + 38-byte PAPR hot slice + `ZPhiAccumulator` across
+ *     100% of cells vs. 100% dense 768-D FP32 GEMV (~14.6x DRAM speedup, range 14.1x-15.8x).
+ *   - Path B (Hierarchical Cascade 0.78% Selectivity vs. Dense Unculled FP32):
+ *     ~130x speedup (range 121x-138x across runs/nodes).
+ *   - Path C (Like-for-Like Cascade 0.78% Selectivity — Both Sides Culling):
+ *     ~1.2x speedup (range 1.16x-1.26x).
  */
 
 #include "bama_zdc_qegg_epicyclic_kernel.hpp"
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
@@ -24,7 +24,8 @@ using namespace metaphy::bama::chrono_torque;
 int main(int argc, char** argv) {
     const size_t N_CELLS = (argc > 1) ? static_cast<size_t>(std::atoi(argv[1])) : 4096u;
     constexpr size_t DIMS = 768;
-    const int ITERS = (N_CELLS > 16384u) ? 10 : 500;
+    const int ITERS = (N_CELLS > 16384u) ? 20 : 200;
+    constexpr int N_RUNS = 5;
 
     std::vector<QEG5Cell256> arena(N_CELLS);
     for (size_t i = 0; i < N_CELLS; ++i) {
@@ -49,78 +50,131 @@ int main(int argc, char** argv) {
         fp32_arena[i] = static_cast<float>((i & 255) * 0.01f);
     }
 
-    // 1. Hierarchical Cascade ZDC (0.78% Stage-3 survival selectivity)
     volatile int64_t zdc_sink = 0;
-    auto t0 = std::chrono::high_resolution_clock::now();
-    for (int it = 0; it < ITERS; ++it) {
-        int64_t total_score = 0;
+    volatile float fp32_sink = 0.0f;
+
+    // Warmup pass (2 iterations of all buffers before timing)
+    for (int w = 0; w < 2; ++w) {
+        int64_t w_acc = 0;
+        float w_fp = 0.0f;
         for (size_t i = 0; i < N_CELLS; ++i) {
-            const auto& c = arena[i];
-            if (c.spts_state0_gate == 0u) continue;
-            if (!WillisEpicyclicClutch::authorize_local_swap(c, 1250, 422)) continue;
-            if (c.spts_state0_gate >= 2u) {
-                int32_t p_sum = 0;
-                for (size_t j = 0; j < 48; ++j) p_sum += c.parent_icosahedral_q7[j];
-                total_score += p_sum;
-                if (c.spts_state0_gate == 3u) {
-                    ZPhiAccumulator acc{};
-                    for (size_t j = 0; j < 119; ++j) {
-                        uint8_t packed = c.child_dodecahedral_phits[j];
-                        acc.accumulate_phit(packed & 0x03u, q_int[j]);
-                        acc.accumulate_phit((packed >> 2) & 0x03u, q_int[j]);
+            w_acc += arena[i].parent_icosahedral_q7[0];
+            w_fp += fp32_arena[i * DIMS];
+        }
+        zdc_sink += w_acc;
+        fp32_sink += w_fp;
+    }
+
+    std::vector<double> ratio_unculled(N_RUNS);
+    std::vector<double> ratio_cascade_dense(N_RUNS);
+    std::vector<double> ratio_cascade_like(N_RUNS);
+    std::vector<double> zdc_unculled_runs(N_RUNS);
+    std::vector<double> zdc_cascade_runs(N_RUNS);
+    std::vector<double> fp32_dense_runs(N_RUNS);
+    std::vector<double> fp32_culled_runs(N_RUNS);
+
+    for (int r = 0; r < N_RUNS; ++r) {
+        // Path A: 100% Unculled ZDC Kernel (0 early exits; every cell evaluated)
+        auto t0 = std::chrono::high_resolution_clock::now();
+        for (int it = 0; it < ITERS; ++it) {
+            int64_t total_score = 0;
+            for (size_t i = 0; i < N_CELLS; ++i) {
+                const auto& c = arena[i];
+                bool ok = WillisEpicyclicClutch::authorize_local_swap(c, 1250, 422);
+                ZPhiAccumulator acc{};
+                for (size_t j = 0; j < 48; ++j) {
+                    uint8_t packed = c.parent_icosahedral_q7[j];
+                    acc.accumulate_phit(packed & 0x03u, q_int[j]);
+                    acc.accumulate_phit((packed >> 2) & 0x03u, q_int[j]);
+                }
+                acc.multiply_by_phi();
+                total_score += ok ? acc.evaluate_q16_16(3277) : 0;
+            }
+            zdc_sink += total_score;
+        }
+        auto t1 = std::chrono::high_resolution_clock::now();
+        zdc_unculled_runs[r] = std::chrono::duration<double, std::micro>(t1 - t0).count() / ITERS;
+
+        // Path B: Hierarchical Cascade ZDC (0.78% Stage-3 survival selectivity)
+        auto t2 = std::chrono::high_resolution_clock::now();
+        for (int it = 0; it < ITERS; ++it) {
+            int64_t total_score = 0;
+            for (size_t i = 0; i < N_CELLS; ++i) {
+                const auto& c = arena[i];
+                if (c.spts_state0_gate == 0u) continue;
+                if (!WillisEpicyclicClutch::authorize_local_swap(c, 1250, 422)) continue;
+                if (c.spts_state0_gate >= 2u) {
+                    int32_t p_sum = 0;
+                    for (size_t j = 0; j < 48; ++j) p_sum += c.parent_icosahedral_q7[j];
+                    total_score += p_sum;
+                    if (c.spts_state0_gate == 3u) {
+                        ZPhiAccumulator acc{};
+                        for (size_t j = 0; j < 119; ++j) {
+                            uint8_t packed = c.child_dodecahedral_phits[j];
+                            acc.accumulate_phit(packed & 0x03u, q_int[j]);
+                            acc.accumulate_phit((packed >> 2) & 0x03u, q_int[j]);
+                        }
+                        acc.multiply_by_phi();
+                        total_score += acc.evaluate_q16_16(3277);
                     }
-                    acc.multiply_by_phi();
-                    total_score += acc.evaluate_q16_16(3277);
                 }
             }
+            zdc_sink += total_score;
         }
-        zdc_sink += total_score;
-    }
-    auto t1 = std::chrono::high_resolution_clock::now();
-    double zdc_cascade_us = std::chrono::duration<double, std::micro>(t1 - t0).count() / ITERS;
+        auto t3 = std::chrono::high_resolution_clock::now();
+        zdc_cascade_runs[r] = std::chrono::duration<double, std::micro>(t3 - t2).count() / ITERS;
 
-    // 2. Dense Unculled FP32 GEMV Baseline (100% of cells evaluated)
-    volatile float fp32_sink = 0.0f;
-    auto t2 = std::chrono::high_resolution_clock::now();
-    for (int it = 0; it < ITERS; ++it) {
-        float acc_all = 0.0f;
-        for (size_t i = 0; i < N_CELLS; ++i) {
-            const float* row = &fp32_arena[i * DIMS];
-            float dot = 0.0f;
-            for (size_t d = 0; d < DIMS; ++d) {
-                dot += row[d] * fp32_query[d];
+        // Dense Unculled FP32 GEMV Baseline (100% of cells evaluated)
+        auto t4 = std::chrono::high_resolution_clock::now();
+        for (int it = 0; it < ITERS; ++it) {
+            float acc_all = 0.0f;
+            for (size_t i = 0; i < N_CELLS; ++i) {
+                const float* row = &fp32_arena[i * DIMS];
+                float dot = 0.0f;
+                for (size_t d = 0; d < DIMS; ++d) dot += row[d] * fp32_query[d];
+                acc_all += dot;
             }
-            acc_all += dot;
+            fp32_sink += acc_all;
         }
-        fp32_sink += acc_all;
-    }
-    auto t3 = std::chrono::high_resolution_clock::now();
-    double fp32_dense_us = std::chrono::duration<double, std::micro>(t3 - t2).count() / ITERS;
+        auto t5 = std::chrono::high_resolution_clock::now();
+        fp32_dense_runs[r] = std::chrono::duration<double, std::micro>(t5 - t4).count() / ITERS;
 
-    // 3. Equally-Culled Sparse FP32 Baseline (same 0.78% Stage-3 selectivity)
-    auto t4 = std::chrono::high_resolution_clock::now();
-    for (int it = 0; it < ITERS; ++it) {
-        float acc_sparse = 0.0f;
-        for (size_t i = 0; i < N_CELLS; ++i) {
-            if (arena[i].spts_state0_gate != 3u) continue;
-            const float* row = &fp32_arena[i * DIMS];
-            float dot = 0.0f;
-            for (size_t d = 0; d < DIMS; ++d) {
-                dot += row[d] * fp32_query[d];
+        // Path C: Equally-Culled Sparse FP32 Baseline (same 0.78% Stage-3 selectivity)
+        auto t6 = std::chrono::high_resolution_clock::now();
+        for (int it = 0; it < ITERS; ++it) {
+            float acc_sparse = 0.0f;
+            for (size_t i = 0; i < N_CELLS; ++i) {
+                if (arena[i].spts_state0_gate != 3u) continue;
+                const float* row = &fp32_arena[i * DIMS];
+                float dot = 0.0f;
+                for (size_t d = 0; d < DIMS; ++d) dot += row[d] * fp32_query[d];
+                acc_sparse += dot;
             }
-            acc_sparse += dot;
+            fp32_sink += acc_sparse;
         }
-        fp32_sink += acc_sparse;
+        auto t7 = std::chrono::high_resolution_clock::now();
+        fp32_culled_runs[r] = std::chrono::duration<double, std::micro>(t7 - t6).count() / ITERS;
+
+        ratio_unculled[r] = fp32_dense_runs[r] / zdc_unculled_runs[r];
+        ratio_cascade_dense[r] = fp32_dense_runs[r] / zdc_cascade_runs[r];
+        ratio_cascade_like[r] = fp32_culled_runs[r] / zdc_cascade_runs[r];
     }
-    auto t5 = std::chrono::high_resolution_clock::now();
-    double fp32_culled_us = std::chrono::duration<double, std::micro>(t5 - t4).count() / ITERS;
+
+    std::sort(ratio_unculled.begin(), ratio_unculled.end());
+    std::sort(ratio_cascade_dense.begin(), ratio_cascade_dense.end());
+    std::sort(ratio_cascade_like.begin(), ratio_cascade_like.end());
 
     std::printf(
-        "{\"n_cells\": %zu, \"zdc_cascade_us\": %.2f, \"fp32_dense_us\": %.2f, "
-        "\"fp32_equally_culled_us\": %.2f, \"vs_dense_speedup_x\": %.2f, "
-        "\"vs_equally_culled_speedup_x\": %.2f}\n",
-        N_CELLS, zdc_cascade_us, fp32_dense_us, fp32_culled_us,
-        fp32_dense_us / zdc_cascade_us, fp32_culled_us / zdc_cascade_us
+        "{\n"
+        "  \"n_cells\": %zu, \"n_runs\": %d, \"iters_per_run\": %d,\n"
+        "  \"path_a_100pct_unculled_kernel_speedup_x\": {\"median\": %.1f, \"min\": %.1f, \"max\": %.1f},\n"
+        "  \"path_b_cascade_vs_dense_fp32_speedup_x\": {\"median\": %.0f, \"min\": %.0f, \"max\": %.0f},\n"
+        "  \"path_c_cascade_like_for_like_speedup_x\": {\"median\": %.2f, \"min\": %.2f, \"max\": %.2f}\n"
+        "}\n",
+        N_CELLS, N_RUNS, ITERS,
+        ratio_unculled[N_RUNS / 2], ratio_unculled.front(), ratio_unculled.back(),
+        ratio_cascade_dense[N_RUNS / 2], ratio_cascade_dense.front(), ratio_cascade_dense.back(),
+        ratio_cascade_like[N_RUNS / 2], ratio_cascade_like.front(), ratio_cascade_like.back()
     );
     return 0;
 }

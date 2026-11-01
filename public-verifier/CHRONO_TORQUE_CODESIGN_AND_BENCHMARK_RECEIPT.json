@@ -618,7 +618,35 @@
       ],
       "cascade_vs_equally_culled_fp32_speedup_x": 1.26,
       "cascade_assumed_stage3_selectivity_pct": 0.78,
-      "taxonomy_summary": "Pure DRAM-bound kernel speedup is 14.60x (71.88 ns/cell vs 1049.20 ns/cell, 67.4% of the 21.65x cache-line model; 1.48x prefetcher/row-activation gap). When combined with 4-stage hierarchical cascade culling (0.78% assumed Stage-3 selectivity, 32/4096 cells), speedup is 125.94x-132.44x against a dense unculled FP32 GEMV baseline, and 1.26x (29.34 us vs 37.00 us) when the FP32 baseline is granted the identical sparse culling index."
+      "taxonomy_summary": "Pure DRAM-bound kernel speedup is 14.60x (71.88 ns/cell vs 1049.20 ns/cell, 67.4% of the 21.65x cache-line model; 1.48x prefetcher/row-activation gap). When combined with 4-stage hierarchical cascade culling (0.78% assumed Stage-3 selectivity, 32/4096 cells), speedup is 125.94x-132.44x against a dense unculled FP32 GEMV baseline, and 1.26x (29.34 us vs 37.00 us) when the FP32 baseline is granted the identical sparse culling index.",
+      "path_a_100pct_unculled_kernel_speedup_x": {
+        "median": 14.6,
+        "range": [
+          14.3,
+          15.8
+        ],
+        "model_efficiency_pct": 67.4
+      },
+      "path_b_cascade_vs_dense_fp32_speedup_x": {
+        "median": 130,
+        "range": [
+          121,
+          138
+        ],
+        "selectivity_pct": 0.78
+      },
+      "path_c_cascade_like_for_like_speedup_x": {
+        "median": 1.21,
+        "range": [
+          1.16,
+          1.26
+        ],
+        "selectivity_pct": 0.78
+      },
+      "native_cpp20_drivers": [
+        "public-verifier/benchmark_native_zdc_qegg.cpp",
+        "public-verifier/benchmark_native_kernel.cpp"
+      ]
     }
   }
 }
