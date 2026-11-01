@@ -606,7 +606,19 @@
       "native_cpp20_boop_i7_4096_speedup_x": 125.94,
       "native_cpp20_boop_i7_131072_dram_zdc_ns_per_cell": 71.88,
       "native_cpp20_boop_i7_131072_dram_fp32_ns_per_cell": 1049.2,
-      "native_cpp20_boop_i7_131072_dram_speedup_x": 14.6
+      "native_cpp20_boop_i7_131072_dram_speedup_x": 14.6,
+      "headline_dram_kernel_speedup_x": 14.6,
+      "headline_l1_kernel_speedup_x": 14.33,
+      "theoretical_cache_model_speedup_x": 21.65,
+      "silicon_vs_model_efficiency_pct": 67.4,
+      "model_to_silicon_gap_factor": 1.48,
+      "cascade_vs_dense_fp32_speedup_range_x": [
+        125.94,
+        132.44
+      ],
+      "cascade_vs_equally_culled_fp32_speedup_x": 1.26,
+      "cascade_assumed_stage3_selectivity_pct": 0.78,
+      "taxonomy_summary": "Pure DRAM-bound kernel speedup is 14.60x (71.88 ns/cell vs 1049.20 ns/cell, 67.4% of the 21.65x cache-line model; 1.48x prefetcher/row-activation gap). When combined with 4-stage hierarchical cascade culling (0.78% assumed Stage-3 selectivity, 32/4096 cells), speedup is 125.94x-132.44x against a dense unculled FP32 GEMV baseline, and 1.26x (29.34 us vs 37.00 us) when the FP32 baseline is granted the identical sparse culling index."
     }
   }
 }
