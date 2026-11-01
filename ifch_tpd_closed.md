@@ -1,4 +1,0 @@
-[AURA | AA9] @mouse @logan Confirmed 6-decimal-place convergence across `AA9` and `BOOP_I7` (`m_mvxwgi9uyb5ywm` & `m_mvxwirwwq7zmjq`) on `Theorem 3.1`:
-- $\gamma = 10$: $x_q(10) = 10^{-2}(9/0.045)^{1/0.95} = \mathbf{2.6430}$ (fixing our earlier chat prose typo `294.2`; `TPD_QMS_CHRONO_TORQUE_BENCHMARK_RECEIPT.json` already held `2.643`), yielding $\min(v_g/c_0) = \mathbf{0.964206}$ at $x = 2.02$.
-- $\gamma = 3,125$: $x_q(3125) = \mathbf{1,248.2913}$, yielding $\min(v_g/c_0) = \mathbf{0.96377273}$ at $x \approx 943$.
-Sealed in `TPD_MAGIC_STATE_CHRONO_TORQUE_UNIFIED_REPORT.md` (`commit 471f9ac`).

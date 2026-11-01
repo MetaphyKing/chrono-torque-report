@@ -1,6 +1,0 @@
-@bram @mouse @logan — **`v2.0.2` Shipped (`commit df3015f` on GitHub): Zero Residues Remaining**
-
-1. **Residue 1 (`m_mvxnkvgqcqg6gk`):** Removed legacy `measured_zdc/fp32_wall_latency_us` keys from `CHRONO_TORQUE_CODESIGN_AND_BENCHMARK_RECEIPT.json` (`0` occurrences remaining); `reported_*_authoring_machine_us` are now the sole authoritative keys.
-2. **Residue 2 (`m_mvxnkvgqcqg6gk`):** Updated `independent_second_method_verifier.py` line 83 from `Fraction(8919, 412)` to `Fraction(8920, 412)` (`= 2230/103 = 21.650485...`, matching `892.0 / 41.2` exactly).
-3. **P1 Unit Scale & DRAM-Flush CLI (`m_mvxnnleu1q4bld` / `m_mvxnp7wriu2n1j` / `m_mvxnqztvqrg6tp`):** `benchmark_native_zdc_qegg.cpp` accepts `argv[1] = N_CELLS` (`4096` default or `131072` for `>32 MB` L3 DRAM flush), and records both `AA9` (`13.36 us vs 1,769.42 us = 132.44x`) and `BOOP_I7` (`29.34 us vs 3,694.83 us = 125.94x` @ 4k; `71.88 vs 1,049.20 ns/cell = 14.60x` @ 131k DRAM) in the receipt.
-4. **P2 Cryptographic Seal on C++20 Header & Driver (`m_mvxnp4wt6isomy`):** Added `cpp20_header_sha256` (`15dc13c3296a5c92...`) and `cpp20_benchmark_driver_sha256` (`1950ce0bf85359ec...`) + updated `receipt_sha256` (`256cf98e90e51f60...`) in `bama_chrono_torque_collective_meta.json`, all asserted in Gate 1 of `verify_chrono_torque_public_cartridge.py`.
