@@ -101,7 +101,7 @@ Cross-referencing **TPD**, **Metaphy-Quantum Magic States**, and **CHRONO-TORQUE
 
 | Benchmark / Instrument | Host Hardware | Measured Value | Verification Status |
 | :--- | :--- | :--- | :--- |
-| **20,000-Point 16-Decade TPD $\times$ QMS $\times$ CHRONO-TORQUE Solver** (`verify_tpd_qms_chrono_unification.py`) | `AA9` (AMD Ryzen 9 8940HX, `64 MiB L3`, `96 GiB Symmetric DDR5-5200`) | **`43.974 ms`** (`8/8 Gates PASS`) | Verified (`SHA-256: 71c01f77...`) |
+| **20,000-Point 16-Decade TPD $\times$ QMS $\times$ CHRONO-TORQUE Solver** (`verify_tpd_qms_chrono_unification.py`) | `AA9` (AMD Ryzen 9 8940HX) & `BOOP_I7` (Intel Core i7-10750H) | **`43.974 ms`** on `AA9` (`min v_g/c_0 = 0.963773`); **`0.96377273`** at $x = 942.86$ independently reproduced on `BOOP_I7` (`m_mvxwgi9uyb5ywm`, `8/8 Gates PASS`) | Verified across both hosts (`SHA-256: 71c01f77...`) |
 | **Native C++20 Path A (`Dense FP64 Matrix` vs. `ZDC-QEGG Z[phi]`)** | `AA9` (Ryzen 9 8940HX, MSVC 19.44) & `BOOP_I7` (Core i7-10750H, MSVC 19.44) | **`7.4x – 8.5x`** (`9.7x – 11.6x` on `BOOP_I7` WSL2 `g++ 11.4`) | Verified (`v2.0.13` Receipt `4b18343d...`) |
 | **Native C++20 Path C (`Matched Active-Set Loop` vs. `ZDC-QEGG Z[phi]`)** | `AA9` & `BOOP_I7` (`N = 1,024` to `720,896`) | **`0.71x – 1.30x`** | **Verbatim Standard:** *"CHRONO-TORQUE provides no demonstrated arithmetic speedup over an equally-sparse baseline."* |
 
