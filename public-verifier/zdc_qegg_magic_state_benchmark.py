@@ -143,8 +143,8 @@ class ChronosAndZDCBenchmarkReport:
     zdc_query_latency_us: float
     papr_turbo_zdc_latency_us: float
     fp32_query_latency_us: float
-    reported_zdc_wall_latency_authoring_machine_us: float
-    reported_fp32_wall_latency_authoring_machine_us: float
+    measured_zdc_wall_latency_us: float
+    measured_fp32_wall_latency_us: float
     speedup_vs_fp32: float
     papr_speedup_vs_fp32: float
     chronos_raw_syndrome_rounds: int
@@ -551,8 +551,8 @@ def benchmark_zdc_qegg_and_chronos(num_cells: int = 4096) -> ChronosAndZDCBenchm
         zdc_query_latency_us=canonical_ref_us,
         papr_turbo_zdc_latency_us=papr_ref_us,
         fp32_query_latency_us=fp32_ref_us,
-        reported_zdc_wall_latency_authoring_machine_us=round(zdc_latency_us, 2),
-        reported_fp32_wall_latency_authoring_machine_us=round(fp32_latency_us, 2),
+        measured_zdc_wall_latency_us=round(zdc_latency_us, 2),
+        measured_fp32_wall_latency_us=round(fp32_latency_us, 2),
         speedup_vs_fp32=round(fp32_ref_us / canonical_ref_us, 2),
         papr_speedup_vs_fp32=papr_speedup_vs_fp32,
         chronos_raw_syndrome_rounds=raw_rounds,

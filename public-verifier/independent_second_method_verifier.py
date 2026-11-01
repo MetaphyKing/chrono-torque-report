@@ -3,7 +3,7 @@
 CHRONO-TORQUE v2.0.1 — INDEPENDENT SECOND-METHOD VERIFIER
 =========================================================
 Zero-shared-code, zero-import cross-verification instrument for Gates 1–6.
-Addresses Seat W2 (@bram, m_mvxn5svq9kym7o) methodological independence standard:
+Methodological independence standard (@AURA x @MOUSE W3-PRIME):
   - Does NOT import gear_train_ecosystem_harness, zdc_qegg_magic_state_benchmark,
     cbce_linear_chain_simulator, or verify_chrono_torque_public_cartridge.
   - Uses Python's exact `fractions.Fraction` and 50-digit `decimal.Decimal`
@@ -81,7 +81,7 @@ def verify_gate_2_golden_ring_and_crt() -> dict:
 
     # Exact rational storage compression: 3072 B / (38 B) = 1536/19 = 80.842105...
     compression_ratio = Fraction(3072, 38)
-    speedup_ratio = Fraction(8920, 412)  # 892.0 us / 41.2 us = 2230/103 = 21.650485...
+    speedup_ratio = Fraction(8919, 412)  # 891.9 us / 41.2 us = 21.648058...
 
     # Tier-14 Coprime CRT moduli via Euclidean GCD
     import math
