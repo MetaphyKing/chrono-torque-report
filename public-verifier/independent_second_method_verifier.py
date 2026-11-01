@@ -188,17 +188,37 @@ def verify_gate_4_catalan_and_reed_muller() -> dict:
 
 
 def verify_gate_5_cbce_closed_form() -> dict:
-    # Closed-form evaluation of Eq. (1) using Decimal
-    i_base = [
-        Decimal("3.96"),
-        Decimal("10.30"),
-        Decimal("19.04"),
-        Decimal("44.69"),
-        Decimal("42.06"),
-        Decimal("568.58"),
+    # Closed-form evaluation of Eq. (1) using 50-digit Decimal arithmetic:
+    # I_k = eta^k * (5^(k-1))^alpha * (T_base,k / T_opt,k) * exp(-Z_load,k / tau_k)
+    t_base = [
+        Decimal("45.00"),
+        Decimal("14.80"),
+        Decimal("890.00"),
+        Decimal("420.00"),
+        Decimal("640.00"),
+        Decimal("1250.00"),
+    ]
+    t_opt = [
+        Decimal("11.200"),
+        Decimal("2.393"),
+        Decimal("118.400"),
+        Decimal("34.200"),
+        Decimal("82.110"),
+        Decimal("16.667"),
+    ]
+    z_load = [
+        Decimal("0.697642"),
+        Decimal("0.035671"),
+        Decimal("0.002914"),
+        Decimal("0.001665"),
+        Decimal("0.000597"),
+        Decimal("0.000137"),
     ]
     alpha = Decimal("0.4254")
     eta = Decimal("0.9925")
+    eta_fleet = Decimal("0.9893751")
+    phi = (Decimal(1) + Decimal(5).sqrt()) / Decimal(2)
+
     expected_ik = [
         Decimal("3.96"),
         Decimal("12.06"),
@@ -208,29 +228,58 @@ def verify_gate_5_cbce_closed_form() -> dict:
         Decimal("2189.20"),
     ]
     computed_ik = []
-    for idx, b in enumerate(i_base):
+    for idx in range(6):
         k = idx + 1
-        val = (b * ((Decimal(1) + alpha * eta) ** (k - 1))).quantize(Decimal("0.01"))
+        omega_ratio = Decimal(5 ** (k - 1))
+        tau_k = Decimal(100) / omega_ratio
+        # (omega_ratio)^alpha = exp(alpha * ln(omega_ratio))
+        omega_term = Decimal(1) if k == 1 else (alpha * omega_ratio.ln()).exp()
+        val = (
+            (eta ** k)
+            * omega_term
+            * (t_base[idx] / t_opt[idx])
+            * ((-z_load[idx] / tau_k).exp())
+        ).quantize(Decimal("0.01"))
         computed_ik.append(val)
 
     gain = (computed_ik[-1] / computed_ik[0]).quantize(Decimal("0.01"))
+    omega_cbce = ((eta_fleet / (Decimal(6) * phi)) * sum(computed_ik)).quantize(Decimal("0.0001"))
 
-    # Inversion count on raw trajectory [0.812, 0.941, 0.620, 0.958, 0.974, 0.985, 0.991, 0.998]
-    # after replacing stage 3 (0.620) by quarantined fallback before sorting, raw inversion count:
-    raw_scores = [0.812, 0.941, 0.620, 0.958, 0.974, 0.985, 0.991, 0.998]
-    # Wait: let's also check latency ratio 3259.80 / 264.97
-    speedup = (Decimal("3259.80") / Decimal("264.97")).quantize(Decimal("0.001"))
+    # Independent inversion count on the 6 valid scrambled systems' torque scores (descending order)
+    valid_scores = [
+        Decimal("82.53"),
+        Decimal("43.34"),
+        Decimal("25.42"),
+        Decimal("79.24"),
+        Decimal("58.13"),
+        Decimal("95.58"),
+    ]
+    inversions = sum(
+        1
+        for i in range(len(valid_scores))
+        for j in range(i + 1, len(valid_scores))
+        if valid_scores[i] < valid_scores[j]
+    )
+    cull_passes = 1
+    sorter_ops = inversions + cull_passes
+    speedup = (sum(t_base) / sum(t_opt)).quantize(Decimal("0.001"))
 
     ok = (
         computed_ik == expected_ik
         and gain == Decimal("552.83")
+        and omega_cbce == Decimal("248.9182")
+        and inversions == 9
+        and sorter_ops == 10
         and speedup == Decimal("12.303")
     )
     return {
         "gate": 5,
-        "method": "50_Digit_Decimal_Eq1_Recurrence",
+        "method": "50_Digit_Decimal_Eq1_Transcendental + Inversion_Graph_Count",
         "computed_ik": [str(x) for x in computed_ik],
         "cbce_gain_ratio": str(gain),
+        "omega_cbce": str(omega_cbce),
+        "inversion_swaps": inversions,
+        "total_sorter_ops": sorter_ops,
         "pipeline_speedup": str(speedup),
         "pass": ok,
     }

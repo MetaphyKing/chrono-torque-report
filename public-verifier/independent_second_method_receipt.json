@@ -2,9 +2,9 @@
   "instrument": "CHRONO-TORQUE v2.0.1 Independent Second-Method Verifier (Zero Shared Code)",
   "shared_imports_from_repo": 0,
   "arithmetic_engine": "Python stdlib fractions.Fraction + 50-digit decimal.Decimal + raw bytes",
-  "gates_passed": 5,
+  "gates_passed": 6,
   "gates_total": 6,
-  "all_pass": false,
+  "all_pass": true,
   "results": [
     {
       "gate": 1,
@@ -48,18 +48,21 @@
     },
     {
       "gate": 5,
-      "method": "50_Digit_Decimal_Eq1_Recurrence",
+      "method": "50_Digit_Decimal_Eq1_Transcendental + Inversion_Graph_Count",
       "computed_ik": [
         "3.96",
-        "14.65",
-        "38.51",
-        "128.56",
-        "172.08",
-        "3308.33"
+        "12.06",
+        "28.88",
+        "92.74",
+        "115.66",
+        "2189.20"
       ],
-      "cbce_gain_ratio": "835.44",
+      "cbce_gain_ratio": "552.83",
+      "omega_cbce": "248.9182",
+      "inversion_swaps": 9,
+      "total_sorter_ops": 10,
       "pipeline_speedup": "12.303",
-      "pass": false
+      "pass": true
     },
     {
       "gate": 6,
