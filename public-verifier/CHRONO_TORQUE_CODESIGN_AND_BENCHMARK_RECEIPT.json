@@ -606,53 +606,149 @@
       "native_cpp20_boop_i7_4096_speedup_x": 125.94,
       "native_cpp20_boop_i7_131072_dram_zdc_ns_per_cell": 71.88,
       "native_cpp20_boop_i7_131072_dram_fp32_ns_per_cell": 1049.2,
-      "native_cpp20_boop_i7_131072_dram_speedup_x": 14.6,
-      "headline_dram_kernel_speedup_x": 13.9,
-      "headline_l1_kernel_speedup_x": 14.33,
+      "native_cpp20_boop_i7_131072_dram_speedup_x": 7.7,
+      "headline_dram_kernel_speedup_x": 8.05,
+      "headline_cache_kernel_speedup_x": 8.2,
       "theoretical_cache_model_speedup_x": 21.65,
-      "silicon_vs_model_efficiency_pct": 67.4,
-      "model_to_silicon_gap_factor": 1.48,
-      "cascade_vs_dense_fp32_speedup_range_x": [
-        125.94,
-        132.44
+      "silicon_vs_model_efficiency_pct": 37.2,
+      "model_to_silicon_gap_factor": 2.69,
+      "cascade_vs_dense_fp32_cache_4096_range_x": [
+        121.0,
+        137.0
       ],
-      "cascade_vs_equally_culled_fp32_speedup_x": 1.26,
+      "cascade_vs_dense_fp32_dram_131072_range_x": [
+        20.0,
+        77.0
+      ],
+      "cascade_vs_equally_culled_fp32_cache_range_x": [
+        0.99,
+        1.33
+      ],
+      "cascade_vs_equally_culled_fp32_dram_range_x": [
+        0.36,
+        1.38
+      ],
       "cascade_assumed_stage3_selectivity_pct": 0.78,
-      "taxonomy_summary": "Pooled multi-host (AA9 + BOOP_I7) DRAM-bound unculled kernel speedup is ~13.9x [range 11.95x-15.8x] (~64% of the 21.65x cache-line model; ~1.5x prefetcher/row-activation factor). When combined with 4-stage hierarchical cascade culling (0.78% scale-invariant Stage-3 selectivity, 32/4096 cells), speedup is ~130x [range 111.7x-181.8x] against a dense unculled FP32 GEMV baseline, and straddles parity within measurement error ([0.74x, 1.26x], no demonstrated like-for-like advantage) when the FP32 baseline is granted the identical sparse culling index.",
+      "two_host_physical_topology": {
+        "host_1_aa9": "AMD Ryzen 9 8940HX (16C/32T, MSVC 19.44 /O2 /std:c++20, Seat AA9 @aura)",
+        "host_2_boop_i7": "Intel Core i7-11700K @ 3.60GHz (MSVC 19.44 /O2 /std:c++20, shared physical box hosting Seat W3-PRIME @mouse and Seat BI7/M1 @bram; treated strictly as single-host BOOP_I7 pool)"
+      },
+      "taxonomy_summary": "Measured by the frozen canonical in-repo driver (benchmark_native_zdc_qegg.cpp, 2 warmups + 5 runs; earlier pre-v2.0.4 ~13.9x stripped figures retracted), Path A (100% unculled kernel, 0 early exits, 96 phits + multiply_by_phi per cell) achieves 7.9x [7.5x, 8.3x] (cache, 4096 cells) and 7.7x [5.6x, 7.9x] (DRAM, 131072 cells) on BOOP_I7 (~7.8x floor), and 8.5x [8.2x, 8.5x] (cache) and 8.4x [8.3x, 8.5x] (DRAM) on AA9 (2-host pooled DRAM median ~8.05x [5.6x, 8.5x], 36%-39% of the 21.65x theoretical cache-line model, which overstates by 2.58x-2.81x). Path B cascade speedup vs dense unculled FP32 GEMV (0.78% scale-invariant Stage-3 selectivity) is scale-dependent: 129x [121x, 133x] (BOOP_I7) / 135x [132x, 137x] (AA9) in cache-resident regime (4096 cells), and 40x [20x, 42x] (BOOP_I7) / 73x [61x, 77x] (AA9) in DRAM-bound regime (131072 cells). Path C (both sides culling) measures 1.06x [0.99x, 1.13x] (BOOP_I7) / 1.30x [1.25x, 1.33x] (AA9) in cache and 0.81x [0.36x, 1.24x] (BOOP_I7, 1.23x slower than equally-culled FP32) / 1.20x [0.95x, 1.38x] (AA9) in DRAM (straddling 1.0x on both hosts). CHRONO-TORQUE provides no demonstrated arithmetic speedup over an equally-sparse baseline.",
       "path_a_100pct_unculled_kernel_speedup_x": {
-        "pooled_median": 13.9,
-        "pooled_range": [
-          11.95,
-          15.8
-        ],
-        "boop_i7_median": 13.38,
-        "boop_i7_range": [
-          11.95,
-          14.32
-        ],
-        "aa9_median": 14.6,
-        "aa9_range": [
-          14.3,
-          15.8
-        ],
-        "model_efficiency_pct": 64.2
+        "stale_pre_v204_13_9x_retracted": true,
+        "cache_4096_cells": {
+          "boop_i7_median": 7.9,
+          "boop_i7_range": [
+            7.5,
+            8.3
+          ],
+          "aa9_median": 8.5,
+          "aa9_range": [
+            8.2,
+            8.5
+          ],
+          "pooled_median": 8.2,
+          "pooled_range": [
+            7.5,
+            8.5
+          ]
+        },
+        "dram_131072_cells": {
+          "boop_i7_median": 7.7,
+          "boop_i7_range": [
+            5.6,
+            7.9
+          ],
+          "aa9_median": 8.4,
+          "aa9_range": [
+            8.3,
+            8.5
+          ],
+          "pooled_median": 8.05,
+          "pooled_range": [
+            5.6,
+            8.5
+          ],
+          "model_efficiency_pct_range": [
+            35.6,
+            38.8
+          ]
+        }
       },
       "path_b_cascade_vs_dense_fp32_speedup_x": {
-        "pooled_median": 130,
-        "pooled_range": [
-          111.66,
-          181.76
-        ],
-        "selectivity_pct": 0.78
+        "scale_dependent_by_regime": true,
+        "selectivity_pct": 0.78,
+        "cache_resident_4096_cells": {
+          "boop_i7_median": 129,
+          "boop_i7_range": [
+            121,
+            133
+          ],
+          "aa9_median": 135,
+          "aa9_range": [
+            132,
+            137
+          ],
+          "pooled_median": 132,
+          "pooled_range": [
+            121,
+            137
+          ]
+        },
+        "dram_bound_131072_cells": {
+          "boop_i7_median": 40,
+          "boop_i7_range": [
+            20,
+            42
+          ],
+          "aa9_median": 73,
+          "aa9_range": [
+            61,
+            77
+          ],
+          "pooled_median": 56.5,
+          "pooled_range": [
+            20,
+            77
+          ]
+        }
       },
       "path_c_cascade_like_for_like_speedup_x": {
-        "pooled_range": [
-          0.74,
-          1.26
-        ],
+        "selectivity_pct": 0.78,
         "straddles_parity_1_0x": true,
-        "verdict": "parity_within_measurement_error_no_demonstrated_like_for_like_advantage",
-        "selectivity_pct": 0.78
+        "verbatim_finding": "CHRONO-TORQUE provides no demonstrated arithmetic speedup over an equally-sparse baseline.",
+        "cache_resident_4096_cells": {
+          "boop_i7_median": 1.06,
+          "boop_i7_range": [
+            0.99,
+            1.13
+          ],
+          "aa9_median": 1.3,
+          "aa9_range": [
+            1.25,
+            1.33
+          ],
+          "pooled_range": [
+            0.99,
+            1.33
+          ]
+        },
+        "dram_bound_131072_cells": {
+          "boop_i7_median": 0.81,
+          "boop_i7_range": [
+            0.36,
+            1.24
+          ],
+          "aa9_median": 1.2,
+          "aa9_range": [
+            0.95,
+            1.38
+          ],
+          "pooled_range": [
+            0.36,
+            1.38
+          ]
+        }
       },
       "native_cpp20_drivers": [
         "public-verifier/benchmark_native_zdc_qegg.cpp",
