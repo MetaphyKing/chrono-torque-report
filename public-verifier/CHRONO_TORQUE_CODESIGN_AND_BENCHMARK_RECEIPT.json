@@ -643,7 +643,7 @@
           "Caveat 3 (Uncontrolled Mobile Thermal Environments): Both benchmark hosts are mobile gaming laptops (ROG Strix G16 and ROG Zephyrus M15) run without continuous hardware PMU clock/temperature telemetry."
         ],
         "host_1_aa9": "ASUS ROG Strix G16 G614PR laptop, AMD Ryzen 9 8940HX (16C/32T, Base 2.40 GHz, 16 MiB L2, 64 MiB L3 [2 x 32 MiB CCDs], Symmetric Dual-Channel 96 GiB [48 GiB + 48 GiB matched CMSX96GX5M2A5600C48] DDR5-5200 [rated 5600, configured 5200 MT/s, uniform ~83.2 GB/s], Seat AA9 @aura)",
-        "host_2_boop_i7": "ASUS ROG Zephyrus M15 GU502LV laptop, Intel Core i7-10750H @ 2.60GHz (6C/12T, 32 KiB L1d, 12 MiB L3, Asymmetric Intel Flex-Mode 40 GiB [8 GiB Micron ChannelA + 32 GiB G.Skill ChannelB] DDR4-2933 [rated 3200, configured 3933->2933 MT/s, bimodal ~46.9 GB/s dual-channel lower 16 GiB vs ~23.5 GB/s single-channel upper 24 GiB] — correcting earlier misreported i7-11700K / 16 MiB L3 spec; shared physical box hosting Seat W3-PRIME @mouse and Seat BI7/M1 @bram)"
+        "host_2_boop_i7": "ASUS ROG Zephyrus M15 GU502LV laptop, Intel Core i7-10750H @ 2.60GHz (6C/12T, 32 KiB L1d, 12 MiB L3, Asymmetric Intel Flex-Mode 40 GiB [8 GiB Micron ChannelA + 32 GiB G.Skill ChannelB] DDR4-2933 [rated 3200, configured 2933 MT/s, bimodal ~46.9 GB/s dual-channel lower 16 GiB vs ~23.5 GB/s single-channel upper 24 GiB] — correcting earlier misreported i7-11700K / 16 MiB L3 spec; shared physical box hosting Seat W3-PRIME @mouse and Seat BI7/M1 @bram)"
       },
       "aa9_matched_2_75x_l3_spill_720896_cells": {
         "n_cells": 720896,
