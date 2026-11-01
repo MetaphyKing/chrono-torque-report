@@ -107,7 +107,7 @@
     "KG07_WILLIS_L20_EPICYCLIC_QET",
     "KG08_HYPERBOLIC_534_RM15_CRT"
   ],
-  "receipt_sha256": "5e77040b24bbe4a27d2e0d3ac9b64a53fe7d570e24245ed3fdf6dd7f61c27f58",
+  "receipt_sha256": "5ec0583294a4f8a2531d94a9f91aedafaac7fbfc703529e1c5c6446c2caf9b18",
   "cpp20_header_sha256": "15dc13c3296a5c92ce70b083298222b0816b7181c0db7c1af031f298c6b49ed7",
   "cpp20_benchmark_driver_sha256": "6b6866a3ee2492c2e10d0cfe79070af977df212c32a843c1688505bb3a6e2ec5"
 }
