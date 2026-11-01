@@ -298,8 +298,8 @@ def make_nav(active_route: str) -> str:
     return f"""
 <header class="site-nav">
   <a href="index.html" class="nav-brand">
-    <span class="nav-phi">&phi;</span>
-    <span>CHRONO-TORQUE <code style="color:#fbbf24;font-size:13px;">/gto v2.0</code> &bull; Metaphy LLC</span>
+    <img src="assets/chrono-torque-icon.png" alt="CHRONO-TORQUE Emblem" style="width:38px;height:38px;border-radius:50%;display:block;filter:drop-shadow(0 0 8px rgba(245,158,11,0.5));">
+    <span style="display:inline-flex;align-items:center;gap:10px;">CHRONO-TORQUE <code style="color:#fbbf24;font-size:13px;">/gto v2.0</code> <span style="width:1.5px;height:24px;background:linear-gradient(180deg,rgba(245,158,11,0.15),rgba(245,158,11,0.75),rgba(56,189,248,0.15));display:inline-block;"></span> <img src="assets/metaphy-llc-logo.png" alt="Metaphy LLC" style="height:36px;width:auto;display:block;filter:drop-shadow(0 2px 8px rgba(56,189,248,0.4));"></span>
   </a>
   <nav class="nav-links">
     {''.join(links)}
@@ -323,7 +323,7 @@ INDEX_PAGE = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>CHRONO-TORQUE (/gto v2.0) — BAMA Compound Gear-Train Optimizer &amp; 3D WebGL Showcase</title>
 <meta property="og:title" content="CHRONO-TORQUE (/gto v2.0) — Breaking the Newtonian Gear-Train Paradox">
 <meta property="og:description" content="10,870.5 tok/s Warm Pre-Spin • 12.303x 6-System Fleet Speedup • 38.00 B/cell Z[phi] Memory • 6.452e-17 |T> Infidelity • Metaphy LLC">
@@ -466,7 +466,7 @@ PAPERS_PAGE = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>Scientific Papers &amp; Patent Hub — CHRONO-TORQUE (/gto v2.0)</title>
 <style>{SHARED_CSS}</style>
 </head>
@@ -542,7 +542,7 @@ BENCHMARKS_PAGE = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>Interactive Throughput &amp; Reflected Impedance Calculator — CHRONO-TORQUE (/gto v2.0)</title>
 <style>{SHARED_CSS}</style>
 </head>
@@ -693,7 +693,7 @@ ECOSYSTEM_PAGE = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>6-System Metaphy Fleet Explorer — CHRONO-TORQUE (/gto v2.0)</title>
 <style>{SHARED_CSS}</style>
 </head>
@@ -845,7 +845,7 @@ VERIFY_PAGE = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png"><link rel="apple-touch-icon" sizes="512x512" href="/assets/chrono-torque-icon.png">
 <title>WebCrypto SHA-256 Lineage Seal &amp; Public Verifier — CHRONO-TORQUE (/gto v2.0)</title>
 <style>{SHARED_CSS}</style>
 </head>
