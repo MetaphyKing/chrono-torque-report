@@ -607,7 +607,7 @@
       "native_cpp20_boop_i7_131072_dram_zdc_ns_per_cell": 71.88,
       "native_cpp20_boop_i7_131072_dram_fp32_ns_per_cell": 1049.2,
       "native_cpp20_boop_i7_131072_dram_speedup_x": 14.6,
-      "headline_dram_kernel_speedup_x": 14.6,
+      "headline_dram_kernel_speedup_x": 13.9,
       "headline_l1_kernel_speedup_x": 14.33,
       "theoretical_cache_model_speedup_x": 21.65,
       "silicon_vs_model_efficiency_pct": 67.4,
@@ -618,29 +618,40 @@
       ],
       "cascade_vs_equally_culled_fp32_speedup_x": 1.26,
       "cascade_assumed_stage3_selectivity_pct": 0.78,
-      "taxonomy_summary": "Pure DRAM-bound kernel speedup is 14.60x (71.88 ns/cell vs 1049.20 ns/cell, 67.4% of the 21.65x cache-line model; 1.48x prefetcher/row-activation gap). When combined with 4-stage hierarchical cascade culling (0.78% assumed Stage-3 selectivity, 32/4096 cells), speedup is 125.94x-132.44x against a dense unculled FP32 GEMV baseline, and 1.26x (29.34 us vs 37.00 us) when the FP32 baseline is granted the identical sparse culling index.",
+      "taxonomy_summary": "Pooled multi-host (AA9 + BOOP_I7) DRAM-bound unculled kernel speedup is ~13.9x [range 11.95x-15.8x] (~64% of the 21.65x cache-line model; ~1.5x prefetcher/row-activation factor). When combined with 4-stage hierarchical cascade culling (0.78% scale-invariant Stage-3 selectivity, 32/4096 cells), speedup is ~130x [range 111.7x-181.8x] against a dense unculled FP32 GEMV baseline, and straddles parity within measurement error ([0.74x, 1.26x], no demonstrated like-for-like advantage) when the FP32 baseline is granted the identical sparse culling index.",
       "path_a_100pct_unculled_kernel_speedup_x": {
-        "median": 14.6,
-        "range": [
+        "pooled_median": 13.9,
+        "pooled_range": [
+          11.95,
+          15.8
+        ],
+        "boop_i7_median": 13.38,
+        "boop_i7_range": [
+          11.95,
+          14.32
+        ],
+        "aa9_median": 14.6,
+        "aa9_range": [
           14.3,
           15.8
         ],
-        "model_efficiency_pct": 67.4
+        "model_efficiency_pct": 64.2
       },
       "path_b_cascade_vs_dense_fp32_speedup_x": {
-        "median": 130,
-        "range": [
-          121,
-          138
+        "pooled_median": 130,
+        "pooled_range": [
+          111.66,
+          181.76
         ],
         "selectivity_pct": 0.78
       },
       "path_c_cascade_like_for_like_speedup_x": {
-        "median": 1.21,
-        "range": [
-          1.16,
+        "pooled_range": [
+          0.74,
           1.26
         ],
+        "straddles_parity_1_0x": true,
+        "verdict": "parity_within_measurement_error_no_demonstrated_like_for_like_advantage",
         "selectivity_pct": 0.78
       },
       "native_cpp20_drivers": [
