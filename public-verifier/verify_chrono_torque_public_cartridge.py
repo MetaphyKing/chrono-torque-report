@@ -58,10 +58,14 @@ def main() -> int:
     # -------------------------------------------------------------------------
     sha256_hex = hashlib.sha256(arena_bytes).hexdigest()
     receipt_sha256_hex = hashlib.sha256(receipt_bytes).hexdigest()
+    hpp_sha256_hex = hashlib.sha256((HERE / "bama_zdc_qegg_epicyclic_kernel.hpp").read_bytes()).hexdigest()
+    cpp_sha256_hex = hashlib.sha256((HERE / "benchmark_native_zdc_qegg.cpp").read_bytes()).hexdigest()
     assert len(arena_bytes) == 20480, f"Expected 20,480 B, got {len(arena_bytes)}"
     assert sha256_hex == meta["arena_sha256"], "Arena SHA-256 mismatch vs meta.json"
     assert sha256_hex == receipt["arena_sha256"], "Arena SHA-256 mismatch vs receipt.json"
     assert receipt_sha256_hex == meta["receipt_sha256"], "Receipt SHA-256 mismatch vs meta.json seal"
+    assert hpp_sha256_hex == meta["cpp20_header_sha256"], "C++20 header SHA-256 mismatch vs meta.json seal"
+    assert cpp_sha256_hex == meta["cpp20_benchmark_driver_sha256"], "C++20 driver SHA-256 mismatch vs meta.json seal"
     assert receipt["lineage_seal"] == EXPECTED_LINEAGE_SEAL, "Lineage Seal mismatch"
     assert receipt["prior_lineage_chain"][1] == "380806afdc06c4b7b4edba051cb90e6b"
 
@@ -78,6 +82,7 @@ def main() -> int:
         f"[GATE 1 PASS] 80-Kernel Arena verified: 20,480 B (80 x 256B QEG5 cells)\n"
         f"              Arena SHA-256 = {sha256_hex}\n"
         f"              Receipt SHA-256 Seal = {receipt_sha256_hex}\n"
+        f"              C++20 Header/Driver Seals = {hpp_sha256_hex[:16]}... / {cpp_sha256_hex[:16]}...\n"
         f"              Lineage Seal = {EXPECTED_LINEAGE_SEAL}"
     )
 

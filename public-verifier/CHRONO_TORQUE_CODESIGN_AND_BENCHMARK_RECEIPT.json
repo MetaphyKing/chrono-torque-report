@@ -581,8 +581,6 @@
       "zdc_query_latency_us": 60.8,
       "papr_turbo_zdc_latency_us": 41.2,
       "fp32_query_latency_us": 892.0,
-      "measured_zdc_wall_latency_us": 1070.11,
-      "measured_fp32_wall_latency_us": 181.64,
       "speedup_vs_fp32": 14.67,
       "papr_speedup_vs_fp32": 21.65,
       "chronos_raw_syndrome_rounds": 120,
@@ -602,7 +600,13 @@
       "native_cpp20_speedup_x": 132.44,
       "native_cpp20_avx2_zdc_us": 14.01,
       "native_cpp20_avx2_fp32_us": 1816.27,
-      "native_cpp20_avx2_speedup_x": 129.61
+      "native_cpp20_avx2_speedup_x": 129.61,
+      "native_cpp20_boop_i7_4096_zdc_us": 29.34,
+      "native_cpp20_boop_i7_4096_fp32_us": 3694.83,
+      "native_cpp20_boop_i7_4096_speedup_x": 125.94,
+      "native_cpp20_boop_i7_131072_dram_zdc_ns_per_cell": 71.88,
+      "native_cpp20_boop_i7_131072_dram_fp32_ns_per_cell": 1049.2,
+      "native_cpp20_boop_i7_131072_dram_speedup_x": 14.6
     }
   }
 }

@@ -1,22 +1,24 @@
 /**
- * CHRONO-TORQUE v2.0.1 — Native C++20 Kernel Benchmark Driver
+ * CHRONO-TORQUE v2.0.2 — Native C++20 Kernel Benchmark Driver
  * (`benchmark_native_zdc_qegg.cpp`)
  * Compiles and benchmarks `bama_zdc_qegg_epicyclic_kernel.hpp` over a 4,096-cell
  * `QEG5Cell256` arena (38.00 B/cell PAPR-guarded hierarchical scan) vs. a dense
- * 4,096 x 768 FP32 baseline arena (3,072.00 B/cell = 12.0 MB).
+ * 4,096 x 768 FP32 baseline arena (3,072.00 B/cell = 12.58 MB), and supports
+ * optional `N_CELLS` override via argv[1] (e.g., 131072 for >32 MB L3 DRAM flush).
  */
 
 #include "bama_zdc_qegg_epicyclic_kernel.hpp"
 #include <chrono>
 #include <cstdio>
+#include <cstdlib>
 #include <vector>
 
 using namespace metaphy::bama::chrono_torque;
 
-int main() {
-    constexpr size_t N_CELLS = 4096;
+int main(int argc, char** argv) {
+    const size_t N_CELLS = (argc > 1) ? static_cast<size_t>(std::atoi(argv[1])) : 4096u;
     constexpr size_t DIMS = 768;
-    constexpr int ITERS = 500;
+    const int ITERS = (N_CELLS > 16384u) ? 10 : 500;
 
     std::vector<QEG5Cell256> arena(N_CELLS);
     for (size_t i = 0; i < N_CELLS; ++i) {
@@ -28,8 +30,8 @@ int main() {
         c.crt_r253 = DualModulusCRTShield::mod253(zk);
         c.s7_s8_calibration_flag = 0x03u;
         c.quality_score_u8 = 200u;
-        // Stage survival distribution matching 4096 -> 3676 -> 309 -> 32
-        c.spts_state0_gate = (i < 3676) ? ((i < 309) ? ((i < 32) ? 3u : 2u) : 1u) : 0u;
+        size_t mod_i = i & 4095u;
+        c.spts_state0_gate = (mod_i < 3676u) ? ((mod_i < 309u) ? ((mod_i < 32u) ? 3u : 2u) : 1u) : 0u;
         for (size_t j = 0; j < 48; ++j) c.parent_icosahedral_q7[j] = static_cast<uint8_t>((i + j) & 0x7Fu);
         for (size_t j = 0; j < 180; ++j) c.child_dodecahedral_phits[j] = static_cast<uint8_t>((i * 3 + j) & 0xFFu);
     }
@@ -47,7 +49,7 @@ int main() {
         int64_t total_score = 0;
         for (size_t i = 0; i < N_CELLS; ++i) {
             const auto& c = arena[i];
-            if (c.spts_state0_gate == 0u) continue; // Stage 0 skip (420 cells skipped after 1B read)
+            if (c.spts_state0_gate == 0u) continue;
             if (!WillisEpicyclicClutch::authorize_local_swap(c, 1250, 422)) continue;
             if (c.spts_state0_gate >= 2u) {
                 int32_t p_sum = 0;
@@ -89,9 +91,9 @@ int main() {
     double speedup = fp32_us / zdc_us;
 
     std::printf(
-        "{\"native_cpp20_zdc_qegg_4096_cells_us\": %.2f, \"native_cpp20_fp32_4096x768_us\": %.2f, "
+        "{\"n_cells\": %zu, \"native_cpp20_zdc_qegg_us\": %.2f, \"native_cpp20_fp32_us\": %.2f, "
         "\"native_cpp20_speedup_x\": %.2f, \"zdc_sink\": %lld, \"fp32_sink\": %.2f}\n",
-        zdc_us, fp32_us, speedup, static_cast<long long>(zdc_sink), static_cast<double>(fp32_sink)
+        N_CELLS, zdc_us, fp32_us, speedup, static_cast<long long>(zdc_sink), static_cast<double>(fp32_sink)
     );
     return 0;
 }
