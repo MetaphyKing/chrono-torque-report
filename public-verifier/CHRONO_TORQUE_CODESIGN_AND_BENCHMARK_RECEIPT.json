@@ -594,7 +594,15 @@
       "pac_10turn_baseline_reliability": 59.87,
       "pac_10turn_ipi_reliability": 99.2,
       "reported_zdc_wall_latency_authoring_machine_us": 1070.11,
-      "reported_fp32_wall_latency_authoring_machine_us": 181.64
+      "reported_fp32_wall_latency_authoring_machine_us": 181.64,
+      "native_cpp20_compiler": "MSVC 19.51.36260 x64 (/O2 /arch:AVX2 /std:c++20)",
+      "native_cpp20_driver": "public-verifier/benchmark_native_zdc_qegg.cpp",
+      "native_cpp20_zdc_qegg_4096_cells_us": 13.36,
+      "native_cpp20_fp32_4096x768_us": 1769.42,
+      "native_cpp20_speedup_x": 132.44,
+      "native_cpp20_avx2_zdc_us": 14.01,
+      "native_cpp20_avx2_fp32_us": 1816.27,
+      "native_cpp20_avx2_speedup_x": 129.61
     }
   }
 }

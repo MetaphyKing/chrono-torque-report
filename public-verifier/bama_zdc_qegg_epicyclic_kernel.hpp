@@ -86,17 +86,17 @@ struct alignas(64) QEG5Cell256 {
     uint32_t chronos_stamp_prefix;
     // Bytes [8..15]: 64-bit K09_CHRONOS back-link Merkle hash
     uint64_t chronos_merkle_hash;
-    // Byte  [16]: SPTS State-0 Gate (0 = skip, 1 = constant hold, 2 = guide-along)
-    uint8_t  spts_state0_gate;
-    // Bytes [17..18]: Gear tooth count Z_k in {3125, 625, 125, 25, 5, 1}
+    // Bytes [16..17]: Gear tooth count Z_k in {3125, 625, 125, 25, 5, 1} (naturally 2B aligned)
     uint16_t gear_teeth_zk;
+    // Byte  [18]: SPTS State-0 Gate (0 = skip, 1 = constant hold, 2 = guide-along, 3 = full horizon)
+    uint8_t  spts_state0_gate;
     // Byte  [19]: Dual-Modulus CRT residue r_251 = Z_k mod 251
     uint8_t  crt_r251;
     // Byte  [20]: Dual-Modulus CRT residue r_253 = Z_k mod 253
     uint8_t  crt_r253;
     // Byte  [21]: Lockglass S7/S8 Calibration Receipt Gate (0x03 = both verified)
     uint8_t  s7_s8_calibration_flag;
-    // Bytes [22..25]: Canonical FP16 base_scale & parent_scale
+    // Bytes [22..25]: Canonical FP16 base_scale & parent_scale (naturally 2B aligned)
     uint16_t base_scale_fp16;
     uint16_t parent_scale_fp16;
     // Byte  [26]: 7-Metric Quality CBCE score scaled (Q >= 98 -> >= 196)
