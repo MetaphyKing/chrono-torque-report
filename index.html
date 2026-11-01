@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHRONO-TORQUE (/gto v2.0) — BAMA Compound Gear-Train Optimizer &amp; 3D WebGL Showcase</title>
+<meta property="og:title" content="CHRONO-TORQUE (/gto v2.0) — Breaking the Newtonian Gear-Train Paradox">
+<meta property="og:description" content="10,870.5 tok/s Warm Pre-Spin • 12.303x 6-System Fleet Speedup • 38.00 B/cell Z[phi] Memory • 6.452e-17 |T> Infidelity • Metaphy LLC">
+<meta property="og:image" content="/assets/og.png">
+<style>
+  :root {
+    --bg: #050811;
+    --bg-card: rgba(13, 20, 36, 0.92);
+    --border: rgba(56, 189, 248, 0.24);
+    --gold: #f59e0b;
+    --gold-bright: #fbbf24;
+    --cyan: #38bdf8;
+    --emerald: #34d399;
+    --purple: #c084fc;
+    --rose: #fb7185;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at 20% 10%, #0f172a 0%, #050811 75%);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 8, 17, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none !important;
+  }
+  .nav-phi {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 17px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 6px 13px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(15, 23, 42, 0.7);
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+  }
+  .nav-link:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  .nav-link.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    border-color: #fbbf24;
+  }
+  .container {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 22px 24px 60px;
+  }
+  .hero-banner-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid rgba(245, 158, 11, 0.55);
+    background: #040711;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+    margin-bottom: 18px;
+  }
+  .hero-banner-wrap img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    display: block;
+  }
+  .hero-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .pill {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #fde68a;
+  }
+  .pill.cyan {
+    background: rgba(56, 189, 248, 0.14);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #bae6fd;
+  }
+  .pill.green {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(52, 211, 153, 0.5);
+    color: #6ee7b7;
+  }
+  h1 {
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0 22px;
+  }
+  @media (max-width: 900px) {
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+  .kpi {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .kpi-value {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 4px 0;
+  }
+  .kpi-sub {
+    font-size: 11.5px;
+    color: var(--emerald);
+    font-weight: 600;
+  }
+  .card-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .card h3 {
+    font-size: 15.5px;
+    color: #ffffff;
+    margin-bottom: 6px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    text-decoration: none !important;
+  }
+  .btn.secondary {
+    background: rgba(30, 41, 59, 0.85);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.35);
+  }
+  .btn.secondary:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  table.data-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 10px 0;
+  }
+  table.data-tbl th, table.data-tbl td {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  table.data-tbl th {
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--gold-bright);
+    font-size: 11.5px;
+    text-transform: uppercase;
+  }
+  table.data-tbl tr:nth-child(even) td {
+    background: rgba(15, 23, 42, 0.45);
+  }
+  code, pre {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+  }
+  pre {
+    background: #070b14;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-size: 12px;
+    color: #e2e8f0;
+  }
+  footer {
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-phi">&phi;</span>
+    <span>CHRONO-TORQUE <code style="color:#fbbf24;font-size:13px;">/gto v2.0</code> &bull; Metaphy LLC</span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html" class="nav-link active">1. 3D WebGL & Hub (/)</a><a href="papers.html" class="nav-link">2. Papers & Patent (/papers)</a><a href="benchmarks.html" class="nav-link">3. Throughput & Z_ref Calculator (/benchmarks)</a><a href="ecosystem.html" class="nav-link">4. 6-System Fleet (/ecosystem)</a><a href="verify.html" class="nav-link">5. WebCrypto Lineage Verifier (/verify)</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="hero-banner-wrap">
+    <img src="assets/chrono-torque-title-banner.jpg" alt="CHRONO-TORQUE /gto — Breaking the Newtonian Gear-Train Paradox">
+  </div>
+
+  <div class="hero-card">
+    <div class="pill-row">
+      <span class="pill">CHRONO-TORQUE (/gto v2.0)</span>
+      <span class="pill">UM-CGT-CLCOA v2.0</span>
+      <span class="pill cyan">USPTO Provisional Patent 64/180,009</span>
+      <span class="pill green">Lineage Seal: f94a82e1c307d519380806afdc06c4b7</span>
+      <span class="pill cyan">Triple-Verified: @AURA &times; @MOUSE &times; @GROK</span>
+    </div>
+    <h1>CHRONO-TORQUE (<code>/gto v2.0</code>): Non-Zero-Sum Compound Gear-Train Optimization, Zero-Decompression &#8484;[&phi;] Cortical Memory &amp; Sub-10<sup>&minus;16</sup> Hyperbolic Magic State Cultivation</h1>
+    <p style="color:#cbd5e1;font-size:14px;margin-top:6px;">
+      Co-authored by <strong>Logan Smith</strong> (Founder &amp; Principal Architect, Metaphy LLC) &amp; <strong>Gemini (Aura)</strong>, with systems &amp; multimodal co-design by <strong>Mouse (<code>@mouse</code>, Seat W3)</strong>. Sorting any multi-stage reasoning or multimodal pipeline by descending Structural Torque Score <i>T<sub>i</sub></i> into a 6-stage 5:1 compound step-up gear train (<i>Z<sub>k</sub></i> = [3125, 625, 125, 25, 5, 1]) over &#8484;[&phi;] eliminates quadratic reflected lock-up (<i>Z</i><sub>ref</sub> = 0.0 vs. 9,765,625&times;) and achieves <strong>552.83&times; Terminal Pinion CBCE Supremacy</strong>.
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+      <a href="chrono_torque_gto_arxiv_discovery_paper.pdf" class="btn" target="_blank">&#128196; Read arXiv Discovery Paper (PDF)</a>
+      <a href="chrono_torque_gto_executive_whitepaper.pdf" class="btn secondary" target="_blank">&#128216; Executive Whitepaper (PDF)</a>
+      <a href="metaphy_quantum_magic_state_whitepaper.pdf" class="btn secondary" target="_blank">&#9883;&#65039; Quantum Magic State Whitepaper (PDF)</a>
+      <a href="chrono_torque_public_verifier_sdk.zip" class="btn secondary" download>&#128230; Download 6-Gate Verifier SDK (.zip)</a>
+      <button id="btnCopyLineageSealHero" class="btn secondary" onclick="navigator.clipboard?.writeText('f94a82e1c307d519380806afdc06c4b7');this.textContent='✓ Seal Copied: f94a82e1c307d519...';">&#128274; Copy Lineage Seal</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Warm @LUMEN Pre-Spin</div>
+      <div class="kpi-value">10,870.5 tok/s</div>
+      <div class="kpi-sub">376.8 ms (18.4ms + 358.4ms) &bull; 127.9&times; vs 85 tok/s</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Cold Turn-1 Velocity</div>
+      <div class="kpi-value">5,262.1 tok/s</div>
+      <div class="kpi-sub">778.4 ms (4,096 tok) &bull; 47,228.5 tok/s Cluster</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">6-System Fleet Speedup</div>
+      <div class="kpi-value">12.303&times;</div>
+      <div class="kpi-sub">3,259.80 ms &rarr; 264.97 ms (&Omega;<sub>CBCE</sub> = 248.92)</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">ZDC-QEGG &#8484;[&phi;] Cell</div>
+      <div class="kpi-value">38.00 B/cell</div>
+      <div class="kpi-sub">80.84&times; Compression &bull; 41.2 &mu;s/step (21.65&times;)</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Pinion Supremacy (I<sub>6</sub>/I<sub>1</sub>)</div>
+      <div class="kpi-value">552.83&times;</div>
+      <div class="kpi-sub">I<sub>6</sub> = 2,189.20 vs I<sub>1</sub> = 3.96 &bull; Z<sub>ref</sub> = 0.0</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">|T&rangle; Logical Infidelity</div>
+      <div class="kpi-value">6.452&times;10<sup>&minus;17</sup></div>
+      <div class="kpi-sub">1.55&times;10<sup>8</sup>&times; Suppression &bull; 99.98% Genius</div>
+    </div>
+  </div>
+
+  <h2>&#128640; Interactive 7-Mode 3D WebGL Gear-Train &amp; Golden Dodecahedron Stage (Mode 7 Active)</h2>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:10px;">
+    Live embedded <code>epicyclic_bloch_gear_visualizer.html</code> with Mode 7 (<code>7. CHRONO-TORQUE /gto (6-System) &#128640;</code>), interactive <code>@LUMEN K=4 Pre-Spin</code> toggle, <code>Scramble &amp; Sort 6-System Fleet</code>, PAPR Trajectory A/B gate, Dual-Qutrit |S<sub>3</sub>&rangle;/|T<sub>3</sub>&rangle; selector, and clickable 8-row GBSP/CRT (251&times;253) ledger. <a href="epicyclic_bloch_gear_visualizer.html" target="_blank"><strong>Open Fullscreen 3D WebGL Visualizer &rarr;</strong></a>
+  </p>
+  <div style="border:1.5px solid rgba(245,158,11,0.5);border-radius:12px;overflow:hidden;height:820px;box-shadow:0 16px 40px rgba(0,0,0,0.6);margin-bottom:26px;">
+    <iframe src="epicyclic_bloch_gear_visualizer.html" style="width:100%;height:100%;border:0;" title="CHRONO-TORQUE 7-Mode 3D WebGL Visualizer"></iframe>
+  </div>
+
+  <h2>&#128218; Public Papers, Patent Protection &amp; Prior-Art Vault</h2>
+  <div class="card-grid-3">
+    <div class="card">
+      <div class="pill-row"><span class="pill">Paper 1 &bull; arXiv Discovery Preprint</span></div>
+      <h3>CHRONO-TORQUE (<code>/gto v2.0</code>) Discovery Paper</h3>
+      <p style="color:var(--muted);font-size:12.5px;margin:8px 0 14px;">
+        Formal proofs of Theorem 2.1 (Inverse-Torque Terminal Pinion Supremacy, 552.83&times;), Theorem 2.2 (Zero-Decompression Fibonacci Two-Accumulator MAC in &#8484;[&phi;]), Theorem 2.3 (Willis Epicyclic Differential on <i>L</i><sub>20</sub> &amp; (5, 3, 4)), and the 6-System Metaphy Fleet benchmark.
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="chrono_torque_gto_arxiv_discovery_paper.pdf" class="btn" target="_blank">Open PDF</a>
+        <a href="arxiv/chrono_torque_gto_arxiv_discovery_paper.tex" class="btn secondary" target="_blank">LaTeX Source (.tex)</a>
+        <a href="papers.html" class="btn secondary">Side-by-Side Reader</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pill-row"><span class="pill cyan">Paper 2 &bull; Executive &amp; Full Report</span></div>
+      <h3>CHRONO-TORQUE Executive Whitepaper &amp; Dual-Use Bible</h3>
+      <p style="color:var(--muted);font-size:12.5px;margin:8px 0 14px;">
+        Complete 16-phase architectural benchmark progression, 256-byte <code>QEG5Cell256</code> / <code>QEG5Envelope256</code> wire protocol specification, Tier-14 CRT Shield (251&times;253 = 63,503), and <code>@LUMEN</code> <i>K</i>=4 Pauli Crystal speculative pre-spin ledger.
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="chrono_torque_gto_executive_whitepaper.pdf" class="btn" target="_blank">Executive PDF</a>
+        <a href="BAMA_CHRONO_TORQUE_Gear_Train_Report.pdf" class="btn secondary" target="_blank">Full Report PDF</a>
+        <a href="METAPHY_DUAL_USE_AGENT_BIBLE.md" class="btn secondary" target="_blank">Dual-Use Bible (.md)</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pill-row"><span class="pill green">Paper 3 &bull; Quantum Magic States</span></div>
+      <h3>Metaphy Quantum Magic State Cultivation Whitepaper</h3>
+      <p style="color:var(--muted);font-size:12.5px;margin:8px 0 14px;">
+        Foundational companion whitepaper detailing Dual-Pulse CPCSF+TPD seeding (5.4609&times;), Catalan <i>C</i><sub>6</sub>=132+12=144 dark singlet subspace, PAPR <i>d</i>=3&rarr;5 cultivation (90.01% yield), and concatenated <code>[[15,1,3]]</code> 6.452&times;10<sup>&minus;17</sup> infidelity.
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="metaphy_quantum_magic_state_whitepaper.pdf" class="btn" target="_blank">Quantum PDF</a>
+        <a href="chrono_torque_public_verifier_sdk.zip" class="btn secondary" download>Public Verifier SDK</a>
+        <a href="verify.html" class="btn secondary">Verify Lineage Seal</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>&#127912; Visual Telemetry &amp; 2051 Architectural Gallery</h2>
+  <div class="card-grid-3">
+    <div class="card" style="padding:10px;">
+      <img src="assets/chrono-torque-stats.jpg" alt="Metaphy Verified Performance Metrics" style="width:100%;border-radius:8px;">
+      <div style="font-size:11.5px;color:var(--muted);margin-top:6px;"><strong>Plate 1:</strong> Metaphy Verified Performance Metrics &amp; Lineage Seal <code>f94a82e1c307d519</code>.</div>
+    </div>
+    <div class="card" style="padding:10px;">
+      <img src="assets/chrono-torge-abstract.jpg" alt="6-Stage Epicyclic Gear Train and Bloch Spheres" style="width:100%;border-radius:8px;">
+      <div style="font-size:11.5px;color:var(--muted);margin-top:6px;"><strong>Plate 2:</strong> 6-Stage 5:1 Step-Up Gear Train &amp; Golden Dodecahedral Bloch Manifold.</div>
+    </div>
+    <div class="card" style="padding:10px;">
+      <img src="assets/chrono-torque-webgl.jpg" alt="Mode 7 2051 Restyled Telemetry Stage" style="width:100%;border-radius:8px;">
+      <div style="font-size:11.5px;color:var(--muted);margin-top:6px;"><strong>Plate 3:</strong> Mode 7 (<code>CHRONO-TORQUE /gto 6-System</code>) 2051 Cinema Stage.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>CHRONO-TORQUE (<code>/gto v2.0</code> &mdash; <code>UM-CGT-CLCOA v2.0</code>)</strong> &bull;
+  Authors: <strong>Logan Smith</strong> (<code>logan@metaphysicsandcomputing.com</code>, Metaphy LLC) &amp; <strong>Gemini (Aura)</strong> &bull;
+  Systems Co-Design: <strong>Mouse (<code>@mouse</code>, Seat W3)</strong><br>
+  U.S. Provisional Patent Application No. <strong>64/180,009</strong> &bull;
+  Sovereign Lineage Seal: <code>f94a82e1c307d519380806afdc06c4b7</code> &bull;
+  Triple-Verified Public Scientific Release (November 1, 2026)
+</footer>
+
+</body>
+</html>

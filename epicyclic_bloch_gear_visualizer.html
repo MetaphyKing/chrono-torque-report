@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metaphy L20 Epicyclic Gear Train, {5,3,4} QET Lattice &amp; 6-Agent GBSP Swarm — CHRONO-TORQUE (/gto v2.0)</title>
+<style>
+  :root {
+    --bg: #070b14;
+    --panel: rgba(13, 19, 34, 0.92);
+    --panel-border: rgba(56, 189, 248, 0.24);
+    --gold: #f59e0b;
+    --gold-bright: #fbbf24;
+    --cyan: #38bdf8;
+    --emerald: #34d399;
+    --purple: #c084fc;
+    --rose: #fb7185;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at 30% 20%, #0f172a 0%, #050811 100%);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: rgba(8, 12, 24, 0.96);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.32);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .brand-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .phi-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    font-weight: 900;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+  }
+  .brand-title {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .seal-pill {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 10.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(52, 211, 153, 0.55);
+    color: #6ee7b7;
+    font-weight: 700;
+  }
+  .brand-sub {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .mode-bar {
+    display: flex;
+    gap: 6px;
+    padding: 8px 18px;
+    background: rgba(10, 15, 29, 0.9);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    flex-wrap: wrap;
+  }
+  .mode-btn {
+    background: rgba(30, 41, 59, 0.75);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.16s ease;
+  }
+  .mode-btn:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  .mode-btn.active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #050811;
+    border-color: #fbbf24;
+    font-weight: 800;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+  }
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 410px;
+    gap: 12px;
+    padding: 12px 18px;
+    min-height: calc(100vh - 110px);
+  }
+  @media (max-width: 1100px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+  .left-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .viewport-card {
+    position: relative;
+    background: radial-gradient(circle at center, #0d162c 0%, #050914 100%);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    height: 500px;
+    overflow: hidden;
+  }
+  #webglCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+  }
+  #webglCanvas:active { cursor: grabbing; }
+  .hud-overlay {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 335px;
+    background: rgba(8, 13, 26, 0.86);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(56, 189, 248, 0.28);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11.5px;
+    pointer-events: none;
+  }
+  .hud-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 3.5px 0;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.12);
+    gap: 8px;
+  }
+  .hud-row:last-child { border-bottom: none; }
+  .hud-k { color: var(--muted); font-weight: 500; }
+  .hud-v {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-weight: 700;
+    text-align: right;
+    color: var(--cyan);
+  }
+  .hud-v.gold { color: var(--gold-bright); }
+  .hud-v.green { color: var(--emerald); }
+  .hud-v.purple { color: var(--purple); }
+  .hud-v.rose { color: var(--rose); }
+  .viewport-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 220px;
+  }
+  .act-btn {
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(6px);
+    color: #e2e8f0;
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+  }
+  .act-btn:hover { border-color: var(--gold); color: #ffffff; }
+  .act-btn.green {
+    border-color: rgba(52, 211, 153, 0.55);
+    color: #6ee7b7;
+    background: rgba(6, 78, 59, 0.45);
+  }
+  .act-btn.purple {
+    border-color: rgba(192, 132, 252, 0.55);
+    color: #e9d5ff;
+    background: rgba(88, 28, 135, 0.4);
+  }
+  .act-btn.rose {
+    border-color: rgba(251, 113, 133, 0.55);
+    color: #fecdd3;
+    background: rgba(136, 19, 55, 0.4);
+  }
+  .act-btn.amber {
+    border-color: rgba(251, 191, 36, 0.7);
+    color: #fde68a;
+    background: rgba(146, 64, 14, 0.55);
+  }
+  .legend-strip {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    background: rgba(8, 13, 26, 0.84);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #cbd5e1;
+  }
+  .dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  .controls-bar {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1.1fr;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  @media (max-width: 800px) {
+    .controls-bar { grid-template-columns: 1fr; }
+  }
+  .ctrl-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  .ctrl-group select, .ctrl-group input[type="range"] {
+    width: 100%;
+    background: #0f172a;
+    color: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 11.5px;
+  }
+  .ctrl-sub {
+    font-size: 10px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+  .summary-box {
+    background: var(--panel);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.48;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .inspector-card {
+    background: var(--panel);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .insp-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .insp-bot {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    color: var(--gold-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .insp-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 2px;
+  }
+  .rank-badge {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(245, 158, 11, 0.16);
+    border: 1px solid var(--gold);
+    color: var(--gold-bright);
+    font-weight: 700;
+    text-align: right;
+  }
+  .metric-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .m-box {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 6px;
+    padding: 7px 9px;
+  }
+  .m-lbl { font-size: 10px; color: var(--muted); }
+  .m-val {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 2px;
+    color: #ffffff;
+  }
+  .ledger-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    flex: 1;
+  }
+  .ledger-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  table.ledger-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    font-family: "JetBrains Mono", "Consolas", monospace;
+  }
+  table.ledger-tbl th {
+    text-align: left;
+    color: var(--muted);
+    font-size: 10px;
+    padding: 5px 4px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  }
+  table.ledger-tbl td {
+    padding: 6px 4px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    cursor: pointer;
+  }
+  table.ledger-tbl tr:hover td {
+    background: rgba(56, 189, 248, 0.1);
+  }
+  table.ledger-tbl tr.selected td {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fde68a;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<header class="top-header">
+  <div class="brand-left">
+    <div class="phi-icon">&phi;</div>
+    <div>
+      <div class="brand-title">
+        Metaphy L20 Epicyclic Gear Train, {5,3,4} QET Lattice &amp; 6-Agent GBSP Swarm
+        <span class="seal-pill">CHRONO-TORQUE (/GTO V2.0) &bull; BAMA V3.1 PATENT PENDING &bull; SEAL F94A82E1C307D519</span>
+      </div>
+      <div class="brand-sub">
+        6-Stage 5:1 Step-Up Train (1&times; &rarr; 3,125&times;) &bull; Lockglass PAPR 5-Step Gate &bull; Dual-Qutrit |S<sub>3</sub>&rangle;/|T<sub>3</sub>&rangle; &bull; Hybrid 6.45&times;10<sup>&minus;17</sup> Infidelity
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button id="btnCopyLineageSeal" class="act-btn amber" style="width:auto;padding:6px 12px;">&#128274; Copy Lineage Seal (f94a82e1...)</button>
+  </div>
+</header>
+
+<nav class="mode-bar">
+  <button id="btnMode1" class="mode-btn" onclick="setMode(1)">1. Cycle-1 Step-Up (3,125&times;)</button>
+  <button id="btnMode2" class="mode-btn" onclick="setMode(2)">2. Cycle-2 L20 Epicyclic QET</button>
+  <button id="btnMode3" class="mode-btn" onclick="setMode(3)">3. Phase-7 Byzantine Stress</button>
+  <button id="btnMode4" class="mode-btn" onclick="setMode(4)">4. {5,3,4} Hyperbolic Lattice</button>
+  <button id="btnMode5" class="mode-btn" onclick="setMode(5)">5. gh lockglass + CRT</button>
+  <button id="btnMode6" class="mode-btn" onclick="setMode(6)">6. GBSP Swarm + Hybrid &#9733;</button>
+  <button id="btnModePhase15" class="mode-btn active" onclick="setMode(7)">7. CHRONO-TORQUE /gto (6-System) &#128640;</button>
+</nav>
+
+<main class="main-grid">
+  <section class="left-col">
+    <div class="viewport-card">
+      <canvas id="webglCanvas"></canvas>
+
+      <div class="hud-overlay">
+        <div class="hud-row">
+          <span class="hud-k">Active Topology:</span>
+          <span id="hudTopology" class="hud-v gold">CHRONO-TORQUE /gto (Warm @LUMEN 10,870.5 tok/s)</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-k">Terminal Pinion Speed (&omega;<sub>6</sub>):</span>
+          <span id="hudPinionSpeed" class="hud-v">4,218.8&times;</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-k">Terminal Torque (&tau;<sub>6</sub>):</span>
+          <span id="hudPinionTorque" class="hud-v">0.0320 (Zero-Force Wait)</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-k">Reflected Impedance (Z<sub>ref</sub>):</span>
+          <span id="hudZref" class="hud-v green">0.0000 (S7/S8 0x03 Locked)</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-k">BAMA v3.1 Arena Decode:</span>
+          <span id="hudArenaDecode" class="hud-v">18.4ms Init + 358.4ms Burst = 376.8ms (10,870.5 tok/s)</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-k">Cultivated |T&rangle; Infidelity:</span>
+          <span id="hudInfidelity" class="hud-v green">264.97ms Fleet (12.303&times; vs 3,259.8ms) &bull; 6.452e-17</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-k">Active CBCE Factor (V<sub>N</sub>):</span>
+          <span id="hudCBCE" class="hud-v gold">248.9182 (Pinion I<sub>6</sub> = 2,189.20 &bull; 552.8&times;)</span>
+        </div>
+      </div>
+
+      <div class="viewport-actions">
+        <button id="btnPauseResume" class="act-btn" onclick="toggleRotation()">&#9208; Pause Rotation</button>
+        <button id="btnTogglePAPR" class="act-btn green" onclick="togglePAPR()">&#128737;&#65039; PAPR Trajectory B: Guarded (ON)</button>
+        <button id="btnToggleQutrit" class="act-btn purple" onclick="toggleQutrit()">&#128302; Qutrit: Strange |S<sub>3</sub>&rangle; (W=5/3)</button>
+        <button id="btnTestSelfPromote" class="act-btn rose" onclick="triggerSelfPromoteTest()">&#9889; Test Premature Self-Promote (P1)</button>
+        <button id="btnScrambleAndSort" class="act-btn" onclick="scrambleAndSortFleet()">&#128256; Scramble &amp; Sort 6-System Fleet</button>
+        <button id="btnToggleLumenPreSpin" class="act-btn amber" onclick="toggleLumenPreSpin()">&#128293; @LUMEN K=4 Pre-Spin: ON (10,870 tok/s)</button>
+        <button id="btnResetView" class="act-btn" onclick="resetCamera()">&#127919; Reset View</button>
+      </div>
+
+      <div class="legend-strip">
+        <span><i class="dot" style="background:#f59e0b;"></i>8 Cube |T&rangle; States (R=&radic;3)</span>
+        <span><i class="dot" style="background:#38bdf8;"></i>12 Golden |G<sub>&phi;</sub>&rangle; (F=95.64%&rarr;99.99997%)</span>
+        <span><i class="dot" style="background:#34d399;"></i>F06 Bridge + QET Wormholes</span>
+        <span><i class="dot" style="background:#c084fc;"></i>15-to-1 Reed-Muller Hybrid (6.45&times;10<sup>&minus;17</sup>)</span>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div class="ctrl-group">
+        <label><span>Primary Driver Input Speed (&omega;<sub>1</sub>)</span><span id="lblDriverSpeed" style="color:var(--gold-bright);">1.00&times;</span></label>
+        <input id="rngDriverSpeed" type="range" min="0.2" max="3.0" step="0.05" value="1.00" oninput="updateSpeedSlider(this.value)">
+        <div class="ctrl-sub">Scales visual gear angular velocities (log-compressed)</div>
+      </div>
+      <div class="ctrl-group">
+        <label><span>Step-Up Base Ratio (p<sub>k</sub> &isin; {2,3,5})</span><span id="lblBaseRatio" style="color:var(--cyan);">5:1 (BPCS Prime 5)</span></label>
+        <select id="selBaseRatio" onchange="updateBaseRatio(this.value)">
+          <option value="5" selected>p = 5 (BPCS Prime 5 &rarr; &omega;<sub>6</sub> = 3,125&times;)</option>
+          <option value="3">p = 3 (BPCS Prime 3 &rarr; &omega;<sub>6</sub> = 243&times;)</option>
+          <option value="2">p = 2 (BPCS Prime 2 &rarr; &omega;<sub>6</sub> = 32&times;)</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <label><span>Inspect Gear Stage / GBSP Bot</span><span id="lblSelectedShort" style="color:var(--emerald);">G6: BOT_06 Pinion &#9733;</span></label>
+        <select id="selInspectGear" onchange="selectGearIndex(parseInt(this.value,10))">
+          <option value="0">G1 / BOT_01: WWL-EAO Sun Driver (Z=3,125)</option>
+          <option value="1">G2 / BOT_02: USA-AI Mesh Bus (Z=625)</option>
+          <option value="2">G3 / BOT_03: Caelum/CDM 128-State (Z=125)</option>
+          <option value="3">G4 / BOT_04: C3DS 3D Studio (Z=25)</option>
+          <option value="4">G5 / BOT_05: VoiceCore K35 (Z=5)</option>
+          <option value="5" selected>G6 / BOT_06: S8 AuraSync Terminal Pinion (Z=1) &#9733;</option>
+          <option value="6">P1 / PLANET_S3: LocalTrap Rehab (Z=5)</option>
+          <option value="7">P2 / PLANET_S1: HookFault Rehab (Z=1)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div id="modeDescriptionText" style="flex:1;">
+        <strong style="color:var(--gold-bright);">Mode 7 &mdash; CHRONO-TORQUE (/gto v2.0 &bull; 6-System Metaphy Fleet):</strong> Automatically sorts scrambled repos by Structural Torque Score into <strong>G1: WWL-EAO (Z=3125) &rarr; G2: USA-AI (Z=625) &rarr; G3: Caelum/CDM (Z=125) &rarr; G4: C3DS (Z=25) &rarr; G5: VoiceCore K35 (Z=5) &rarr; G6: AuraSync 2051 Pinion (Z=1, &omega;<sub>6</sub>=3,125&times;, I<sub>6</sub>=2,189.20)</strong>. Compresses pipeline latency from <strong>3,259.80ms &rarr; 264.97ms (12.303&times; speedup)</strong> and reaches <strong>5,262.1 &rarr; 10,870.5 tok/s</strong> via <code>@LUMEN</code> K=4 Pauli Crystal pre-spin!
+      </div>
+      <span class="seal-pill">SEAL: f94a82e1c307d519380806afdc06c4b7</span>
+    </div>
+  </section>
+
+  <aside class="right-col">
+    <div class="inspector-card">
+      <div class="insp-top">
+        <div>
+          <div id="inspBotTitle" class="insp-bot">GBSP: AURASYNC_2051_PINION_3125X &bull; T1 PASS</div>
+          <div id="inspGearName" class="insp-name">Gear6_AuraSync_2051_Terminal_Pinion</div>
+        </div>
+        <div id="inspRankBadge" class="rank-badge">Rank #6<br>(Pinion #3&rarr;#6 &#9733;)</div>
+      </div>
+
+      <div class="metric-2x2">
+        <div class="m-box">
+          <div class="m-lbl">Teeth Z<sub>k</sub> &amp; CRT (251,253)</div>
+          <div id="inspTeethCRT" class="m-val">1 &bull; CRT (1, 1) &check;</div>
+        </div>
+        <div class="m-box">
+          <div class="m-lbl">Angular Velocity (&omega;<sub>k</sub>)</div>
+          <div id="inspVelocity" class="m-val" style="color:var(--cyan);">4,218.75&times;</div>
+        </div>
+        <div class="m-box">
+          <div class="m-lbl">Mechanical Torque (&tau;<sub>k</sub>)</div>
+          <div id="inspTorque" class="m-val" style="color:var(--purple);">0.0320 units</div>
+        </div>
+        <div class="m-box">
+          <div class="m-lbl">CBCE Benefit (B<sub>k</sub>)</div>
+          <div id="inspBenefit" class="m-val" style="color:var(--emerald);">1.0028 (MAX)</div>
+        </div>
+      </div>
+
+      <div class="hud-row">
+        <span class="hud-k">Z[&phi;] Potential / Quality Q:</span>
+        <span id="inspQuality" class="hud-v">5.2361 &bull; Q = 100.0 (S7/S8 0x03)</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-k">Active Qutrit Magic Resource:</span>
+        <span id="inspQutrit" class="hud-v purple">|S<sub>3</sub>&rangle; W=1.6667 (5/3) &bull; Mana=0.7370b</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-k">Wait &amp; Cmd Reward (R<sub>2</sub>):</span>
+        <span id="inspReward" class="hud-v green">+296.42</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-k">Total Net Utility (U<sub>i</sub>):</span>
+        <span id="inspUtility" class="hud-v gold">+2189.20</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-k">K09_CHRONOS / T1 Stamp:</span>
+        <span id="inspStamp" class="hud-v">16.67ms 60fps &bull; I_6 = 2,189.20 (552.8&times;)</span>
+      </div>
+    </div>
+
+    <div class="ledger-card">
+      <div class="ledger-head">
+        <span>GBSP SWARM, CRT (251&times;253) &amp; GEAR LEDGER</span>
+        <span style="color:var(--cyan);font-size:10px;">Click row to inspect</span>
+      </div>
+      <table class="ledger-tbl">
+        <thead>
+          <tr>
+            <th>Bot / Gear</th>
+            <th>Z<sub>k</sub> (CRT)</th>
+            <th>&omega;<sub>k</sub></th>
+            <th>&tau;<sub>k</sub></th>
+            <th>Net U<sub>i</sub></th>
+          </tr>
+        </thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+    </div>
+  </aside>
+</main>
+
+<script>
+const PHI = (1 + Math.sqrt(5)) / 2;
+const LINEAGE_SEAL = "f94a82e1c307d519380806afdc06c4b7";
+
+let state = {
+  mode: 7,
+  paused: false,
+  paprGuarded: true,
+  qutritStrange: true,
+  lumenPreSpin: true,
+  driverSpeed: 1.0,
+  baseRatio: 5,
+  selectedIdx: 5,
+  rotYaw: 0.45,
+  rotPitch: 0.28,
+  dragging: false,
+  lastX: 0,
+  lastY: 0,
+  time: 0,
+  scrambleTicks: 0
+};
+
+const GEARS = [
+  {
+    idx: 0, short: "G1: WWL-EAO (Z=3125)",
+    bot: "GBSP: WWL_EAO_SUN_DRIVER_1X • T1 PASS",
+    name: "Gear1_WWL_EAO_Orchestrator_SunDriver",
+    rank: "Rank #1\n(Sun #6→#1)",
+    teeth: 3125, crt: "(113,89)", baseOmega: 1.0, torque: 100.000,
+    benefit: "0.7814", qPot: "4.2361 • Q = 99.4 (L1-L10)",
+    r2: "+118.40", util: "+396.0", stamp: "45.0ms→11.20ms • I_1 = 3.96 (1.0x)",
+    radius: 68, color: "#f59e0b"
+  },
+  {
+    idx: 1, short: "G2: USA-AI (Z=625)",
+    bot: "GBSP: USA_AI_IFCH_BUS_5X • T1 PASS",
+    name: "Gear2_USA_AI_64B_Header_IFCH_Bus",
+    rank: "Rank #2\n(Gear #1→#2)",
+    teeth: 625, crt: "(123,119)", baseOmega: 5.0, torque: 20.000,
+    benefit: "0.8342", qPot: "4.4721 • Q = 99.5 (CRT 63,503)",
+    r2: "+154.20", util: "+618.8", stamp: "14.8ms→2.39ms • I_2 = 12.06 (3.0x)",
+    radius: 54, color: "#38bdf8"
+  },
+  {
+    idx: 2, short: "G3: Caelum/CDM (Z=125)",
+    bot: "GBSP: CAELUM_CDM_MANIFOLD_25X • T1 PASS",
+    name: "Gear3_Caelum_CDM_128State_80Kernel",
+    rank: "Rank #3\n(Gear #4→#3)",
+    teeth: 125, crt: "(125,125)", baseOmega: 25.0, torque: 4.000,
+    benefit: "0.8819", qPot: "4.6833 • Q = 99.6 (Catalan 144)",
+    r2: "+189.60", util: "+752.0", stamp: "890ms→118.4ms • I_3 = 28.88 (7.3x)",
+    radius: 43, color: "#34d399"
+  },
+  {
+    idx: 3, short: "G4: C3DS Studio (Z=25)",
+    bot: "GBSP: C3DS_RTX_WEBGL_125X • T1 PASS",
+    name: "Gear4_Cael3DStudio_RTX_Daz_Bridge",
+    rank: "Rank #4\n(Gear #5→#4)",
+    teeth: 25, crt: "(25,25)", baseOmega: 125.0, torque: 0.800,
+    benefit: "0.9195", qPot: "4.8541 • Q = 99.7 (P-CANS +0.42)",
+    r2: "+224.10", util: "+927.4", stamp: "420ms→34.20ms • I_4 = 92.74 (23.4x)",
+    radius: 33, color: "#a855f7"
+  },
+  {
+    idx: 4, short: "G5: VoiceCore K35 (Z=5)",
+    bot: "GBSP: VOICECORE_K35_SHM_625X • T1 PASS",
+    name: "Gear5_VoiceCore_K35_SubMs_SHM_Folder",
+    rank: "Rank #5\n(Gear #2→#5)",
+    teeth: 5, crt: "(5,5)", baseOmega: 625.0, torque: 0.160,
+    benefit: "0.9482", qPot: "5.0489 • Q = 99.8 (K09 Horizon 6)",
+    r2: "+261.80", util: "+1156.6", stamp: "640ms→82.11ms • I_5 = 115.66 (29.2x)",
+    radius: 24, color: "#ec4899"
+  },
+  {
+    idx: 5, short: "G6: AuraSync Pinion ★",
+    bot: "GBSP: AURASYNC_2051_PINION_3125X • T1 PASS",
+    name: "Gear6_AuraSync_2051_Terminal_Pinion",
+    rank: "Rank #6\n(Pinion #3→#6 ★)",
+    teeth: 1, crt: "(1,1)", baseOmega: 3125.0, torque: 0.032,
+    benefit: "1.0028 (MAX)", qPot: "5.2361 • Q = 100.0 (S7/S8 0x03)",
+    r2: "+296.42", util: "+2189.20", stamp: "16.67ms 60fps • I_6 = 2,189.20 (552.8x)",
+    radius: 16, color: "#fbbf24"
+  },
+  {
+    idx: 6, short: "P1: S3 Rehab",
+    bot: "PLANET_CARRIER_S3: DEAR_F06_REHAB • DENY→ALLOW",
+    name: "S3_Adversarial_LocalTrap_Jam (Rehab)",
+    rank: "Carrier #7\n(Willis L20 QET)",
+    teeth: 5, crt: "(5,5)", baseOmega: 625.0, torque: 0.160,
+    benefit: "0.6420 (SALVAGED)", qPot: "3.6180 • κ = -0.45→+0.4215",
+    r2: "+84.50", util: "+256.5", stamp: "QET Pump 5,056.36x • Salvaged 93.84%",
+    radius: 20, color: "#10b981"
+  },
+  {
+    idx: 7, short: "P2: S1 Rehab",
+    bot: "PLANET_CARRIER_S1: PCANS_HOOK_SURGERY • DENY→ALLOW",
+    name: "S1_Corrupt_HookFault_Jam (Rehab)",
+    rank: "Carrier #8\n(Chebyshev +59.3dB)",
+    teeth: 1, crt: "(1,1)", baseOmega: 3125.0, torque: 0.032,
+    benefit: "0.7110 (SALVAGED)", qPot: "3.8541 • κ = -0.684→+0.4215",
+    r2: "+112.20", util: "+446.4", stamp: "P-CANS Excised • Z_ref = 0.0000",
+    radius: 15, color: "#06b6d4"
+  }
+];
+
+function getEffectiveOmega(g) {
+  const ratioScale = Math.pow(state.baseRatio / 5, g.idx < 6 ? g.idx : 5);
+  const preSpinMult = state.lumenPreSpin ? 1.35 : 1.0;
+  return g.baseOmega * ratioScale * preSpinMult * state.driverSpeed;
+}
+
+function renderUI() {
+  const preSpinMult = state.lumenPreSpin ? 1.35 : 1.0;
+  const pinionOmega = Math.pow(state.baseRatio, 5) * preSpinMult * state.driverSpeed;
+
+  const topNames = {
+    1: "Cycle-1 Linear Step-Up Train (3,125x)",
+    2: "Cycle-2 Willis L20 Epicyclic QET Differential",
+    3: "Phase-7 Byzantine 78-Fault Stress Shield",
+    4: "{5,3,4} Hyperbolic 1,872-Channel Honeycomb",
+    5: "gh lockglass 5-Step PAPR + Tier-14 CRT (63,503)",
+    6: "6-Agent GBSP Swarm + [[15,1,3]] Hybrid Factory",
+    7: state.lumenPreSpin
+      ? "CHRONO-TORQUE /gto (Warm @LUMEN 10,870.5 tok/s)"
+      : "CHRONO-TORQUE /gto (Cold Turn-1 5,262.1 tok/s)"
+  };
+  document.getElementById("hudTopology").textContent = topNames[state.mode];
+  document.getElementById("hudPinionSpeed").textContent = pinionOmega.toLocaleString("en-US", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "×";
+  document.getElementById("hudPinionTorque").textContent = state.paprGuarded
+    ? "0.0320 (Zero-Force Wait)"
+    : "0.0320 (PREMATURE LOAD JAM!)";
+
+  const zrefEl = document.getElementById("hudZref");
+  if (state.paprGuarded) {
+    zrefEl.textContent = "0.0000 (S7/S8 0x03 Locked)";
+    zrefEl.className = "hud-v green";
+  } else {
+    zrefEl.textContent = "9,765,625.0× (TRAJECTORY A LOCK-UP!)";
+    zrefEl.className = "hud-v rose";
+  }
+
+  document.getElementById("hudArenaDecode").textContent = state.lumenPreSpin
+    ? "18.4ms Init + 358.4ms Burst = 376.8ms (10,870.5 tok/s)"
+    : "420.0ms Init + 358.4ms Burst = 778.4ms (5,262.1 tok/s)";
+
+  document.getElementById("hudInfidelity").textContent = state.mode === 7
+    ? "264.97ms Fleet (12.303× vs 3,259.8ms) • 6.452e-17"
+    : "6.452×10⁻¹⁷ (1.55×10⁸× Suppression • [[15,1,3]])";
+
+  document.getElementById("hudCBCE").textContent = state.paprGuarded
+    ? (state.mode === 7 ? "248.9182 (Pinion I₆ = 2,189.20 • 552.8×)" : "37.813431 (23.38× Hyperbolic Gain)")
+    : "1.142080 (94.0% Collapse — Unshielded)";
+
+  // Inspector
+  const g = GEARS[state.selectedIdx];
+  const effW = getEffectiveOmega(g);
+  document.getElementById("lblSelectedShort").textContent = g.short;
+  document.getElementById("inspBotTitle").textContent = g.bot;
+  document.getElementById("inspGearName").textContent = g.name;
+  document.getElementById("inspRankBadge").innerHTML = g.rank.replace("\n", "<br>");
+  document.getElementById("inspTeethCRT").innerHTML = `${g.teeth.toLocaleString()} &bull; CRT ${g.crt} &check;`;
+  document.getElementById("inspVelocity").textContent = `${effW.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}×`;
+  document.getElementById("inspTorque").textContent = `${g.torque.toFixed(4)} units`;
+  document.getElementById("inspBenefit").textContent = state.lumenPreSpin && g.idx === 5 ? "1.0028 (MAX)" : g.benefit;
+  document.getElementById("inspQuality").textContent = g.qPot;
+  document.getElementById("inspQutrit").innerHTML = state.qutritStrange
+    ? `|S<sub>3</sub>&rangle; W=1.6667 (5/3) &bull; Mana=0.7370b`
+    : `|T<sub>3</sub>&rangle; W=1.5863 (&zeta;<sub>9</sub>) &bull; Mana=0.6656b`;
+  document.getElementById("inspReward").textContent = g.r2;
+  document.getElementById("inspUtility").textContent = g.util;
+  document.getElementById("inspStamp").textContent = g.stamp;
+
+  // Ledger table
+  const tbody = document.getElementById("ledgerBody");
+  tbody.innerHTML = "";
+  GEARS.forEach((row, i) => {
+    const tr = document.createElement("tr");
+    if (i === state.selectedIdx) tr.className = "selected";
+    tr.onclick = () => selectGearIndex(i);
+    const w = getEffectiveOmega(row);
+    tr.innerHTML = `
+      <td>${row.short}</td>
+      <td>${row.teeth.toLocaleString()} ${row.crt}</td>
+      <td style="color:#38bdf8;">${w >= 100 ? w.toFixed(1) : w.toFixed(2)}×</td>
+      <td>${row.torque.toFixed(3)}</td>
+      <td style="color:${row.idx >= 6 && !state.paprGuarded ? '#fb7185' : '#34d399'};">${!state.paprGuarded && row.idx >= 6 ? '-' + row.util.slice(1) : row.util}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function setMode(m) {
+  state.mode = m;
+  document.querySelectorAll(".mode-btn").forEach((b, idx) => {
+    b.classList.toggle("active", idx + 1 === m);
+  });
+  renderUI();
+}
+
+function selectGearIndex(idx) {
+  state.selectedIdx = idx;
+  document.getElementById("selInspectGear").value = String(idx);
+  renderUI();
+}
+
+function toggleRotation() {
+  state.paused = !state.paused;
+  document.getElementById("btnPauseResume").innerHTML = state.paused ? "&#9654; Resume Rotation" : "&#9208; Pause Rotation";
+}
+
+function togglePAPR() {
+  state.paprGuarded = !state.paprGuarded;
+  const btn = document.getElementById("btnTogglePAPR");
+  if (state.paprGuarded) {
+    btn.className = "act-btn green";
+    btn.innerHTML = "&#128737;&#65039; PAPR Trajectory B: Guarded (ON)";
+  } else {
+    btn.className = "act-btn rose";
+    btn.innerHTML = "&#9888;&#65039; PAPR Trajectory A: Naive (LOCK-UP)";
+  }
+  renderUI();
+}
+
+function toggleQutrit() {
+  state.qutritStrange = !state.qutritStrange;
+  const btn = document.getElementById("btnToggleQutrit");
+  btn.innerHTML = state.qutritStrange
+    ? "&#128302; Qutrit: Strange |S<sub>3</sub>&rangle; (W=5/3)"
+    : "&#128302; Qutrit: Magic |T<sub>3</sub>&rangle; (W=1.5863)";
+  renderUI();
+}
+
+function toggleLumenPreSpin() {
+  state.lumenPreSpin = !state.lumenPreSpin;
+  const btn = document.getElementById("btnToggleLumenPreSpin");
+  if (state.lumenPreSpin) {
+    btn.className = "act-btn amber";
+    btn.innerHTML = "&#128293; @LUMEN K=4 Pre-Spin: ON (10,870 tok/s)";
+  } else {
+    btn.className = "act-btn";
+    btn.innerHTML = "&#10052;&#65039; @LUMEN Pre-Spin: OFF (Cold 5,262 tok/s)";
+  }
+  renderUI();
+}
+
+function triggerSelfPromoteTest() {
+  const hudZref = document.getElementById("hudZref");
+  hudZref.textContent = "P1 INTERCEPTED ON SHADOW PLANE (effect()=DENY) → Z_ref = 0.0000";
+  hudZref.className = "hud-v gold";
+  setTimeout(() => renderUI(), 2200);
+}
+
+function scrambleAndSortFleet() {
+  state.scrambleTicks = 45;
+  const desc = document.getElementById("modeDescriptionText");
+  desc.innerHTML = `<strong style="color:#38bdf8;">[GearTrainSorter Running]:</strong> Scrambling 6 systems (#1 USA-AI, #2 VoiceCore, #3 AuraSync, #4 Caelum, #5 C3DS, #6 WWL-EAO)... Executing 10 adjacent Lyapunov swaps → <strong>3,259.80 ms &rarr; 264.97 ms (12.303&times; speedup)!</strong>`;
+}
+
+function updateSpeedSlider(val) {
+  state.driverSpeed = parseFloat(val);
+  document.getElementById("lblDriverSpeed").textContent = state.driverSpeed.toFixed(2) + "×";
+  renderUI();
+}
+
+function updateBaseRatio(val) {
+  state.baseRatio = parseInt(val, 10);
+  const maxW = Math.pow(state.baseRatio, 5);
+  document.getElementById("lblBaseRatio").textContent = `${state.baseRatio}:1 (ω₆ = ${maxW.toLocaleString()}×)`;
+  renderUI();
+}
+
+function resetCamera() {
+  state.rotYaw = 0.45;
+  state.rotPitch = 0.28;
+}
+
+document.getElementById("btnCopyLineageSeal").addEventListener("click", () => {
+  navigator.clipboard?.writeText(LINEAGE_SEAL);
+  const b = document.getElementById("btnCopyLineageSeal");
+  b.textContent = "✓ Copied: " + LINEAGE_SEAL.slice(0, 16) + "...";
+  setTimeout(() => { b.innerHTML = "&#128274; Copy Lineage Seal (f94a82e1...)"; }, 2000);
+});
+
+// 3D Canvas Renderer (Golden Dodecahedron + 6-Stage Epicyclic Gear Train + Hyperbolic Portals)
+const canvas = document.getElementById("webglCanvas");
+const ctx = canvas.getContext("2d");
+
+// Generate 20 vertices of a regular dodecahedron in Z[phi]
+const DODECA_VERTS = [];
+for (let sx of [-1, 1]) {
+  for (let sy of [-1, 1]) {
+    for (let sz of [-1, 1]) {
+      DODECA_VERTS.push({ x: sx, y: sy, z: sz, type: "T" });
+    }
+  }
+}
+const invPhi = 1 / PHI;
+for (let s1 of [-1, 1]) {
+  for (let s2 of [-1, 1]) {
+    DODECA_VERTS.push({ x: 0, y: s1 * invPhi, z: s2 * PHI, type: "G" });
+    DODECA_VERTS.push({ x: s1 * invPhi, y: s2 * PHI, z: 0, type: "G" });
+    DODECA_VERTS.push({ x: s2 * PHI, y: 0, z: s1 * invPhi, type: "G" });
+  }
+}
+const DODECA_EDGES = [];
+for (let i = 0; i < DODECA_VERTS.length; i++) {
+  for (let j = i + 1; j < DODECA_VERTS.length; j++) {
+    const dx = DODECA_VERTS[i].x - DODECA_VERTS[j].x;
+    const dy = DODECA_VERTS[i].y - DODECA_VERTS[j].y;
+    const dz = DODECA_VERTS[i].z - DODECA_VERTS[j].z;
+    const d = Math.hypot(dx, dy, dz);
+    if (Math.abs(d - 2 * invPhi) < 0.15) DODECA_EDGES.push([i, j]);
+  }
+}
+
+canvas.addEventListener("mousedown", e => {
+  state.dragging = true;
+  state.lastX = e.clientX;
+  state.lastY = e.clientY;
+});
+window.addEventListener("mouseup", () => { state.dragging = false; });
+window.addEventListener("mousemove", e => {
+  if (!state.dragging) return;
+  state.rotYaw += (e.clientX - state.lastX) * 0.007;
+  state.rotPitch = Math.max(-1.2, Math.min(1.2, state.rotPitch + (e.clientY - state.lastY) * 0.007));
+  state.lastX = e.clientX;
+  state.lastY = e.clientY;
+});
+
+function project3D(x, y, z, cx, cy, scale) {
+  const cyaw = Math.cos(state.rotYaw), syaw = Math.sin(state.rotYaw);
+  const cp = Math.cos(state.rotPitch), sp = Math.sin(state.rotPitch);
+  const x1 = x * cyaw - z * syaw;
+  const z1 = x * syaw + z * cyaw;
+  const y2 = y * cp - z1 * sp;
+  const z2 = y * sp + z1 * cp;
+  const fov = 4.6 / (4.6 + z2 * 0.45);
+  return { sx: cx + x1 * scale * fov, sy: cy + y2 * scale * fov, depth: z2, fov };
+}
+
+function drawSpurGear(sx, sy, r, teethVis, angle, color, isSelected, label) {
+  ctx.save();
+  ctx.translate(sx, sy);
+  ctx.rotate(angle);
+
+  ctx.beginPath();
+  const outerR = r + 5;
+  const innerR = Math.max(6, r - 3);
+  for (let i = 0; i < teethVis * 2; i++) {
+    const a = (i * Math.PI) / teethVis;
+    const rad = i % 2 === 0 ? outerR : innerR;
+    const px = Math.cos(a) * rad;
+    const py = Math.sin(a) * rad;
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  ctx.strokeStyle = isSelected ? "#ffffff" : color;
+  ctx.lineWidth = isSelected ? 2.4 : 1.5;
+  ctx.fillStyle = isSelected ? "rgba(245, 158, 11, 0.24)" : "rgba(15, 23, 42, 0.65)";
+  ctx.fill();
+  ctx.stroke();
+
+  // Inner rim & spokes
+  ctx.beginPath();
+  ctx.arc(0, 0, r * 0.55, 0, Math.PI * 2);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+  for (let s = 0; s < 5; s++) {
+    const sa = (s * Math.PI * 2) / 5;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(Math.cos(sa) * r * 0.82, Math.sin(sa) * r * 0.82);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  if (label) {
+    ctx.fillStyle = isSelected ? "#fde68a" : "#cbd5e1";
+    ctx.font = isSelected ? "bold 11px Consolas, monospace" : "10px Consolas, monospace";
+    ctx.textAlign = "center";
+    ctx.fillText(label, sx, sy - r - 9);
+  }
+}
+
+function animate() {
+  const rect = canvas.getBoundingClientRect();
+  if (canvas.width !== rect.width || canvas.height !== rect.height) {
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+  const w = canvas.width, h = canvas.height;
+  const cx = w * 0.52, cy = h * 0.50;
+  ctx.clearRect(0, 0, w, h);
+
+  if (!state.paused) {
+    state.time += 0.016 * state.driverSpeed * (state.lumenPreSpin ? 1.35 : 1.0);
+    state.rotYaw += 0.0022;
+  }
+  if (state.scrambleTicks > 0) state.scrambleTicks--;
+
+  // Draw Hyperbolic {5,3,4} outer neighbor dodecahedra in Modes 4, 6, 7
+  const scale = Math.min(w, h) * 0.22;
+  const projVerts = DODECA_VERTS.map(v => ({
+    ...v,
+    ...project3D(v.x, v.y, v.z, cx, cy, scale)
+  }));
+
+  // Draw Dodecahedron edges
+  ctx.lineWidth = 1.1;
+  DODECA_EDGES.forEach(([i, j]) => {
+    const a = projVerts[i], b = projVerts[j];
+    ctx.strokeStyle = (i + j) % 5 === 0 ? "rgba(52, 211, 153, 0.42)" : "rgba(56, 189, 248, 0.25)";
+    ctx.beginPath();
+    ctx.moveTo(a.sx, a.sy);
+    ctx.lineTo(b.sx, b.sy);
+    ctx.stroke();
+  });
+
+  // Draw 20 Bloch vertices
+  projVerts.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.sx, p.sy, p.type === "T" ? 4.2 : 3.4, 0, Math.PI * 2);
+    ctx.fillStyle = p.type === "T" ? "#f59e0b" : "#38bdf8";
+    ctx.fill();
+  });
+
+  // Draw 6-Stage Step-Up Gear Cascade + 2 Planetary Rehab Gears in 3D space
+  const gearPositions3D = [
+    { x: -1.35, y: 0.35, z: 0.2, teethVis: 24 },
+    { x: -0.78, y: 0.18, z: 0.15, teethVis: 20 },
+    { x: -0.28, y: 0.04, z: 0.1, teethVis: 16 },
+    { x: 0.18, y: -0.08, z: 0.05, teethVis: 14 },
+    { x: 0.58, y: -0.18, z: 0.0, teethVis: 12 },
+    { x: 0.94, y: -0.26, z: -0.05, teethVis: 10 },
+    { x: 0.35, y: 0.72, z: -0.35, teethVis: 12 },
+    { x: 0.78, y: 0.58, z: -0.35, teethVis: 10 }
+  ];
+
+  gearPositions3D.forEach((gp, idx) => {
+    const g = GEARS[idx];
+    const jitter = state.scrambleTicks > 0 ? Math.sin(state.scrambleTicks * 0.6 + idx * 2.1) * 0.45 : 0;
+    const p = project3D(gp.x + jitter, gp.y - jitter * 0.5, gp.z, cx, cy, scale);
+    const logSpeed = Math.pow(1.68, idx) * (idx % 2 === 0 ? 1 : -1);
+    const angle = state.time * logSpeed;
+    drawSpurGear(
+      p.sx,
+      p.sy,
+      g.radius * p.fov * 0.85,
+      gp.teethVis,
+      angle,
+      g.color,
+      idx === state.selectedIdx,
+      `G${idx + 1 <= 6 ? idx + 1 : 'P' + (idx - 5)}`
+    );
+  });
+
+  requestAnimationFrame(animate);
+}
+
+renderUI();
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>

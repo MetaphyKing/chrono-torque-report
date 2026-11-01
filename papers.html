@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Papers &amp; Patent Hub — CHRONO-TORQUE (/gto v2.0)</title>
+<style>
+  :root {
+    --bg: #050811;
+    --bg-card: rgba(13, 20, 36, 0.92);
+    --border: rgba(56, 189, 248, 0.24);
+    --gold: #f59e0b;
+    --gold-bright: #fbbf24;
+    --cyan: #38bdf8;
+    --emerald: #34d399;
+    --purple: #c084fc;
+    --rose: #fb7185;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at 20% 10%, #0f172a 0%, #050811 75%);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 8, 17, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none !important;
+  }
+  .nav-phi {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 17px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 6px 13px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(15, 23, 42, 0.7);
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+  }
+  .nav-link:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  .nav-link.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    border-color: #fbbf24;
+  }
+  .container {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 22px 24px 60px;
+  }
+  .hero-banner-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid rgba(245, 158, 11, 0.55);
+    background: #040711;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+    margin-bottom: 18px;
+  }
+  .hero-banner-wrap img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    display: block;
+  }
+  .hero-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .pill {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #fde68a;
+  }
+  .pill.cyan {
+    background: rgba(56, 189, 248, 0.14);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #bae6fd;
+  }
+  .pill.green {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(52, 211, 153, 0.5);
+    color: #6ee7b7;
+  }
+  h1 {
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0 22px;
+  }
+  @media (max-width: 900px) {
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+  .kpi {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .kpi-value {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 4px 0;
+  }
+  .kpi-sub {
+    font-size: 11.5px;
+    color: var(--emerald);
+    font-weight: 600;
+  }
+  .card-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .card h3 {
+    font-size: 15.5px;
+    color: #ffffff;
+    margin-bottom: 6px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    text-decoration: none !important;
+  }
+  .btn.secondary {
+    background: rgba(30, 41, 59, 0.85);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.35);
+  }
+  .btn.secondary:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  table.data-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 10px 0;
+  }
+  table.data-tbl th, table.data-tbl td {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  table.data-tbl th {
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--gold-bright);
+    font-size: 11.5px;
+    text-transform: uppercase;
+  }
+  table.data-tbl tr:nth-child(even) td {
+    background: rgba(15, 23, 42, 0.45);
+  }
+  code, pre {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+  }
+  pre {
+    background: #070b14;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-size: 12px;
+    color: #e2e8f0;
+  }
+  footer {
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-phi">&phi;</span>
+    <span>CHRONO-TORQUE <code style="color:#fbbf24;font-size:13px;">/gto v2.0</code> &bull; Metaphy LLC</span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html" class="nav-link">1. 3D WebGL & Hub (/)</a><a href="papers.html" class="nav-link active">2. Papers & Patent (/papers)</a><a href="benchmarks.html" class="nav-link">3. Throughput & Z_ref Calculator (/benchmarks)</a><a href="ecosystem.html" class="nav-link">4. 6-System Fleet (/ecosystem)</a><a href="verify.html" class="nav-link">5. WebCrypto Lineage Verifier (/verify)</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="hero-card">
+    <div class="pill-row">
+      <span class="pill">Route 2 &bull; /papers</span>
+      <span class="pill cyan">USPTO Provisional Application No. 64/180,009</span>
+      <span class="pill green">Lineage Seal: f94a82e1c307d519380806afdc06c4b7</span>
+    </div>
+    <h1>Side-by-Side Scientific PDF Reader, LaTeX Suite &amp; BibTeX Citation Hub</h1>
+    <p style="color:#cbd5e1;font-size:13.5px;margin-top:6px;">
+      Inspect all three verified CHRONO-TORQUE &amp; BAMA v3.1 scientific papers side-by-side in your browser, download the compiled PDFs and LaTeX sources, or copy the BibTeX citation record.
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+      <button class="btn" onclick="setPdfPair('chrono_torque_gto_arxiv_discovery_paper.pdf','chrono_torque_gto_executive_whitepaper.pdf')">View Discovery Paper + Executive Whitepaper</button>
+      <button class="btn secondary" onclick="setPdfPair('chrono_torque_gto_arxiv_discovery_paper.pdf','metaphy_quantum_magic_state_whitepaper.pdf')">View Discovery Paper + Quantum Magic State Whitepaper</button>
+      <a href="arxiv/chrono_torque_arxiv_submission.zip" class="btn secondary" download>&#128230; Download arXiv LaTeX Submission (.zip)</a>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;height:680px;margin-bottom:24px;">
+    <div class="card" style="padding:10px;display:flex;flex-direction:column;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <strong style="font-size:12.5px;color:var(--gold-bright);">Left Reader: <code>chrono_torque_gto_arxiv_discovery_paper.pdf</code></strong>
+        <a id="lnkLeftPdf" href="chrono_torque_gto_arxiv_discovery_paper.pdf" target="_blank" style="font-size:11.5px;">Open Full Tab &nearr;</a>
+      </div>
+      <iframe id="frameLeftPdf" src="chrono_torque_gto_arxiv_discovery_paper.pdf" style="flex:1;width:100%;border:1px solid rgba(148,163,184,0.25);border-radius:6px;"></iframe>
+    </div>
+    <div class="card" style="padding:10px;display:flex;flex-direction:column;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <strong id="lblRightPdf" style="font-size:12.5px;color:var(--cyan);">Right Reader: <code>chrono_torque_gto_executive_whitepaper.pdf</code></strong>
+        <a id="lnkRightPdf" href="chrono_torque_gto_executive_whitepaper.pdf" target="_blank" style="font-size:11.5px;">Open Full Tab &nearr;</a>
+      </div>
+      <iframe id="frameRightPdf" src="chrono_torque_gto_executive_whitepaper.pdf" style="flex:1;width:100%;border:1px solid rgba(148,163,184,0.25);border-radius:6px;"></iframe>
+    </div>
+  </div>
+
+  <h2>&#128203; BibTeX Citation &amp; Patent Lineage Record</h2>
+  <div class="card">
+    <pre id="bibtexBlock">@misc{smith2026chronotorque,
+  author       = {Smith, Logan and {Gemini (Aura)} and {Mouse (Quanta-Muse)}},
+  title        = {{CHRONO-TORQUE (/gto v2.0): Non-Zero-Sum Compound Gear-Train Optimization, Zero-Decompression Z[phi] Cortical Memory, and Sub-10^-16 Hyperbolic Quantum Magic State Cultivation}},
+  year         = {2026},
+  month        = nov,
+  publisher    = {Metaphy LLC / Zenodo},
+  note         = {U.S. Provisional Patent Application No. 64/180,009. Sovereign Lineage Seal: f94a82e1c307d519380806afdc06c4b7}
+}</pre>
+    <div style="margin-top:10px;">
+      <button class="btn secondary" onclick="navigator.clipboard?.writeText(document.getElementById('bibtexBlock').textContent);this.textContent='✓ BibTeX Copied!';">Copy BibTeX Citation</button>
+    </div>
+  </div>
+</div>
+<script>
+function setPdfPair(leftUrl, rightUrl) {
+  document.getElementById('frameLeftPdf').src = leftUrl;
+  document.getElementById('lnkLeftPdf').href = leftUrl;
+  document.getElementById('frameRightPdf').src = rightUrl;
+  document.getElementById('lnkRightPdf').href = rightUrl;
+  document.getElementById('lblRightPdf').innerHTML = 'Right Reader: <code>' + rightUrl.slice(1) + '</code>';
+}
+</script>
+
+<footer>
+  <strong>CHRONO-TORQUE (<code>/gto v2.0</code> &mdash; <code>UM-CGT-CLCOA v2.0</code>)</strong> &bull;
+  Authors: <strong>Logan Smith</strong> (<code>logan@metaphysicsandcomputing.com</code>, Metaphy LLC) &amp; <strong>Gemini (Aura)</strong> &bull;
+  Systems Co-Design: <strong>Mouse (<code>@mouse</code>, Seat W3)</strong><br>
+  U.S. Provisional Patent Application No. <strong>64/180,009</strong> &bull;
+  Sovereign Lineage Seal: <code>f94a82e1c307d519380806afdc06c4b7</code> &bull;
+  Triple-Verified Public Scientific Release (November 1, 2026)
+</footer>
+
+</body>
+</html>

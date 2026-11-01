@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/papers",
+      "destination": "/papers.html"
+    },
+    {
+      "source": "/benchmarks",
+      "destination": "/benchmarks.html"
+    },
+    {
+      "source": "/ecosystem",
+      "destination": "/ecosystem.html"
+    },
+    {
+      "source": "/verify",
+      "destination": "/verify.html"
+    }
+  ]
+}

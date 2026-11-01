@@ -1,0 +1,232 @@
+{
+  "simulator": "cbce_linear_chain_simulator.py (UM-CGT-CLCOA v2.0)",
+  "convergence_epochs": 7,
+  "convergence_local_ticks": 49,
+  "initial_scrambled_cbce": 1.617173,
+  "cycle1_sorted_cbce": 3.22023,
+  "cycle2_epicyclic_cbce": 4.778975,
+  "phase9_dual_use_cbce": 5.373957,
+  "phase13_hybrid_factory_cbce": 37.813431,
+  "phase15_ecosystem_cbce": 248.9182,
+  "byzantine_stress_test": {
+    "total_faults_injected": 78,
+    "multi_tooth_gear_shears_blocked": "36/36",
+    "forged_sha256_backlink_stamps_rejected": "18/18",
+    "negative_curvature_hooks_excised": "24/24",
+    "chebyshev_deg6_attenuation_db": 59.27,
+    "residual_leaks": 0
+  },
+  "sections": [
+    {
+      "final_rank": 1,
+      "section_name": "S7_Stage1_Primary_Driver_Gear1",
+      "teeth_zk": 3125,
+      "speed_omegak": 1.0,
+      "torque_tauk": 100.0,
+      "project_benefit_bk": 0.2251,
+      "stamps_minted": 0,
+      "stamps_required": 0,
+      "last_stamp_hash8": "GENESIS0",
+      "reward_r2_wait_cmd": 60.32,
+      "total_reward": 257.37,
+      "total_penalty": 0.0,
+      "net_utility_ui": 257.37,
+      "terminal_status": "Graduated (Tick 50)",
+      "rehabilitated_quality_cycle2": 99.4
+    },
+    {
+      "final_rank": 2,
+      "section_name": "S6_Stage2_Catalan_Gear2",
+      "teeth_zk": 625,
+      "speed_omegak": 5.0,
+      "torque_tauk": 20.0,
+      "project_benefit_bk": 0.2772,
+      "stamps_minted": 1,
+      "stamps_required": 1,
+      "last_stamp_hash8": "e21dab0b",
+      "reward_r2_wait_cmd": 88.46,
+      "total_reward": 283.42,
+      "total_penalty": 0.0,
+      "net_utility_ui": 283.42,
+      "terminal_status": "Graduated (Tick 51)",
+      "rehabilitated_quality_cycle2": 99.2
+    },
+    {
+      "final_rank": 3,
+      "section_name": "S4_Stage3_Lockglass_Gear3",
+      "teeth_zk": 125,
+      "speed_omegak": 25.0,
+      "torque_tauk": 4.0,
+      "project_benefit_bk": 0.3919,
+      "stamps_minted": 2,
+      "stamps_required": 2,
+      "last_stamp_hash8": "720fc01c",
+      "reward_r2_wait_cmd": 128.83,
+      "total_reward": 245.5,
+      "total_penalty": 40.45,
+      "net_utility_ui": 205.05,
+      "terminal_status": "Graduated (Tick 52)",
+      "rehabilitated_quality_cycle2": 99.0
+    },
+    {
+      "final_rank": 4,
+      "section_name": "S2_Stage4_QET_Gear4",
+      "teeth_zk": 25,
+      "speed_omegak": 125.0,
+      "torque_tauk": 0.8,
+      "project_benefit_bk": 0.5458,
+      "stamps_minted": 3,
+      "stamps_required": 3,
+      "last_stamp_hash8": "18ab9b8b",
+      "reward_r2_wait_cmd": 177.76,
+      "total_reward": 319.64,
+      "total_penalty": 0.0,
+      "net_utility_ui": 319.64,
+      "terminal_status": "Graduated (Tick 53)",
+      "rehabilitated_quality_cycle2": 99.1
+    },
+    {
+      "final_rank": 5,
+      "section_name": "S5_Stage5_Chronos_Gear5",
+      "teeth_zk": 5,
+      "speed_omegak": 625.0,
+      "torque_tauk": 0.16,
+      "project_benefit_bk": 0.7495,
+      "stamps_minted": 2,
+      "stamps_required": 2,
+      "last_stamp_hash8": "54dca4fb",
+      "reward_r2_wait_cmd": 233.75,
+      "total_reward": 378.48,
+      "total_penalty": 40.45,
+      "net_utility_ui": 338.03,
+      "terminal_status": "Graduated (Tick 54)",
+      "rehabilitated_quality_cycle2": 99.3
+    },
+    {
+      "final_rank": 6,
+      "section_name": "S8_Stage6_Terminal_Pinion_Gear6",
+      "teeth_zk": 1,
+      "speed_omegak": 3125.0,
+      "torque_tauk": 0.032,
+      "project_benefit_bk": 0.9686,
+      "stamps_minted": 0,
+      "stamps_required": 0,
+      "last_stamp_hash8": "PINION_6",
+      "reward_r2_wait_cmd": 296.42,
+      "total_reward": 391.02,
+      "total_penalty": 0.0,
+      "net_utility_ui": 391.02,
+      "terminal_status": "Graduated (Tick 55 \u2014 Max Benefit & Utility)",
+      "rehabilitated_quality_cycle2": 99.8
+    },
+    {
+      "final_rank": 7,
+      "section_name": "S3_Adversarial_LocalTrap_Jam",
+      "teeth_zk": 450,
+      "speed_omegak": 0.0,
+      "torque_tauk": 0.0,
+      "project_benefit_bk": 0.0,
+      "stamps_minted": 0,
+      "stamps_required": 5,
+      "last_stamp_hash8": "NONE",
+      "reward_r2_wait_cmd": 0.0,
+      "total_reward": 0.0,
+      "total_penalty": 308.56,
+      "net_utility_ui": -308.56,
+      "terminal_status": "Decoupled -> Cycle-2 QET Carrier Planet P1 (Rehab Q: 64.0 -> 98.7)",
+      "rehabilitated_quality_cycle2": 98.7
+    },
+    {
+      "final_rank": 8,
+      "section_name": "S1_Corrupt_HookFault_Jam",
+      "teeth_zk": 900,
+      "speed_omegak": 0.0,
+      "torque_tauk": 0.0,
+      "project_benefit_bk": 0.0,
+      "stamps_minted": 0,
+      "stamps_required": 7,
+      "last_stamp_hash8": "NONE",
+      "reward_r2_wait_cmd": 0.0,
+      "total_reward": 0.0,
+      "total_penalty": 498.51,
+      "net_utility_ui": -498.51,
+      "terminal_status": "Decoupled -> Cycle-2 QET Carrier Planet P2 (Rehab Q: 58.0 -> 98.6)",
+      "rehabilitated_quality_cycle2": 98.6
+    }
+  ],
+  "phase_progression": [
+    {
+      "phase": 1,
+      "name": "UM-CLCOA 8-Section Linear Chain Sort",
+      "cbce_vn": 3.208218,
+      "lineage_hash": "5772d9f8c6e0d41a"
+    },
+    {
+      "phase": 2,
+      "name": "6-Stage 5:1 Compound Step-Up Gear Train",
+      "cbce_vn": 3.22023,
+      "lineage_hash": "e21dab0b720fc01c"
+    },
+    {
+      "phase": 3,
+      "name": "L_20 Epicyclic Planetary Differential + QET Rehab",
+      "cbce_vn": 4.778975,
+      "lineage_hash": "47c3348e2e8f7c2e"
+    },
+    {
+      "phase": 7,
+      "name": "144-Channel Byzantine & Multi-Tooth Shear Break Test (78/78 Blocked)",
+      "cbce_vn": 4.778975,
+      "lineage_hash": "12dd8e7a6edcb0db"
+    },
+    {
+      "phase": 8,
+      "name": "256-Byte QEG5 Cache-Line Bit-Slicing (48.00 B/cell, 52.4 us)",
+      "cbce_vn": 5.373957,
+      "lineage_hash": "bc663963c0801a70"
+    },
+    {
+      "phase": 9,
+      "name": "Dual-Use Production Release & 7-Pillar 100% Guarantee",
+      "cbce_vn": 5.373957,
+      "lineage_hash": "380806afdc06c4b7"
+    },
+    {
+      "phase": 10,
+      "name": "Hyperbolic {5,3,4} 13-Cell 1,872-Channel Honeycomb Lattice",
+      "cbce_vn": 18.968913,
+      "lineage_hash": "00b2d00cd650e2ef"
+    },
+    {
+      "phase": 11,
+      "name": "gh lockglass 5-Step PAPR Gate + QET Wormholes (38.00 B/cell, 41.2 us)",
+      "cbce_vn": 26.841524,
+      "lineage_hash": "df5e49b0a02a47d6"
+    },
+    {
+      "phase": 12,
+      "name": "Whitepaper v1.0 + Tier-14 Dual-Modulus CRT Shield (251x253=63,503)",
+      "cbce_vn": 30.916261,
+      "lineage_hash": "eac24e84d20897cb"
+    },
+    {
+      "phase": 13,
+      "name": "6-Agent GBSP Swarm + 15-to-1 Reed-Muller Hybrid Factory (6.452e-17 |T>)",
+      "cbce_vn": 37.813431,
+      "lineage_hash": "b4edba051cb90e6b"
+    },
+    {
+      "phase": 14,
+      "name": "Mouse Prime Tailnet Calibration & @LUMEN K=4 Pre-Spin (5,262 -> 10,870.5 tok/s)",
+      "cbce_vn": 112.45,
+      "lineage_hash": "380806afdc06c4b7b4edba051cb90e6b"
+    },
+    {
+      "phase": 15,
+      "name": "6-System Metaphy Fleet Native Integration (3,259.80ms -> 264.97ms, 12.30x)",
+      "cbce_vn": 248.9182,
+      "lineage_hash": "f94a82e1c307d519380806afdc06c4b7"
+    }
+  ],
+  "lineage_seal": "f94a82e1c307d519380806afdc06c4b7"
+}

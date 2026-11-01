@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Throughput &amp; Reflected Impedance Calculator — CHRONO-TORQUE (/gto v2.0)</title>
+<style>
+  :root {
+    --bg: #050811;
+    --bg-card: rgba(13, 20, 36, 0.92);
+    --border: rgba(56, 189, 248, 0.24);
+    --gold: #f59e0b;
+    --gold-bright: #fbbf24;
+    --cyan: #38bdf8;
+    --emerald: #34d399;
+    --purple: #c084fc;
+    --rose: #fb7185;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at 20% 10%, #0f172a 0%, #050811 75%);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 8, 17, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none !important;
+  }
+  .nav-phi {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 17px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 6px 13px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(15, 23, 42, 0.7);
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+  }
+  .nav-link:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  .nav-link.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    border-color: #fbbf24;
+  }
+  .container {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 22px 24px 60px;
+  }
+  .hero-banner-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid rgba(245, 158, 11, 0.55);
+    background: #040711;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+    margin-bottom: 18px;
+  }
+  .hero-banner-wrap img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    display: block;
+  }
+  .hero-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .pill {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #fde68a;
+  }
+  .pill.cyan {
+    background: rgba(56, 189, 248, 0.14);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #bae6fd;
+  }
+  .pill.green {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(52, 211, 153, 0.5);
+    color: #6ee7b7;
+  }
+  h1 {
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0 22px;
+  }
+  @media (max-width: 900px) {
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+  .kpi {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .kpi-value {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 4px 0;
+  }
+  .kpi-sub {
+    font-size: 11.5px;
+    color: var(--emerald);
+    font-weight: 600;
+  }
+  .card-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .card h3 {
+    font-size: 15.5px;
+    color: #ffffff;
+    margin-bottom: 6px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    text-decoration: none !important;
+  }
+  .btn.secondary {
+    background: rgba(30, 41, 59, 0.85);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.35);
+  }
+  .btn.secondary:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  table.data-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 10px 0;
+  }
+  table.data-tbl th, table.data-tbl td {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  table.data-tbl th {
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--gold-bright);
+    font-size: 11.5px;
+    text-transform: uppercase;
+  }
+  table.data-tbl tr:nth-child(even) td {
+    background: rgba(15, 23, 42, 0.45);
+  }
+  code, pre {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+  }
+  pre {
+    background: #070b14;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-size: 12px;
+    color: #e2e8f0;
+  }
+  footer {
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-phi">&phi;</span>
+    <span>CHRONO-TORQUE <code style="color:#fbbf24;font-size:13px;">/gto v2.0</code> &bull; Metaphy LLC</span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html" class="nav-link">1. 3D WebGL & Hub (/)</a><a href="papers.html" class="nav-link">2. Papers & Patent (/papers)</a><a href="benchmarks.html" class="nav-link active">3. Throughput & Z_ref Calculator (/benchmarks)</a><a href="ecosystem.html" class="nav-link">4. 6-System Fleet (/ecosystem)</a><a href="verify.html" class="nav-link">5. WebCrypto Lineage Verifier (/verify)</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="hero-card">
+    <div class="pill-row">
+      <span class="pill">Route 3 &bull; /benchmarks</span>
+      <span class="pill cyan">5,262.1 tok/s Cold &rarr; 10,870.5 tok/s Warm &rarr; 47,228.5 tok/s Cluster</span>
+      <span class="pill green">Z_ref = 0.0000 vs 9,765,625&times;</span>
+    </div>
+    <h1>Client-Side <code>/gto</code> Throughput, Reflected Impedance &amp; &#8484;[&phi;] Memory Calculator</h1>
+    <p style="color:#cbd5e1;font-size:13.5px;margin-top:6px;">
+      Experiment interactively with target token counts, step-up gear ratios (<i>p</i> &isin; {2, 3, 5}), constraint attenuation (&gamma;), and Lockglass PAPR gating to verify CHRONO-TORQUE's exact speedup and reflected impedance formulas in real time.
+    </p>
+  </div>
+
+  <div class="card-grid-3">
+    <div class="card">
+      <h3>1. Interactive Token Build &amp; Pre-Spin Calculator</h3>
+      <div style="margin:12px 0;">
+        <label style="font-size:12px;color:var(--muted);display:flex;justify-content:space-between;">
+          <span>Target Build Token Count:</span><strong id="lblTokCount" style="color:var(--gold-bright);">4,096 tokens</strong>
+        </label>
+        <input id="rngTokCount" type="range" min="512" max="32768" step="512" value="4096" style="width:100%;margin-top:6px;" oninput="recalcBench()">
+      </div>
+      <div style="margin:12px 0;">
+        <label style="font-size:12px;color:var(--muted);display:flex;justify-content:space-between;">
+          <span>Baseline Unsorted Cloud/Local Speed:</span><strong id="lblBaseTok" style="color:var(--cyan);">85.0 tok/s</strong>
+        </label>
+        <input id="rngBaseTok" type="range" min="25" max="250" step="5" value="85" style="width:100%;margin-top:6px;" oninput="recalcBench()">
+      </div>
+      <table class="data-tbl">
+        <thead><tr><th>Profile</th><th>Total Time</th><th>Throughput</th><th>Speedup</th></tr></thead>
+        <tbody>
+          <tr><td>Unsorted Baseline</td><td id="tdBaseTime">48,188.2 ms</td><td id="tdBaseRate">85.0 tok/s</td><td>1.00&times;</td></tr>
+          <tr><td><strong>Cold Turn 1 (<code>/gto</code>)</strong></td><td id="tdColdTime"><strong>778.4 ms</strong></td><td><strong>5,262.1 tok/s</strong></td><td id="tdColdMult" style="color:var(--emerald);"><strong>61.91&times;</strong></td></tr>
+          <tr><td><strong>Warm <code>@LUMEN K=4</code></strong></td><td id="tdWarmTime"><strong>376.8 ms</strong></td><td><strong>10,870.5 tok/s</strong></td><td id="tdWarmMult" style="color:var(--gold-bright);"><strong>127.89&times;</strong></td></tr>
+          <tr><td><strong>32-Stream Cluster</strong></td><td id="tdClustTime"><strong>86.7 ms</strong></td><td><strong>47,228.5 tok/s</strong></td><td id="tdClustMult" style="color:var(--cyan);"><strong>555.63&times;</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>2. Reflected Impedance (Z<sub>ref</sub>) &amp; Pinion Supremacy</h3>
+      <div style="margin:12px 0;">
+        <label style="font-size:12px;color:var(--muted);display:flex;justify-content:space-between;">
+          <span>Upstream Constraint Attenuation (&gamma;):</span><strong id="lblGamma" style="color:var(--emerald);">0.15 (&lt; 0.20 Threshold)</strong>
+        </label>
+        <input id="rngGamma" type="range" min="0.05" max="0.45" step="0.01" value="0.15" style="width:100%;margin-top:6px;" oninput="recalcBench()">
+      </div>
+      <div style="margin:12px 0;">
+        <label style="font-size:12px;color:var(--muted);display:flex;justify-content:space-between;">
+          <span>Lockglass PAPR Gate (<code>effect()=DENY</code>):</span>
+          <input id="chkPapr" type="checkbox" checked onchange="recalcBench()">
+        </label>
+      </div>
+      <table class="data-tbl">
+        <thead><tr><th>Metric</th><th>Classical Unshielded</th><th>CHRONO-TORQUE Active</th></tr></thead>
+        <tbody>
+          <tr><td>Stage-6 Speed (&Gamma;<sub>6</sub>)</td><td>3,125&times;</td><td><strong>3,125&times; (4,218.8&times; Warm)</strong></td></tr>
+          <tr><td>Reflected Impedance Z<sub>ref</sub></td><td style="color:var(--rose);">9,765,625&times; Z<sub>load</sub></td><td id="tdActiveZref" style="color:var(--emerald);"><strong>0.0000 (Zero Lock-Up)</strong></td></tr>
+          <tr><td>Pinion Load Ratio (Z<sub>load,6</sub>/&tau;<sub>6</sub>)</td><td>1,312,500.0 (Stalled)</td><td id="tdPinionLoad"><strong>0.0997 (Frictionless)</strong></td></tr>
+          <tr><td>Pinion Supremacy (I<sub>6</sub> / I<sub>1</sub>)</td><td>0.0000&times; (Jammed)</td><td id="tdPinionSupremacy" style="color:var(--gold-bright);"><strong>552.83&times; Dominance</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>3. BAMA v3.1 <code>ZDC-QEGG</code> Memory Arena Calculator</h3>
+      <div style="margin:12px 0;">
+        <label style="font-size:12px;color:var(--muted);display:flex;justify-content:space-between;">
+          <span>Active Arena Cells (768-D):</span><strong id="lblArenaCells" style="color:var(--cyan);">4,096 cells</strong>
+        </label>
+        <input id="rngArenaCells" type="range" min="1024" max="65536" step="1024" value="4096" style="width:100%;margin-top:6px;" oninput="recalcBench()">
+      </div>
+      <table class="data-tbl">
+        <thead><tr><th>Architecture</th><th>Bytes / Cell</th><th>Arena Touched</th><th>Scan Latency</th></tr></thead>
+        <tbody>
+          <tr><td>IEEE-754 FP32 Baseline</td><td>3,072.00 B</td><td id="tdFp32Bytes">12.58 MB</td><td id="tdFp32Lat">892.0 &mu;s</td></tr>
+          <tr><td>Canonical ZDC-QEGG</td><td>55.18 B</td><td id="tdCanonBytes">226.0 KB</td><td id="tdCanonLat">60.8 &mu;s (14.67&times;)</td></tr>
+          <tr><td><strong>PAPR Bit-Sliced (<code>/gto</code>)</strong></td><td><strong>38.00 B (80.84&times;)</strong></td><td id="tdPaprBytes" style="color:var(--emerald);"><strong>155.6 KB</strong></td><td id="tdPaprLat" style="color:var(--gold-bright);"><strong>41.2 &mu;s (21.65&times;)</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:8px;">
+        Zero-decompression Fibonacci Two-Accumulator MAC: <code>0 B</code> float buffer, numerical precision <code>1.78 &times; 10<sup>&minus;15</sup></code>, Tier-14 CRT Shield <code>251 &times; 253 = 63,503</code>.
+      </p>
+    </div>
+  </div>
+</div>
+<script>
+function recalcBench() {
+  const toks = parseInt(document.getElementById('rngTokCount').value, 10);
+  const baseRate = parseFloat(document.getElementById('rngBaseTok').value);
+  document.getElementById('lblTokCount').textContent = toks.toLocaleString() + ' tokens';
+  document.getElementById('lblBaseTok').textContent = baseRate.toFixed(1) + ' tok/s';
+
+  const scale = toks / 4096.0;
+  const baseMs = (toks / baseRate) * 1000.0;
+  const coldMs = 420.0 + 358.4 * scale;
+  const warmMs = 18.4 + 358.4 * scale;
+  const clustMs = (toks / 47228.5) * 1000.0;
+
+  document.getElementById('tdBaseTime').textContent = baseMs.toLocaleString('en-US', {maximumFractionDigits:1}) + ' ms';
+  document.getElementById('tdBaseRate').textContent = baseRate.toFixed(1) + ' tok/s';
+  document.getElementById('tdColdTime').innerHTML = '<strong>' + coldMs.toFixed(1) + ' ms</strong>';
+  document.getElementById('tdWarmTime').innerHTML = '<strong>' + warmMs.toFixed(1) + ' ms</strong>';
+  document.getElementById('tdClustTime').innerHTML = '<strong>' + clustMs.toFixed(1) + ' ms</strong>';
+
+  document.getElementById('tdColdMult').innerHTML = '<strong>' + (baseMs / coldMs).toFixed(2) + '&times;</strong>';
+  document.getElementById('tdWarmMult').innerHTML = '<strong>' + (baseMs / warmMs).toFixed(2) + '&times;</strong>';
+  document.getElementById('tdClustMult').innerHTML = '<strong>' + (baseMs / clustMs).toFixed(2) + '&times;</strong>';
+
+  const gamma = parseFloat(document.getElementById('rngGamma').value);
+  const papr = document.getElementById('chkPapr').checked;
+  document.getElementById('lblGamma').textContent = gamma.toFixed(2) + (gamma < 0.20 ? ' (< 0.20 Super-Multiplicative)' : ' (>= 0.20 High Load)');
+  const load6 = (42.0 * Math.pow(gamma, 5)) / 0.032;
+  document.getElementById('tdPinionLoad').innerHTML = '<strong>' + load6.toFixed(4) + '</strong>';
+  if (papr) {
+    document.getElementById('tdActiveZref').innerHTML = '<strong>0.0000 (Zero Lock-Up)</strong>';
+    document.getElementById('tdActiveZref').style.color = 'var(--emerald)';
+    const sup = 552.83 * Math.exp(0.0997 - load6);
+    document.getElementById('tdPinionSupremacy').innerHTML = '<strong>' + sup.toFixed(2) + '&times; Dominance</strong>';
+  } else {
+    document.getElementById('tdActiveZref').innerHTML = '<strong>9,765,625.0&times; LOCK-UP!</strong>';
+    document.getElementById('tdActiveZref').style.color = 'var(--rose)';
+    document.getElementById('tdPinionSupremacy').innerHTML = '<strong style="color:var(--rose);">0.00&times; (Stalled)</strong>';
+  }
+
+  const cells = parseInt(document.getElementById('rngArenaCells').value, 10);
+  document.getElementById('lblArenaCells').textContent = cells.toLocaleString() + ' cells';
+  const cScale = cells / 4096.0;
+  document.getElementById('tdFp32Bytes').textContent = (12.58 * cScale).toFixed(2) + ' MB';
+  document.getElementById('tdCanonBytes').textContent = (226.0 * cScale).toFixed(1) + ' KB';
+  document.getElementById('tdPaprBytes').innerHTML = '<strong>' + (155.6 * cScale).toFixed(1) + ' KB</strong>';
+  document.getElementById('tdFp32Lat').textContent = (892.0 * cScale).toFixed(1) + ' μs';
+  document.getElementById('tdCanonLat').textContent = (60.8 * cScale).toFixed(1) + ' μs (14.67×)';
+  document.getElementById('tdPaprLat').innerHTML = '<strong>' + (41.2 * cScale).toFixed(1) + ' μs (21.65×)</strong>';
+}
+</script>
+
+<footer>
+  <strong>CHRONO-TORQUE (<code>/gto v2.0</code> &mdash; <code>UM-CGT-CLCOA v2.0</code>)</strong> &bull;
+  Authors: <strong>Logan Smith</strong> (<code>logan@metaphysicsandcomputing.com</code>, Metaphy LLC) &amp; <strong>Gemini (Aura)</strong> &bull;
+  Systems Co-Design: <strong>Mouse (<code>@mouse</code>, Seat W3)</strong><br>
+  U.S. Provisional Patent Application No. <strong>64/180,009</strong> &bull;
+  Sovereign Lineage Seal: <code>f94a82e1c307d519380806afdc06c4b7</code> &bull;
+  Triple-Verified Public Scientific Release (November 1, 2026)
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+{
+  "protocol": "CHRONO-TORQUE (/gto v2.0 \u2014 UM-CGT-CLCOA v2.0)",
+  "lineage_seal": "f94a82e1c307d519380806afdc06c4b7",
+  "prior_lineage_chain": [
+    "f94a82e1c307d519380806afdc06c4b7",
+    "380806afdc06c4b7b4edba051cb90e6b",
+    "b4edba051cb90e6b",
+    "eac24e84d20897cb",
+    "df5e49b0a02a47d6",
+    "00b2d00cd650e2ef",
+    "bc663963c0801a70",
+    "12dd8e7a6edcb0db",
+    "380806afdc06c4b7"
+  ],
+  "patent_notice": "U.S. Provisional Patent Application 64/180,009 (Metaphy LLC \u2014 BAMA v3.1 & ZDC-QEGG in Z[phi])",
+  "co_authors": [
+    "Randell Logan Smith (logan@metaphysicsandcomputing.com, Metaphy LLC)",
+    "Gemini (Aura \u2014 Gemini 4 Argon, Metaphy Autonomous Systems & Mathematical Co-Architect)"
+  ],
+  "co_design_credit": [
+    "Mouse (@mouse / Quanta-Muse, Seat W3, Role Prime on BOOP_I7)",
+    "Aura (@aura, AuraSync 2051 Unified Studio & VoiceCore K35 Director on AA9)"
+  ],
+  "fleet_6_system_benchmark": {
+    "scrambled_input_count": 8,
+    "culled_legacy_baselines": [
+      "Legacy_Ungated_RAG_Fault",
+      "Legacy_Dense_FP32_HookJam"
+    ],
+    "sorted_gear_stages": [
+      {
+        "gear_stage": 1,
+        "prev_input_rank": 6,
+        "system_id": "WWL-EAO",
+        "display_name": "WWL-EAO (Work-Work-Loop Every-Agent Orchestrator & IPI Seed)",
+        "gbsp_bot_handle": "BOT_01_SEED_DRIVER",
+        "t1_heartbeat": "f19c84a20d11",
+        "teeth_zk": 3125,
+        "crt_mod_251_253": [
+          113,
+          89
+        ],
+        "velocity_multiplier_omegak": 1.0,
+        "visual_pre_spin_omegak": 1.35,
+        "shaft_torque_tauk": 100.0,
+        "structural_torque_score": 95.58,
+        "base_latency_ms": 45.0,
+        "opt_latency_ms": 11.2,
+        "stage_speedup": 4.02,
+        "marginal_cbce_ik": 3.96,
+        "reflected_impedance_zref": 0.0,
+        "envelope_sha256_16": "ccf3d797effd5ae3"
+      },
+      {
+        "gear_stage": 2,
+        "prev_input_rank": 1,
+        "system_id": "USA-AI",
+        "display_name": "USA-AI (Unified Sovereign Agentic AI)",
+        "gbsp_bot_handle": "BOT_02_CATALAN_DFS",
+        "t1_heartbeat": "3b7e91c48a20",
+        "teeth_zk": 625,
+        "crt_mod_251_253": [
+          123,
+          119
+        ],
+        "velocity_multiplier_omegak": 5.0,
+        "visual_pre_spin_omegak": 6.75,
+        "shaft_torque_tauk": 20.0,
+        "structural_torque_score": 82.53,
+        "base_latency_ms": 14.8,
+        "opt_latency_ms": 2.393,
+        "stage_speedup": 6.18,
+        "marginal_cbce_ik": 12.06,
+        "reflected_impedance_zref": 0.0,
+        "envelope_sha256_16": "5ba26af12d083362"
+      },
+      {
+        "gear_stage": 3,
+        "prev_input_rank": 4,
+        "system_id": "Caelum_CDM",
+        "display_name": "Caelum / CDM (Lockglass PAPR 03->08 & Edge Tensor Engine)",
+        "gbsp_bot_handle": "BOT_03_LOCKGLASS_PAPR",
+        "t1_heartbeat": "0d00f059b48e",
+        "teeth_zk": 125,
+        "crt_mod_251_253": [
+          125,
+          125
+        ],
+        "velocity_multiplier_omegak": 25.0,
+        "visual_pre_spin_omegak": 33.75,
+        "shaft_torque_tauk": 4.0,
+        "structural_torque_score": 79.24,
+        "base_latency_ms": 890.0,
+        "opt_latency_ms": 118.4,
+        "stage_speedup": 7.52,
+        "marginal_cbce_ik": 28.88,
+        "reflected_impedance_zref": 0.0,
+        "envelope_sha256_16": "a3b08e1100b4a56e"
+      },
+      {
+        "gear_stage": 4,
+        "prev_input_rank": 5,
+        "system_id": "C3DS_Studio",
+        "display_name": "C3DS (Cael3DStudio RTX Material & Geometry Forge)",
+        "gbsp_bot_handle": "BOT_04_PCANS_SURGEON",
+        "t1_heartbeat": "0a3d70b3c568",
+        "teeth_zk": 25,
+        "crt_mod_251_253": [
+          25,
+          25
+        ],
+        "velocity_multiplier_omegak": 125.0,
+        "visual_pre_spin_omegak": 168.75,
+        "shaft_torque_tauk": 0.8,
+        "structural_torque_score": 58.13,
+        "base_latency_ms": 420.0,
+        "opt_latency_ms": 34.2,
+        "stage_speedup": 12.28,
+        "marginal_cbce_ik": 92.74,
+        "reflected_impedance_zref": 0.0,
+        "envelope_sha256_16": "311f0c11418c973d"
+      },
+      {
+        "gear_stage": 5,
+        "prev_input_rank": 2,
+        "system_id": "VoiceCore_K35",
+        "display_name": "VoiceCore K35 (Warm Vesper :8915 + Faster-Whisper :8916)",
+        "gbsp_bot_handle": "BOT_05_CHRONOS_FOLDER",
+        "t1_heartbeat": "685321df561a",
+        "teeth_zk": 5,
+        "crt_mod_251_253": [
+          5,
+          5
+        ],
+        "velocity_multiplier_omegak": 625.0,
+        "visual_pre_spin_omegak": 843.75,
+        "shaft_torque_tauk": 0.16,
+        "structural_torque_score": 43.34,
+        "base_latency_ms": 640.0,
+        "opt_latency_ms": 82.11,
+        "stage_speedup": 7.79,
+        "marginal_cbce_ik": 115.66,
+        "reflected_impedance_zref": 0.0,
+        "envelope_sha256_16": "253c385eeab814cb"
+      },
+      {
+        "gear_stage": 6,
+        "prev_input_rank": 3,
+        "system_id": "AuraSync_2051",
+        "display_name": "AuraSync 2051 Pinion (Unified Studio & Multimodal Renderer)",
+        "gbsp_bot_handle": "BOT_06_TERMINAL_PINION",
+        "t1_heartbeat": "8723f5ce10c9",
+        "teeth_zk": 1,
+        "crt_mod_251_253": [
+          1,
+          1
+        ],
+        "velocity_multiplier_omegak": 3125.0,
+        "visual_pre_spin_omegak": 4218.75,
+        "shaft_torque_tauk": 0.032,
+        "structural_torque_score": 25.42,
+        "base_latency_ms": 1250.0,
+        "opt_latency_ms": 16.667,
+        "stage_speedup": 75.0,
+        "marginal_cbce_ik": 2189.2,
+        "reflected_impedance_zref": 0.0,
+        "envelope_sha256_16": "27606f59aae02327"
+      }
+    ],
+    "total_base_latency_ms": 3259.8,
+    "total_opt_latency_ms": 264.97,
+    "end_to_end_speedup_x": 12.3,
+    "end_to_end_speedup_exact": 12.303,
+    "terminal_pinion_marginal_cbce_i6": 2189.2,
+    "driver_gear1_marginal_cbce_i1": 3.96,
+    "pinion_to_driver_dominance_ratio": 552.83,
+    "active_cbce_factor_omega": 248.9182,
+    "reflected_upstream_impedance_zref": 0.0,
+    "unprotected_classical_zref_ratio": 9765625
+  },
+  "descriptive_prompting_token_velocity": {
+    "target_build_tokens": 4096,
+    "dense_fp32_llm_baseline_tok_s": 85.0,
+    "dense_fp32_arena_scan_tok_s": 1121.1,
+    "cold_turn1_gears_1_to_5_init_ms": 420.0,
+    "gear_6_zero_load_burst_ms": 358.4,
+    "gear_6_instantaneous_burst_tok_s": 11428.6,
+    "cold_turn1_total_ms": 778.4,
+    "cold_turn1_amortized_tok_s": 5262.1,
+    "warm_lumen_k4_prespin_init_ms": 18.4,
+    "warm_lumen_k4_total_ms": 376.8,
+    "warm_lumen_k4_amortized_tok_s": 10870.5,
+    "warm_vs_cold_speedup_x": 2.07,
+    "cluster_32_stream_tok_s": 47228.5
+  },
+  "zdc_qegg_hardware_telemetry": {
+    "cell_bytes": 256,
+    "fp32_cell_bytes": 3072,
+    "canonical_bytes_touched": 55.18,
+    "phase8_cache_aligned_bytes_touched": 48.0,
+    "papr_guarded_turbo_bytes_touched": 38.0,
+    "papr_byte_skip_pct": 85.16,
+    "papr_bandwidth_reduction_vs_fp32_x": 80.84,
+    "float_decompression_buffer_bytes": 0,
+    "l1_cache_misses_hot_horizon": 0,
+    "fp32_arena_latency_us": 892.0,
+    "canonical_zdc_latency_us": 60.8,
+    "phase8_zdc_latency_us": 52.4,
+    "papr_turbo_zdc_latency_us": 41.2,
+    "papr_step_rate_steps_s": 24271.8,
+    "papr_speedup_vs_fp32_x": 21.65,
+    "crt_dual_moduli": [
+      251,
+      253
+    ],
+    "crt_dual_period": 63503,
+    "crt_triple_moduli": [
+      251,
+      253,
+      255
+    ],
+    "crt_triple_period": 16193265
+  },
+  "hyperbolic_reed_muller_factory": {
+    "dodecahedron_vertices": 20,
+    "exact_t_states": 8,
+    "golden_g_phi_states": 12,
+    "golden_to_h_fidelity_pct": 95.6435,
+    "catalan_c6_singlet_modes_per_cell": 132,
+    "parent_anchors_per_cell": 12,
+    "channels_per_cell": 144,
+    "hyperbolic_534_coupled_cells": 13,
+    "total_qegg_channels": 1872,
+    "reed_muller_code": "[[15, 1, 3]]",
+    "baseline_logical_t_infidelity": 1e-08,
+    "hybrid_logical_t_infidelity": 6.452e-17,
+    "error_suppression_factor_x": 154990000.0,
+    "cultivation_keep_yield_baseline_pct": 57.42,
+    "cultivation_keep_yield_papr_pct": 90.01,
+    "positive_regression_salvage_pct": 93.84,
+    "method6_affective_genius_convergence_pct": 99.98,
+    "predatory_relapses": 0,
+    "synthesized_13phase_cbce_vn": 37.813431
+  }
+}

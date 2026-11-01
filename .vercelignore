@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+temp_edge_p/
+gnkg-sources/
+generate_chrono_torque_pdfs.py
+build_vercel_app.py
+run_chrono_torque_codesign_and_verifier.py
+arxiv-discovery-source.html
+executive-whitepaper-source.html
+assets/pages/

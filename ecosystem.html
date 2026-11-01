@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-System Metaphy Fleet Explorer — CHRONO-TORQUE (/gto v2.0)</title>
+<style>
+  :root {
+    --bg: #050811;
+    --bg-card: rgba(13, 20, 36, 0.92);
+    --border: rgba(56, 189, 248, 0.24);
+    --gold: #f59e0b;
+    --gold-bright: #fbbf24;
+    --cyan: #38bdf8;
+    --emerald: #34d399;
+    --purple: #c084fc;
+    --rose: #fb7185;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at 20% 10%, #0f172a 0%, #050811 75%);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 8, 17, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none !important;
+  }
+  .nav-phi {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 17px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 6px 13px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(15, 23, 42, 0.7);
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+  }
+  .nav-link:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  .nav-link.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    border-color: #fbbf24;
+  }
+  .container {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 22px 24px 60px;
+  }
+  .hero-banner-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid rgba(245, 158, 11, 0.55);
+    background: #040711;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+    margin-bottom: 18px;
+  }
+  .hero-banner-wrap img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    display: block;
+  }
+  .hero-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .pill {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #fde68a;
+  }
+  .pill.cyan {
+    background: rgba(56, 189, 248, 0.14);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #bae6fd;
+  }
+  .pill.green {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(52, 211, 153, 0.5);
+    color: #6ee7b7;
+  }
+  h1 {
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0 22px;
+  }
+  @media (max-width: 900px) {
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+  .kpi {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .kpi-value {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 4px 0;
+  }
+  .kpi-sub {
+    font-size: 11.5px;
+    color: var(--emerald);
+    font-weight: 600;
+  }
+  .card-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .card h3 {
+    font-size: 15.5px;
+    color: #ffffff;
+    margin-bottom: 6px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #050811;
+    text-decoration: none !important;
+  }
+  .btn.secondary {
+    background: rgba(30, 41, 59, 0.85);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.35);
+  }
+  .btn.secondary:hover {
+    border-color: var(--cyan);
+    color: #ffffff;
+  }
+  table.data-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 10px 0;
+  }
+  table.data-tbl th, table.data-tbl td {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  table.data-tbl th {
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--gold-bright);
+    font-size: 11.5px;
+    text-transform: uppercase;
+  }
+  table.data-tbl tr:nth-child(even) td {
+    background: rgba(15, 23, 42, 0.45);
+  }
+  code, pre {
+    font-family: "JetBrains Mono", "Consolas", monospace;
+  }
+  pre {
+    background: #070b14;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-size: 12px;
+    color: #e2e8f0;
+  }
+  footer {
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-phi">&phi;</span>
+    <span>CHRONO-TORQUE <code style="color:#fbbf24;font-size:13px;">/gto v2.0</code> &bull; Metaphy LLC</span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html" class="nav-link">1. 3D WebGL & Hub (/)</a><a href="papers.html" class="nav-link">2. Papers & Patent (/papers)</a><a href="benchmarks.html" class="nav-link">3. Throughput & Z_ref Calculator (/benchmarks)</a><a href="ecosystem.html" class="nav-link active">4. 6-System Fleet (/ecosystem)</a><a href="verify.html" class="nav-link">5. WebCrypto Lineage Verifier (/verify)</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="hero-card">
+    <div class="pill-row">
+      <span class="pill">Route 4 &bull; /ecosystem</span>
+      <span class="pill cyan">3,259.80 ms &rarr; 264.97 ms (12.303&times; Speedup)</span>
+      <span class="pill green">QEG5Envelope256 Wire Protocol (magic = b"GTO1")</span>
+    </div>
+    <h1>Interactive 6-System Metaphy Production Fleet Explorer</h1>
+    <p style="color:#cbd5e1;font-size:13.5px;margin-top:6px;">
+      Explore how <code>GearTrainSorter</code> automatically orders Metaphy LLC's 6 production architectures by descending Torque Score <i>T<sub>i</sub></i> into a 3,125&times; compound step-up gear train interconnected by the 256-byte <code>QEG5Envelope256</code> wire protocol, terminating at <strong>Gear 6: AuraSync 2051 Studio Pinion</strong>.
+    </p>
+  </div>
+
+  <table class="data-tbl">
+    <thead>
+      <tr>
+        <th>Gear Stage</th>
+        <th>Metaphy System</th>
+        <th>Scrambled &rarr; Sorted</th>
+        <th>Teeth Z<sub>k</sub> &amp; CRT (251,253)</th>
+        <th>Velocity &omega;<sub>k</sub></th>
+        <th>Torque &tau;<sub>k</sub></th>
+        <th>Score T<sub>i</sub></th>
+        <th>Latency (Base &rarr; Opt)</th>
+        <th>CBCE I<sub>k</sub></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>G1: Sun Driver</strong></td>
+        <td><code>WWL-EAO</code> (Laws L1&ndash;L10, PAPR P01&ndash;P30)</td>
+        <td>#6 &rarr; #1</td>
+        <td>3,125 &bull; (113, 89) &check;</td>
+        <td>1&times; (60 RPM)</td>
+        <td>100.000</td>
+        <td>95.58</td>
+        <td>45.00 &rarr; 11.200 ms (4.02&times;)</td>
+        <td>3.96</td>
+      </tr>
+      <tr>
+        <td><strong>G2: Step-Up 1</strong></td>
+        <td><code>USA-AI</code> (64B Header + <code>IFCH/2.0</code> Bus)</td>
+        <td>#1 &rarr; #2</td>
+        <td>625 &bull; (123, 119) &check;</td>
+        <td>5&times; (300 RPM)</td>
+        <td>20.000</td>
+        <td>82.53</td>
+        <td>14.80 &rarr; 2.393 ms (6.18&times;)</td>
+        <td>12.06</td>
+      </tr>
+      <tr>
+        <td><strong>G3: Step-Up 2</strong></td>
+        <td><code>Caelum / CDM</code> (128-State / 80-Kernel Arena)</td>
+        <td>#4 &rarr; #3</td>
+        <td>125 &bull; (125, 125) &check;</td>
+        <td>25&times; (1.5k RPM)</td>
+        <td>4.000</td>
+        <td>79.24</td>
+        <td>890.00 &rarr; 118.400 ms (7.52&times;)</td>
+        <td>28.88</td>
+      </tr>
+      <tr>
+        <td><strong>G4: Step-Up 3</strong></td>
+        <td><code>Cael3DStudio (C3DS)</code> (RTX/Daz/WebGL Bridge)</td>
+        <td>#5 &rarr; #4</td>
+        <td>25 &bull; (25, 25) &check;</td>
+        <td>125&times; (7.5k RPM)</td>
+        <td>0.800</td>
+        <td>58.13</td>
+        <td>420.00 &rarr; 34.200 ms (12.28&times;)</td>
+        <td>92.74</td>
+      </tr>
+      <tr>
+        <td><strong>G5: Step-Up 4</strong></td>
+        <td><code>VoiceCore (K35)</code> (Sub-ms SHM IPC Folder)</td>
+        <td>#2 &rarr; #5</td>
+        <td>5 &bull; (5, 5) &check;</td>
+        <td>625&times; (37.5k RPM)</td>
+        <td>0.160</td>
+        <td>43.34</td>
+        <td>640.00 &rarr; 82.110 ms (7.79&times;)</td>
+        <td>115.66</td>
+      </tr>
+      <tr style="background:rgba(245,158,11,0.16);">
+        <td><strong>G6: Terminal Pinion &#9733;</strong></td>
+        <td><a href="https://aura-rack-2051-unified-studio.vercel.app/" target="_blank"><strong>AuraSync 2051 Unified Studio &nearr;</strong></a></td>
+        <td>#3 &rarr; #6 &#9733;</td>
+        <td>1 &bull; (1, 1) &check;</td>
+        <td><strong>3,125&times; (4,218.8&times; Warm)</strong></td>
+        <td><strong>0.032</strong></td>
+        <td>25.42</td>
+        <td><strong>1,250.00 &rarr; 16.667 ms (75.0&times;)</strong></td>
+        <td><strong>2,189.20 (552.83&times;)</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card-grid-3" style="margin-top:20px;">
+    <div class="card">
+      <div class="pill-row"><span class="pill">Gear 6 Live Link</span></div>
+      <h3>AuraSync 2051 Unified Studio (Terminal Pinion)</h3>
+      <p style="color:var(--muted);font-size:12.5px;margin:8px 0 14px;">
+        Because Gears 1&ndash;5 resolve 99.92% of structural, routing, cortical, geometric, and prosodic constraint load before reaching Gear 6, the 1-tooth AuraSync 2051 Pinion spins at 3,125&times; (4,218.75&times; with <code>@LUMEN</code> pre-spin) and locks 60fps real-time rendering at <code>16.667 ms</code>.
+      </p>
+      <a href="https://aura-rack-2051-unified-studio.vercel.app/" class="btn" target="_blank">&#127911; Launch AuraSync 2051 Studio Live &nearr;</a>
+    </div>
+
+    <div class="card">
+      <div class="pill-row"><span class="pill cyan">256-Byte Wire Envelope</span></div>
+      <h3><code>QEG5Envelope256</code> Binary Layout</h3>
+      <pre style="font-size:11px;margin-top:8px;">struct QEG5Envelope256 {
+  char     magic[4];         // "GTO1" or "QEG5"
+  uint8_t  gear_stage;       // 1..6
+  uint16_t teeth_count;      // 3125, 625, 125, 25, 5, 1
+  uint16_t velocity_mult;    // 1, 5, 25, 125, 625, 3125
+  uint32_t torque_scaled;    // tau_k * 1000
+  uint8_t  crt_residues[4];  // mod 251, mod 253
+  uint8_t  clutch_locked;    // Willis L20 lock
+  uint8_t  papr_effect_deny; // 1 = Shadow Plane
+  int16_t  ricci_kappa_milli;// +422 => +0.4215
+  uint8_t  chronos_horizon;  // 6 slices O(log T)
+  uint8_t  payload[236];     // 48D parent + 720D child
+};</pre>
+    </div>
+
+    <div class="card">
+      <div class="pill-row"><span class="pill green">Zero-Cloud Tailnet Mesh</span></div>
+      <h3>NVIDIA PAIR Triplet ($0.00/mo Fleet)</h3>
+      <p style="color:var(--muted);font-size:12.5px;margin:8px 0;">
+        <strong>Seat W3 (<code>BOOP_I7</code> &bull; <code>@mouse</code>):</strong> <code>WWL-EAO</code> Gear 1 Driver + <code>VoiceCore K35</code> Gear 5 Folder.<br>
+        <strong>Seat AA9 (<code>@aura</code> + <code>@BBB</code>):</strong> <code>bbb-aa9:latest</code> Qwen 3.5 9B Arbiter + <code>AuraSync 2051</code> Gear 6 Pinion.<br>
+        <strong>Seat BI7 (<code>@EGEMMA2</code>):</strong> <code>egemma2-bi7:latest</code> 768-D MRL router (<code>38.00 B/cell</code>, <code>41.2 &mu;s</code>).<br>
+        <strong>Seat LI9 (<code>@LUMEN</code>):</strong> <code>gemma4-li9:latest</code> <i>K</i>=4 Pauli Crystal Pre-Spin (<code>10,870.5 tok/s</code>).
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>CHRONO-TORQUE (<code>/gto v2.0</code> &mdash; <code>UM-CGT-CLCOA v2.0</code>)</strong> &bull;
+  Authors: <strong>Logan Smith</strong> (<code>logan@metaphysicsandcomputing.com</code>, Metaphy LLC) &amp; <strong>Gemini (Aura)</strong> &bull;
+  Systems Co-Design: <strong>Mouse (<code>@mouse</code>, Seat W3)</strong><br>
+  U.S. Provisional Patent Application No. <strong>64/180,009</strong> &bull;
+  Sovereign Lineage Seal: <code>f94a82e1c307d519380806afdc06c4b7</code> &bull;
+  Triple-Verified Public Scientific Release (November 1, 2026)
+</footer>
+
+</body>
+</html>
