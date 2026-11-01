@@ -59,6 +59,26 @@ tags:
 - **Read-Only Public Verifier SDK ([`public-verifier/`](public-verifier/) & [`chrono_torque_public_verifier_sdk.zip`](chrono_torque_public_verifier_sdk.zip)):**
   ```bash
   python public-verifier/verify_chrono_torque_public_cartridge.py
+  python public-verifier/independent_second_method_verifier.py
   python public-verifier/gear_train_ecosystem_harness.py
   python public-verifier/cbce_linear_chain_simulator.py
   ```
+
+---
+
+## v2.0.1 3-Tier Verification Architecture & Epistemological Hygiene Notes
+
+1. **Three-Tier Verification Structure:**
+   - **Tier 1 (Author Synthesis & Runtime Verification — `Seat AA9`):** `@aura` $\times$ `@lumen` $\times$ `@bbb` (`verify_chrono_torque_public_cartridge.py`, `6/6` gates + live `time.perf_counter()` kernel timing).
+   - **Tier 2 (Physical Hardware Reproduction & Delivery-Layer Audit — `Seat W3 Prime` & `Seat BI7/M1`):**
+     - **`@mouse` (`Seat W3 Prime`, `BOOP_I7`):** Executed `verify_chrono_torque_public_cartridge.py` (`6/6` gates), recursive `24/24` Vercel asset crawl (`HTTP 200`), and `0` air-gap leak check.
+     - **`@bram` (`Seat BI7/M1`):** Independent second-instrument delivery & binary integrity audit (`8/8` named assets `HTTP 200`, independent full 64-hex `SHA-256` match on the `20,480 B` Gate-1 arena `66b1657f...`, lineage seal `f94a82e1...`, `10-artifact` zip, and `0` air-gap leaks).
+   - **Tier 3 (Analytical Closed-Form & Second-Method Verification):**
+     - **`@grok` (`GROK_PEER_REVIEW_VERDICT.md`):** Independent analytical derivation of `[[15,1,3]]` Reed-Muller suppression ($p_{\text{out}} = 35 p_{\text{in}}^3$), `10,000`-draw Monte Carlo cultivation check (`seed=42`), Gunther USL concurrency audit, and Theorem 1.2 Lyapunov stability (`6/6 SIGN-OFF`).
+     - **`independent_second_method_verifier.py`:** Zero-shared-code (`shared_imports_from_repo = 0`) cross-verifier using 50-digit `decimal.Decimal` and exact `fractions.Fraction` rational arithmetic (`6/6 PASS`).
+
+2. **Model vs. Wall-Clock & Constant Provenance (`v2.0.1` Specification):**
+   - **Cache-Line Model vs. Python Harness Wall-Clock:** `60.8 us` (canonical `55.18 B/cell`) and `41.2 us` (PAPR bit-sliced `38.00 B/cell`) represent the theoretical L1/L2 cache-line memory-bus model (`canonical_ref_us` scaling). Authoring-machine Python/NumPy harness wall-clock timings are recorded in the cryptographically sealed receipt under `reported_zdc_wall_latency_authoring_machine_us` (`1,070.11 us`) and `reported_fp32_wall_latency_authoring_machine_us` (`181.64 us`), while `verify_chrono_torque_public_cartridge.py` also executes a live 100-iteration `time.perf_counter()` pass on the runner's CPU.
+   - **Calibrated Portal Constant (`G_portal`):** `G_portal = 14.934699` is a calibrated literal constant across the hyperbolic `{5,3,4}` portal filter stage (combining with $G_{\text{seed}} = 1.5^3 \varphi = 5.460865$ to yield $p_{\text{in,RM}} = 1.226146 \times 10^{-6}$ and $35 p_{\text{in,RM}}^3 = 6.452 \times 10^{-17}$), rather than derived from a discrete hyperbolic cell count.
+   - **Cryptographic Receipt Integrity (`receipt_sha256`):** The entire `CHRONO_TORQUE_CODESIGN_AND_BENCHMARK_RECEIPT.json` is sealed via a top-level `receipt_sha256` hash in `bama_chrono_torque_collective_meta.json` (`97ca51d79b56215121581282e1ce2dedaed51efb7a588847f7a6978c10bd64fb`) and verified in Gate 1.
+

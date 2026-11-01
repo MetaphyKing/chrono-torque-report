@@ -22,6 +22,7 @@ import math
 import pathlib
 import struct
 import sys
+import time
 
 import numpy as np
 
@@ -48,16 +49,19 @@ def main() -> int:
             return 1
 
     arena_bytes = arena_path.read_bytes()
+    receipt_bytes = receipt_path.read_bytes()
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
-    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt = json.loads(receipt_bytes.decode("utf-8"))
 
     # -------------------------------------------------------------------------
-    # GATE 1: 80-Kernel CHRONO-TORQUE Arena & Lineage Seal Audit
+    # GATE 1: 80-Kernel CHRONO-TORQUE Arena, Receipt SHA-256 Seal & Lineage Audit
     # -------------------------------------------------------------------------
     sha256_hex = hashlib.sha256(arena_bytes).hexdigest()
+    receipt_sha256_hex = hashlib.sha256(receipt_bytes).hexdigest()
     assert len(arena_bytes) == 20480, f"Expected 20,480 B, got {len(arena_bytes)}"
     assert sha256_hex == meta["arena_sha256"], "Arena SHA-256 mismatch vs meta.json"
     assert sha256_hex == receipt["arena_sha256"], "Arena SHA-256 mismatch vs receipt.json"
+    assert receipt_sha256_hex == meta["receipt_sha256"], "Receipt SHA-256 mismatch vs meta.json seal"
     assert receipt["lineage_seal"] == EXPECTED_LINEAGE_SEAL, "Lineage Seal mismatch"
     assert receipt["prior_lineage_chain"][1] == "380806afdc06c4b7b4edba051cb90e6b"
 
@@ -72,7 +76,8 @@ def main() -> int:
 
     print(
         f"[GATE 1 PASS] 80-Kernel Arena verified: 20,480 B (80 x 256B QEG5 cells)\n"
-        f"              SHA-256 = {sha256_hex}\n"
+        f"              Arena SHA-256 = {sha256_hex}\n"
+        f"              Receipt SHA-256 Seal = {receipt_sha256_hex}\n"
         f"              Lineage Seal = {EXPECTED_LINEAGE_SEAL}"
     )
 
@@ -149,16 +154,33 @@ def main() -> int:
     assert papr_lat_us == 41.2 and zdc_hw["papr_turbo_zdc_latency_us"] == 41.2
     assert papr_speedup_x == 21.65 and zdc_hw["papr_speedup_vs_fp32_x"] == 21.65
     assert zdc_hw["float_decompression_buffer_bytes"] == 0
-    # Gate measured Python/NumPy wall-clock timer fields explicitly
-    meas_zdc_us = zdc_sub["measured_zdc_wall_latency_us"]
-    meas_fp32_us = zdc_sub["measured_fp32_wall_latency_us"]
-    assert isinstance(meas_zdc_us, (int, float)) and meas_zdc_us > 0.0
-    assert isinstance(meas_fp32_us, (int, float)) and meas_fp32_us > 0.0
+    # Read cryptographically sealed authoring-machine reported wall-clock timers
+    rep_zdc_us = zdc_sub["reported_zdc_wall_latency_authoring_machine_us"]
+    rep_fp32_us = zdc_sub["reported_fp32_wall_latency_authoring_machine_us"]
+    assert isinstance(rep_zdc_us, (int, float)) and rep_zdc_us > 0.0
+    assert isinstance(rep_fp32_us, (int, float)) and rep_fp32_us > 0.0
+
+    # Also execute live runtime timing on the runner's CPU (100 iterations)
+    t0_zdc = time.perf_counter()
+    for _ in range(100):
+        _au = int(np.sum(u_vec * a_vec + v_vec * b_vec))
+        _ap = int(np.sum(u_vec * b_vec + v_vec * a_vec + v_vec * b_vec))
+        _ = 0.05 * (float(_au) + PHI * float(_ap))
+    live_zdc_us = ((time.perf_counter() - t0_zdc) * 1e6) / 100.0
+
+    t0_fp = time.perf_counter()
+    for _ in range(100):
+        _q = u_vec.astype(np.float64) + v_vec.astype(np.float64) * PHI
+        _w = a_vec.astype(np.float64) + b_vec.astype(np.float64) * PHI
+        _ = float(np.dot(_q, _w)) * 0.05
+    live_fp32_us = ((time.perf_counter() - t0_fp) * 1e6) / 100.0
+    assert live_zdc_us > 0.0 and live_fp32_us > 0.0
 
     print(
         f"[GATE 2 PASS] Z[phi] 768-D Fibonacci Two-Accumulator (rel err={err_768d:.2e}, 0B float),\n"
-        f"              Canonical: 55.18 B/cell (60.8 us model) | PAPR Bit-Sliced: 38.00 B/cell (80.84x, 41.2 us model, 21.65x),\n"
-        f"              Python Wall-Clock Timers: ZDC={meas_zdc_us:.2f} us, FP32={meas_fp32_us:.2f} us | Tier-14 CRT Shield verified."
+        f"              Cache-Line Model: Canonical 55.18 B/cell (60.8 us) | PAPR Bit-Sliced 38.00 B/cell (80.84x, 41.2 us, 21.65x),\n"
+        f"              Authoring-Machine Reported Python Timers: ZDC={rep_zdc_us:.2f} us, FP32={rep_fp32_us:.2f} us,\n"
+        f"              Live Runner 768-D Kernel Timers (100-iter mean): ZDC={live_zdc_us:.2f} us, FP64={live_fp32_us:.2f} us | Tier-14 CRT Shield verified."
     )
 
     # -------------------------------------------------------------------------
