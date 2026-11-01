@@ -1,0 +1,192 @@
+{
+  "schema": "TPD_QMS_CHRONO_TORQUE_UNIFIED_BENCHMARK_v1.0",
+  "timestamp_utc": "2026-11-01T13:55:28Z",
+  "epistemic_scope_notice": "STRICT SEPARATION OF CLAIMS: Section 'measured_silicon_execution' records actual physical CPU execution on the host machine. Sections 'dispersion_break_phase', 'magic_state_tpd_closures', and 'chrono_torque_tpd_regimes' are closed-form mathematical and theoretical model closures (not physical FTL flight or Casimir cavity laboratory measurements).",
+  "measured_silicon_execution": {
+    "host_node": "ASUS_AMD_9",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "python_version": "3.13.9",
+    "wavenumber_grid_points_evaluated": 20000,
+    "solver_wall_clock_ms": 43.974,
+    "reference_zdc_qegg_native_cpp20_baseline": {
+      "path_a_dense_fp64_vs_zdc_msvc_speedup": "7.4x - 8.5x (AA9 Ryzen 9 8940HX & BOOP_I7 i7-10750H)",
+      "path_a_dense_fp64_vs_zdc_gcc_speedup": "9.7x - 11.6x (BOOP_I7 WSL2 g++ 11.4)",
+      "path_c_matched_active_set_speedup": "0.71x - 1.30x",
+      "verbatim_standard": "CHRONO-TORQUE provides no demonstrated arithmetic speedup over an equally-sparse baseline."
+    }
+  },
+  "dispersion_break_phase": {
+    "legacy_v1_gaussian_min_vg_over_c0_gamma_10": -3.016336,
+    "legacy_v1_gaussian_min_vg_over_c0_gamma_3125": -1393.115013,
+    "rev32_linear_logistic_min_vg_over_c0_gamma_10": -1.791684,
+    "rev32_linear_logistic_min_vg_over_c0_gamma_3125": -968.024638,
+    "theorem_3_1_chrono_torque_min_vg_over_c0_gamma_10": 0.964206,
+    "theorem_3_1_chrono_torque_min_vg_over_c0_gamma_50": 0.963852,
+    "theorem_3_1_chrono_torque_min_vg_over_c0_gamma_3125": 0.963773,
+    "quench_scale_xq_over_kc_gamma_10": 2.6432,
+    "quench_scale_xq_over_kc_gamma_3125": 1248.2864,
+    "quench_frequency_THz_gamma_3125": 5.9543,
+    "delta_alpha_over_alpha0_at_6p3_xq_gamma_10": 0.0,
+    "delta_alpha_over_alpha0_at_6p3_xq_gamma_3125": 0.0,
+    "delta_alpha_over_alpha0_at_atomic_scale_6p3e8_kc": 0.0
+  },
+  "magic_state_tpd_closures": {
+    "bloch_dodecahedral_identity_phi_inv2_plus_phi2": 3.0,
+    "bloch_golden_norm_squared": 1.0,
+    "magic_robustness_R_T": 1.732051,
+    "magic_robustness_R_G_phi": 1.290994,
+    "golden_fidelity_F_G_phi_H": 0.956435,
+    "bravyi_kitaev_threshold": 0.853553,
+    "tpd_waveguide_gamma_local_phi": 1.618034,
+    "cpcsf_cubic_phonon_gain": 3.375,
+    "combined_tpd_cpcsf_seed_suppression_x": 5.460865,
+    "raw_seed_error_baseline": 0.001,
+    "raw_seed_error_tpd_cpcsf": 0.0001831212,
+    "cultivation_d5_error_tpd": 2.058e-07,
+    "papr_d5_to_d3_salvaged_error": 1.2261571739411059e-06,
+    "hyperbolic_15_to_1_logical_T_infidelity": 6.45218e-17,
+    "total_error_suppression_factor_x": 15499000000000.0,
+    "catalan_singlet_dfs_channels": {
+      "C6_singlet_sector": 132,
+      "parent_syndrome_anchors": 12,
+      "total_qegg_channels": 144
+    }
+  },
+  "chrono_torque_tpd_regimes": {
+    "hull_151K_radiative_flux_W_m2": 29.4795,
+    "hull_151K_total_radiative_limit_MW": 3.7045,
+    "plenum_lambda_cdm_work_100m_bubble_J": 0.00222,
+    "energy_naive_J": 418879000000000.0,
+    "energy_seven_mandates_J": 418879000.0,
+    "energy_net_after_94_2pct_maxwell_qet_J": 24294980.0,
+    "epicyclic_gear_regimes": [
+      {
+        "gear_stage": "G1",
+        "teeth_Z_k": 3125,
+        "gamma_factor": 1,
+        "v_phase_m_per_s": 299792458.0,
+        "reflected_impedance_factor": 1.0,
+        "bow_shock_local_bubble_GW": 0.0071,
+        "bow_shock_lic_GW": 0.2832,
+        "required_red_shield_rejection_local_bubble_pct": 73.835067,
+        "required_red_shield_rejection_lic_pct": 99.345877
+      },
+      {
+        "gear_stage": "G2",
+        "teeth_Z_k": 625,
+        "gamma_factor": 5,
+        "v_phase_m_per_s": 1498962290.0,
+        "reflected_impedance_factor": 0.04,
+        "bow_shock_local_bubble_GW": 0.0354,
+        "bow_shock_lic_GW": 1.4158,
+        "required_red_shield_rejection_local_bubble_pct": 94.767013,
+        "required_red_shield_rejection_lic_pct": 99.869175
+      },
+      {
+        "gear_stage": "G3",
+        "teeth_Z_k": 125,
+        "gamma_factor": 25,
+        "v_phase_m_per_s": 7494811450.0,
+        "reflected_impedance_factor": 0.0016,
+        "bow_shock_local_bubble_GW": 0.177,
+        "bow_shock_lic_GW": 7.0791,
+        "required_red_shield_rejection_local_bubble_pct": 98.953403,
+        "required_red_shield_rejection_lic_pct": 99.973835
+      },
+      {
+        "gear_stage": "G4",
+        "teeth_Z_k": 25,
+        "gamma_factor": 125,
+        "v_phase_m_per_s": 37474057250.0,
+        "reflected_impedance_factor": 6.4e-05,
+        "bow_shock_local_bubble_GW": 0.8849,
+        "bow_shock_lic_GW": 35.3956,
+        "required_red_shield_rejection_local_bubble_pct": 99.790681,
+        "required_red_shield_rejection_lic_pct": 99.994767
+      },
+      {
+        "gear_stage": "G5",
+        "teeth_Z_k": 5,
+        "gamma_factor": 625,
+        "v_phase_m_per_s": 187370286250.0,
+        "reflected_impedance_factor": 2.56e-06,
+        "bow_shock_local_bubble_GW": 4.4245,
+        "bow_shock_lic_GW": 176.9782,
+        "required_red_shield_rejection_local_bubble_pct": 99.958136,
+        "required_red_shield_rejection_lic_pct": 99.998953
+      },
+      {
+        "gear_stage": "G6",
+        "teeth_Z_k": 1,
+        "gamma_factor": 3125,
+        "v_phase_m_per_s": 936851431250.0,
+        "reflected_impedance_factor": 1.024e-07,
+        "bow_shock_local_bubble_GW": 22.1223,
+        "bow_shock_lic_GW": 884.891,
+        "required_red_shield_rejection_local_bubble_pct": 99.991627,
+        "required_red_shield_rejection_lic_pct": 99.999791
+      }
+    ],
+    "transit_benchmarks_closed_form": {
+      "Mars_Closest_0.364_AU": {
+        "distance_m": 54453620000.0,
+        "gamma_10_rev32_canonical_s": 18.1638,
+        "gamma_10_rev32_days": 0.0002,
+        "gamma_125_G4_days": 0.0,
+        "gamma_3125_G6_pinion_s": 0.0581,
+        "gamma_3125_G6_pinion_hours": 0.0
+      },
+      "Mars_Mean_1.500_AU": {
+        "distance_m": 224396800000.0,
+        "gamma_10_rev32_canonical_s": 74.8507,
+        "gamma_10_rev32_days": 0.0009,
+        "gamma_125_G4_days": 0.0001,
+        "gamma_3125_G6_pinion_s": 0.2395,
+        "gamma_3125_G6_pinion_hours": 0.0001
+      },
+      "Proxima_Centauri_4.2465_ly": {
+        "distance_m": 4.017499e+16,
+        "gamma_10_rev32_canonical_s": 13400934.84,
+        "gamma_10_rev32_days": 155.1034,
+        "gamma_125_G4_days": 12.4083,
+        "gamma_3125_G6_pinion_s": 42882.9915,
+        "gamma_3125_G6_pinion_hours": 11.9119
+      },
+      "Alpha_Centauri_AB_4.37_ly": {
+        "distance_m": 4.134339e+16,
+        "gamma_10_rev32_canonical_s": 13790671.2,
+        "gamma_10_rev32_days": 159.6142,
+        "gamma_125_G4_days": 12.7691,
+        "gamma_3125_G6_pinion_s": 44130.1478,
+        "gamma_3125_G6_pinion_hours": 12.2584
+      },
+      "Tau_Ceti_11.91_ly": {
+        "distance_m": 1.126773e+17,
+        "gamma_10_rev32_canonical_s": 37585101.6,
+        "gamma_10_rev32_days": 435.0127,
+        "gamma_125_G4_days": 34.801,
+        "gamma_3125_G6_pinion_s": 120272.3251,
+        "gamma_3125_G6_pinion_hours": 33.409
+      },
+      "TRAPPIST_1_40.66_ly": {
+        "distance_m": 3.846733e+17,
+        "gamma_10_rev32_canonical_s": 128313201.6,
+        "gamma_10_rev32_days": 1485.1065,
+        "gamma_125_G4_days": 118.8085,
+        "gamma_3125_G6_pinion_s": 410602.2451,
+        "gamma_3125_G6_pinion_hours": 114.0562
+      }
+    }
+  },
+  "verification_gates": {
+    "G1_break_v1_gaussian_negative_vg_detected": true,
+    "G2_break_v32_linear_logistic_negative_vg_at_x1p855_detected": true,
+    "G3_theorem_3_1_chrono_torque_vg_ge_0p96_at_gamma_10_50_3125": true,
+    "G4_theorem_3_1_exact_asymptotic_limits_f0_eq_gamma_and_vf_eq_c0": true,
+    "G5_fine_structure_alpha_preserved_below_1e_17": true,
+    "G6_tpd_cpcsf_5p4609x_seed_and_6p452e_17_magic_state": true,
+    "G7_catalan_144_dfs_and_bloch_dodecahedral_exact": true,
+    "G8_preferred_frame_convex_cone_and_151K_window_quantified": true
+  },
+  "all_gates_passed": true
+}
