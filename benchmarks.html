@@ -371,6 +371,51 @@
       </p>
     </div>
   </div>
+
+  <h2>&#9881;&#65039; Two-Host Native C++20 Silicon Benchmark Matrix (<code>v2.0.13</code> &bull; <code>benchmark_native_zdc_qegg.cpp</code>)</h2>
+  <div class="card" style="margin-bottom:22px;">
+    <div class="pill-row">
+      <span class="pill green">Path A Headline: 7.4&times;&ndash;8.5&times; (MSVC 19.44) | 9.7&times;&ndash;11.6&times; (g++ 11.4)</span>
+      <span class="pill cyan">Matched 2.75x (AA9) vs 2.67x (BOOP_I7) binary MiB spill</span>
+      <span class="pill">Receipt SHA-256: 4b18343d4615718b...6ee476e6</span>
+    </div>
+    <p style="color:#cbd5e1;font-size:13px;margin:8px 0 12px;">
+      Measured under the identical OS and compiler toolchain (<code>Windows 11 x64 + MSVC cl.exe 19.44.35228 / 19.44.35229, /O2 /EHsc /std:c++20</code>, plus single-silicon <code>WSL g++ 11.4 -O3 -march=native</code> ablation on <code>BOOP_I7</code>) across <strong>Host 1 (<code>AA9</code>: ASUS ROG Strix G16 G614PR, AMD Ryzen 9 8940HX 16C/32T, 64 MiB L3, Symmetric Dual-Channel 96 GiB DDR5-5200 ~83.2 GB/s)</strong> and <strong>Host 2 (<code>BOOP_I7</code>: ASUS ROG Zephyrus M15 GU502LV, Intel Core i7-10750H 6C/12T, 12 MiB L3, Asymmetric Flex-Mode 40 GiB DDR4-2933 [rated 3200, configured 2933 MT/s] ~46.9 / 23.5 GB/s)</strong>:
+    </p>
+    <table class="data-tbl">
+      <thead>
+        <tr>
+          <th>Regime / Path</th>
+          <th>Host 2: <code>BOOP_I7</code> (i7-10750H, 12 MiB L3)</th>
+          <th>Host 1: <code>AA9</code> (Ryzen 9 8940HX, 64 MiB L3)</th>
+          <th>Empirical Interpretation &amp; Boundary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Path A: 100% Unculled Kernel</strong><br><span style="color:var(--muted);font-size:11.5px;">0 early exits, 96 phits + <code>multiply_by_phi</code>/cell (Firmest Headline)</span></td>
+          <td><strong>~8.0&times;</strong> <code>[6.3&times;, 8.3&times;]</code> (4k, 1.00 MiB)<br><strong>~7.6&times;</strong> <code>[5.6&times;, 7.9&times;]</code> (131k, 32.00 MiB = <strong>2.67&times;</strong> L3 spill)<br><span style="color:var(--cyan);">g++ 11.4: <strong>10.9&times;&ndash;11.6&times;</strong> (4k) | <strong>9.7&times;&ndash;10.0&times;</strong> (131k)</span></td>
+          <td><strong>8.5&times;</strong> <code>[8.2&times;, 8.5&times;]</code> (4k, 1.00 MiB)<br><strong>8.4&times;</strong> <code>[8.3&times;, 8.5&times;]</code> (131k, 32.00 MiB = <strong>50.0%</strong> L3)<br><strong>8.2&times;</strong> <code>[7.3&times;, 8.6&times;]</code> (720.9k, 176.00 MiB = <strong>2.75&times;</strong> L3 spill)</td>
+          <td><strong>35%&ndash;39%</strong> of <code>21.65&times;</code> theoretical cache-line model under <code>MSVC 19.44</code> (<strong>45%&ndash;54%</strong> under <code>g++ 11.4</code>). Earlier pre-v2.0.4 <code>~13.9&times;</code> stripped figures retracted.</td>
+        </tr>
+        <tr>
+          <td><strong>Path B: 0.78125% Cascade vs. Dense Unculled FP32</strong><br><span style="color:var(--muted);font-size:11.5px;">32 survivors (4k), 1,024 (131k), 5,632 (720.9k)</span></td>
+          <td><strong>120&times;&ndash;129&times;</strong> <code>[107&times;, 133&times;]</code> (4k cache)<br><strong>36&times;&ndash;40&times;</strong> <code>[20&times;, 44&times;]</code> (131k, <strong>2.67&times;</strong> L3 spill)</td>
+          <td><strong>135&times;</strong> <code>[132&times;, 137&times;]</code> (4k cache)<br><strong>73&times;</strong> <code>[61&times;, 77&times;]</code> (131k, <strong>50.0%</strong> L3)<br><strong>59&times;</strong> <code>[53&times;, 62&times;]</code> (720.9k, <strong>2.75&times;</strong> L3 spill)</td>
+          <td>Combines 128:1 Stage 1&ndash;3 selectivity with ZDC bandwidth reduction. Scale- and L3-capacity-dependent.</td>
+        </tr>
+        <tr>
+          <td><strong>Path C: 0.78125% Cascade Like-for-Like</strong><br><span style="color:var(--muted);font-size:11.5px;">Both ZDC &amp; FP32 evaluate only surviving cells</span></td>
+          <td><strong>~1.03&times;</strong> <code>[0.89&times;, 1.22&times;]</code> (4k MSVC; <strong>1.27&times;&ndash;1.45&times;</strong> g++)<br><strong>0.71&times;</strong> <code>[0.36&times;, 1.24&times;]</code> (131k MSVC; <strong>0.75&times;&ndash;0.80&times;</strong> g++)</td>
+          <td><strong>1.30&times;</strong> <code>[1.25&times;, 1.33&times;]</code> (4k L1/L2)<br><strong>1.20&times;</strong> <code>[0.95&times;, 1.38&times;]</code> (131k, 50.0% L3)<br><strong>1.14&times;</strong> <code>[0.97&times;, 1.21&times;]</code> (720.9k, 2.75&times; L3 spill)</td>
+          <td>Exhibits a <strong>consistent downward directional trend across both hosts (n=3 on AA9, n=2 on BOOP_I7), with the effect size within measurement spread</strong>. <strong>CHRONO-TORQUE provides no demonstrated arithmetic speedup over an equally-sparse baseline.</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:8px;">
+      <strong>Three Open Physical Caveats:</strong> (1) <em>[INFERRED] Within-Host Variance Mechanisms</em> (45W laptop thermal throttling at 4k and bimodal Flex-Mode page placement on <code>BOOP_I7</code> are uninstrumented hypotheses); (2) <em>Synthetic Selectivity Rule</em> (<code>0.78125%</code> via <code>mod_i = i &amp; 4095u</code>); and (3) <em>Uncontrolled Mobile Laptop Thermal Environments</em> (no continuous PMU clock/temperature telemetry).
+    </p>
+  </div>
 </div>
 <script>
 function recalcBench() {
