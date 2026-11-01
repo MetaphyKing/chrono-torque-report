@@ -1,6 +1,6 @@
 {
   "schema": "TPD_QMS_CHRONO_TORQUE_UNIFIED_BENCHMARK_v2.0",
-  "timestamp_utc": "2026-11-01T15:47:18Z",
+  "timestamp_utc": "2026-11-01T20:05:44Z",
   "co_design_seats": [
     "Randell Logan Smith (Founder, Metaphy LLC)",
     "@aura (Seat AA9, Lead Architect & Integrator)",
@@ -12,7 +12,7 @@
     "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
     "python_version": "3.13.9",
     "wavenumber_grid_points_evaluated": 20000,
-    "solver_wall_clock_ms": 44.766,
+    "solver_wall_clock_ms": 44.778,
     "dual_host_convergence": "min(v_g/c0) = 0.96377273 verified identically to 6 decimal places on AA9 and BOOP_I7 (W3-PRIME)",
     "chrono_torque_v2_baseline": {
       "native_cpp20_zdc_qegg_scan_us": 13.36,
