@@ -1,0 +1,74 @@
+{
+  "instrument": "CHRONO-TORQUE v2.0.1 Independent Second-Method Verifier (Zero Shared Code)",
+  "shared_imports_from_repo": 0,
+  "arithmetic_engine": "Python stdlib fractions.Fraction + 50-digit decimal.Decimal + raw bytes",
+  "gates_passed": 5,
+  "gates_total": 6,
+  "all_pass": false,
+  "results": [
+    {
+      "gate": 1,
+      "method": "raw_bytes_slice + hashlib.sha256",
+      "size_bytes": 20480,
+      "cells_verified": 80,
+      "sha256": "66b1657f58ea1c62a53057449b7ab39623ad1b256b1e9c302de20736940f725a",
+      "lineage_seal_verified": true,
+      "pass": true
+    },
+    {
+      "gate": 2,
+      "method": "50_digit_Decimal_Minimal_Polynomial + Fraction_CRT",
+      "phi_minimal_poly_residual": "1E-49",
+      "max_fibonacci_power_identity_err": "8E-47",
+      "compression_fraction": "1536/19",
+      "crt_ranges": [
+        63503,
+        16193265
+      ],
+      "pass": true
+    },
+    {
+      "gate": 3,
+      "method": "Exact_Fraction_Kinematics + Reversed_8_Element_Network_Trace",
+      "omega_6": 3125,
+      "tau_6_exact_fraction": "4/125",
+      "z_ref_unclutched": 9765625,
+      "worst_case_comparisons": 49,
+      "worst_case_swaps": 28,
+      "pass": true
+    },
+    {
+      "gate": 4,
+      "method": "Combinatorial_Catalan + 50_Digit_Decimal_Reed_Muller_Cubic",
+      "c6": 132,
+      "total_channels": 1872,
+      "p_out_t_decimal": "6.452000e-17",
+      "suppression_factor": "1.5499e+8",
+      "pass": true
+    },
+    {
+      "gate": 5,
+      "method": "50_Digit_Decimal_Eq1_Recurrence",
+      "computed_ik": [
+        "3.96",
+        "14.65",
+        "38.51",
+        "128.56",
+        "172.08",
+        "3308.33"
+      ],
+      "cbce_gain_ratio": "835.44",
+      "pipeline_speedup": "12.303",
+      "pass": false
+    },
+    {
+      "gate": 6,
+      "method": "50_Digit_Decimal_Gunther_USL",
+      "cold_tps": "5262.1",
+      "warm_tps": "10870.5",
+      "usl_s32": "4.3447",
+      "cluster_32_tps": "47228.5",
+      "pass": true
+    }
+  ]
+}
