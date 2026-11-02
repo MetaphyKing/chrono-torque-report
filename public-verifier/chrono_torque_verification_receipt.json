@@ -1,0 +1,32 @@
+{
+  "suite": "CHRONO-TORQUE v2.0 Public Open Benchmark",
+  "timestamp_utc": "2026-11-02T01:55:39Z",
+  "platform": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "python_version": "3.13.9"
+  },
+  "results": {
+    "zphi_mac": {
+      "n_cycles": 100000,
+      "t_zphi_ms": 66.52849999954924,
+      "ops_zphi": 1503115.2062751683,
+      "exact_bits": 138847
+    },
+    "epicyclic_pipeline": {
+      "n_batches": 10000,
+      "speedup_work": 1.5151515151506991,
+      "speedup_time": 0.7862309876306536
+    },
+    "papr_sieve": {
+      "n_trials": 50000,
+      "std_yield": 70.074,
+      "papr_yield": 86.872,
+      "yield_boost": 16.798000000000002,
+      "efficiency_gain": 15.946451641868364
+    }
+  },
+  "total_wall_clock_sec": 0.0828,
+  "status": "ALL_BENCHMARKS_PASSED"
+}

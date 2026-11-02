@@ -21,6 +21,46 @@
     {
       "source": "/verify",
       "destination": "/verify.html"
+    },
+    {
+      "source": "/verify/:file*",
+      "destination": "/public-verifier/:file*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(public-verifier|verify)/(.*)\\.(py|hpp|cpp|md|json|txt)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(md|tex)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     }
   ]
 }
