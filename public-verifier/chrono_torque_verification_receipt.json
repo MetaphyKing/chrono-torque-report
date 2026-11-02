@@ -1,6 +1,6 @@
 {
-  "suite": "CHRONO-TORQUE v2.0 Public Open Benchmark",
-  "timestamp_utc": "2026-11-02T01:55:39Z",
+  "suite": "CHRONO-TORQUE v2.0 Public Open Benchmark (5-Module Full Verification)",
+  "timestamp_utc": "2026-11-02T03:38:22Z",
   "platform": {
     "system": "Windows",
     "release": "11",
@@ -10,14 +10,14 @@
   "results": {
     "zphi_mac": {
       "n_cycles": 100000,
-      "t_zphi_ms": 66.52849999954924,
-      "ops_zphi": 1503115.2062751683,
+      "t_zphi_ms": 66.68970000464469,
+      "ops_zphi": 1499481.9288890993,
       "exact_bits": 138847
     },
     "epicyclic_pipeline": {
       "n_batches": 10000,
       "speedup_work": 1.5151515151506991,
-      "speedup_time": 0.7862309876306536
+      "speedup_time": 0.7583239658362139
     },
     "papr_sieve": {
       "n_trials": 50000,
@@ -25,8 +25,154 @@
       "papr_yield": 86.872,
       "yield_boost": 16.798000000000002,
       "efficiency_gain": 15.946451641868364
+    },
+    "papr_stabilizer_cultivation_circuit": {
+      "elapsed_ms": 2395.17,
+      "noise_sweep": [
+        {
+          "p_phys": 0.001,
+          "n_shots": 20000,
+          "std_keep_rate_pct": 92.375,
+          "papr_keep_rate_pct": 94.09,
+          "yield_gain_abs_pct": 1.715,
+          "papr_salvaged_shots": 356,
+          "std_cnots_per_kept": 50.215,
+          "papr_cnots_per_kept": 49.715,
+          "std_logical_error_rate": 0.003139377537212449,
+          "papr_logical_error_rate": 0.003135295993198002
+        },
+        {
+          "p_phys": 0.002,
+          "n_shots": 20000,
+          "std_keep_rate_pct": 85.6,
+          "papr_keep_rate_pct": 88.55,
+          "yield_gain_abs_pct": 2.95,
+          "papr_salvaged_shots": 620,
+          "std_cnots_per_kept": 53.536,
+          "papr_cnots_per_kept": 52.549,
+          "std_logical_error_rate": 0.005724299065420561,
+          "papr_logical_error_rate": 0.005928853754940711
+        },
+        {
+          "p_phys": 0.005,
+          "n_shots": 20000,
+          "std_keep_rate_pct": 67.225,
+          "papr_keep_rate_pct": 72.86,
+          "yield_gain_abs_pct": 5.635,
+          "papr_salvaged_shots": 1119,
+          "std_cnots_per_kept": 65.704,
+          "papr_cnots_per_kept": 62.74,
+          "std_logical_error_rate": 0.014057270360728895,
+          "papr_logical_error_rate": 0.01475432335986824
+        }
+      ]
+    },
+    "real_pipeline_torque_benchmark": {
+      "module": "real_pipeline_torque_benchmark",
+      "workload_payloads": 4000,
+      "seed": 20261101,
+      "proxy_definition": "tau_k = (empirical_reject_rate_k / mean_cpu_time_us_k) * 1000.0",
+      "calibrated_stage_profiles": {
+        "S_schema": {
+          "stage_name": "S_schema",
+          "empirical_reject_rate": 0.306,
+          "mean_cpu_time_us": 0.245,
+          "structural_torque_proxy": 1248.98
+        },
+        "S_f2_syn": {
+          "stage_name": "S_f2_syn",
+          "empirical_reject_rate": 0.26,
+          "mean_cpu_time_us": 1.378,
+          "structural_torque_proxy": 188.68
+        },
+        "S_zphi_norm": {
+          "stage_name": "S_zphi_norm",
+          "empirical_reject_rate": 0.128,
+          "mean_cpu_time_us": 1.8108,
+          "structural_torque_proxy": 70.69
+        },
+        "S_dot64": {
+          "stage_name": "S_dot64",
+          "empirical_reject_rate": 0.076,
+          "mean_cpu_time_us": 5.3114,
+          "structural_torque_proxy": 14.31
+        },
+        "S_sha256": {
+          "stage_name": "S_sha256",
+          "empirical_reject_rate": 0.05,
+          "mean_cpu_time_us": 4.68,
+          "structural_torque_proxy": 10.68
+        },
+        "S_pack": {
+          "stage_name": "S_pack",
+          "empirical_reject_rate": 0.0,
+          "mean_cpu_time_us": 0.4036,
+          "structural_torque_proxy": 0.0
+        }
+      },
+      "runs": {
+        "baseline_naive_unculled": {
+          "mode_name": "Baseline_A_Naive_UnCulled_Sequential",
+          "stage_order": [
+            "S_schema",
+            "S_f2_syn",
+            "S_zphi_norm",
+            "S_dot64",
+            "S_sha256",
+            "S_pack"
+          ],
+          "wall_clock_ms": 59.595,
+          "total_stage_invocations": 24000,
+          "total_cpu_weighted_us": 55315.2,
+          "cumulative_torque_load": 13.8288,
+          "accepted_count": 652,
+          "accepted_digest_sha256": "3c9bff274809c5a2"
+        },
+        "baseline_heavy_first_early_exit": {
+          "mode_name": "Baseline_B_HeavyFirst_EarlyExit",
+          "stage_order": [
+            "S_sha256",
+            "S_dot64",
+            "S_zphi_norm",
+            "S_f2_syn",
+            "S_schema",
+            "S_pack"
+          ],
+          "wall_clock_ms": 52.589,
+          "total_stage_invocations": 16710,
+          "total_cpu_weighted_us": 49905.2,
+          "cumulative_torque_load": 12.4763,
+          "accepted_count": 652,
+          "accepted_digest_sha256": "3c9bff274809c5a2"
+        },
+        "chrono_torque_precleared": {
+          "mode_name": "CHRONO_TORQUE_Descending_Tau_PreCleared",
+          "stage_order": [
+            "S_schema",
+            "S_f2_syn",
+            "S_zphi_norm",
+            "S_dot64",
+            "S_sha256",
+            "S_pack"
+          ],
+          "wall_clock_ms": 19.671,
+          "total_stage_invocations": 11202,
+          "total_cpu_weighted_us": 18430.43,
+          "cumulative_torque_load": 4.6076,
+          "accepted_count": 652,
+          "accepted_digest_sha256": "3c9bff274809c5a2"
+        }
+      },
+      "comparisons": {
+        "functional_outputs_identical": true,
+        "wall_clock_speedup_vs_naive_x": 3.03,
+        "wall_clock_speedup_vs_heavy_first_x": 2.67,
+        "structural_torque_load_reduction_vs_naive_x": 3.0,
+        "structural_torque_load_reduction_vs_heavy_first_x": 2.71
+      },
+      "status": "PASS"
     }
   },
-  "total_wall_clock_sec": 0.0828,
+  "total_wall_clock_sec": 2.8244,
   "status": "ALL_BENCHMARKS_PASSED"
 }
