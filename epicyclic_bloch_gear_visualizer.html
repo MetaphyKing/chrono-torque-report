@@ -402,6 +402,19 @@
     color: #fde68a;
     font-weight: 700;
   }
+  @media (max-width: 768px) {
+    .top-header { padding: 8px 12px; }
+    .brand-title { font-size: 13.5px; }
+    .mode-bar { padding: 6px 10px; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+    .mode-btn { white-space: nowrap; flex-shrink: 0; font-size: 11px; padding: 5px 9px; }
+    .main-grid { padding: 8px 10px; gap: 10px; }
+    .viewport-card { height: auto; display: flex; flex-direction: column; padding-bottom: 8px; }
+    #webglCanvas { height: 320px !important; width: 100% !important; order: 1; }
+    .hud-overlay { position: static; width: calc(100% - 16px); margin: 8px auto 4px; order: 2; pointer-events: auto; }
+    .viewport-actions { position: static; width: calc(100% - 16px); margin: 4px auto; flex-direction: row; flex-wrap: wrap; order: 3; }
+    .viewport-actions .act-btn { flex: 1 1 calc(50% - 6px); font-size: 10.5px; padding: 6px 8px; }
+    .legend-strip { position: static; width: calc(100% - 16px); margin: 4px auto 0; order: 4; font-size: 10px; gap: 8px; }
+  }
 </style>
 </head>
 <body>

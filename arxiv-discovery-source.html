@@ -175,6 +175,25 @@
     border-radius: 2px;
   }
   .page-break { page-break-before: always; }
+  html, body { overflow-x: hidden; max-width: 100%; } img, pre, code { max-width: 100%; } p, li, h1, h2, h3, span, div { overflow-wrap: break-word; word-wrap: break-word; }
+  @media (max-width: 768px) {
+    .site-nav { padding: 8px 12px; gap: 8px; }
+    .nav-brand { font-size: 13.5px; }
+    .nav-links { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .nav-link { font-size: 11px; padding: 6px 8px; text-align: center; }
+    .container { padding: 14px 12px 40px; }
+    .hero-card { padding: 16px 14px; }
+    h1 { font-size: 20px; line-height: 1.25; }
+    h2 { font-size: 16.5px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi { padding: 10px 12px; }
+    .kpi-value { font-size: 17px; }
+    .btn { width: 100%; justify-content: center; text-align: center; }
+    table.data-tbl { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
+  @media (max-width: 480px) {
+    .kpi-row { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
